@@ -1,4 +1,4 @@
-import { Header } from '../components/Index'
+import { Header, Footer } from '../components/Index'
 import type { Metadata } from "next";
 import { MantineProvider, ColorSchemeScript } from "@mantine/core";
 import "./globals.css";
@@ -32,6 +32,7 @@ export default function RootLayout({
         <MantineProvider theme={theme}>
           <Header />
           {children}
+          <Footer />
         </MantineProvider>
       </body>
     </html>
