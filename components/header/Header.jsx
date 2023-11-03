@@ -8,7 +8,6 @@ import Link from 'next/link';
 
 
 export default function Header() {
-    console.log(links)
     const [opened, { toggle }] = useDisclosure(false);
 
     const items = links.map((link) => (
