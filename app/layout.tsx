@@ -1,17 +1,12 @@
+import { Header } from '../components/Index'
 import type { Metadata } from "next";
-import { MantineProvider, createTheme, ColorSchemeScript } from "@mantine/core";
-import { Inter } from "next/font/google";
+import { MantineProvider, ColorSchemeScript } from "@mantine/core";
 import "./globals.css";
 import { theme } from "../theme";
-// core styles are required for all packages
 import "@mantine/core/styles.css";
-
-// other css files are required only if
-// you are using components from the corresponding package
 // import '@mantine/dates/styles.css';
 // import '@mantine/dropzone/styles.css';
-// import '@mantine/code-highlight/styles.css';
-// ...
+import '@mantine/code-highlight/styles.css';
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -34,7 +29,10 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <MantineProvider theme={theme}>{children}</MantineProvider>
+        <MantineProvider theme={theme}>
+          <Header />
+          {children}
+        </MantineProvider>
       </body>
     </html>
   );

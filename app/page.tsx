@@ -1,9 +1,8 @@
-import { TableSort } from "../components/Index";
+import { TableSort, Header } from "../components/Index";
 
 export default function page() {
   return (
     <div>
-      <TableSort />
     </div>
   );
 }
