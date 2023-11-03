@@ -1,3 +1,5 @@
+"use client"
+
 import { useState } from "react";
 import { Container, Group, Burger } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
