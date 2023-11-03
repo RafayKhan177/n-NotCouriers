@@ -283,7 +283,7 @@
   resolved "https://registry.yarnpkg.com/@mantine/hooks/-/hooks-7.1.7.tgz#dafa9110d30a15166444ec0e78dd7541d61268e4"
   integrity sha512-OwKK1CtZ++lRXcjqN3G1MiY4Ie0Cd+aGGjrzlSxO2JJnYLkPgAmQqO6HkwK6p7XOwMpRW0eJdh3r1ONkna8pSg==
 
-"@mui/base@5.0.0-beta.22":
+"@mui/base@5.0.0-beta.22", "@mui/base@^5.0.0-beta.20":
   version "5.0.0-beta.22"
   resolved "https://registry.yarnpkg.com/@mui/base/-/base-5.0.0-beta.22.tgz#9ea6be6c8bfc4d8f825660da36d228f5315d4706"
   integrity sha512-l4asGID5tmyerx9emJfXOKLyXzaBtdXNIFE3M+IrSZaFtGFvaQKHhc3+nxxSxPf1+G44psjczM0ekRQCdXx9HA==
@@ -357,7 +357,7 @@
   resolved "https://registry.yarnpkg.com/@mui/types/-/types-7.2.8.tgz#2ed4402f104d65fcd4f460ca358654c8935e2285"
   integrity sha512-9u0ji+xspl96WPqvrYJF/iO+1tQ1L5GTaDOeG3vCR893yy7VcWwRNiVMmPdPNpMDqx0WV1wtEW9OMwK9acWJzQ==
 
-"@mui/utils@^5.14.16":
+"@mui/utils@^5.14.14", "@mui/utils@^5.14.16":
   version "5.14.16"
   resolved "https://registry.yarnpkg.com/@mui/utils/-/utils-5.14.16.tgz#09a15fd45530cadc642c5c08eb6cc660ea230506"
   integrity sha512-3xV31GposHkwRbQzwJJuooWpK2ybWdEdeUPtRjv/6vjomyi97F3+68l+QVj9tPTvmfSbr2sx5c/NuvDulrdRmA==
@@ -366,6 +366,19 @@
     "@types/prop-types" "^15.7.9"
     prop-types "^15.8.1"
     react-is "^18.2.0"
+
+"@mui/x-date-pickers@^6.17.0":
+  version "6.17.0"
+  resolved "https://registry.yarnpkg.com/@mui/x-date-pickers/-/x-date-pickers-6.17.0.tgz#984ee91d05600630661f40a26c749596e60673c0"
+  integrity sha512-rBKiw6GL1bTJpfSuD0KnOgxrERhoSip7eyqXzHbh0GODmp9f5bonE9gRZ74XmlyMQT7tcSzXdzk0c1X0HhmP1A==
+  dependencies:
+    "@babel/runtime" "^7.23.2"
+    "@mui/base" "^5.0.0-beta.20"
+    "@mui/utils" "^5.14.14"
+    "@types/react-transition-group" "^4.4.8"
+    clsx "^2.0.0"
+    prop-types "^15.8.1"
+    react-transition-group "^4.4.5"
 
 "@next/env@14.0.1":
   version "14.0.1"
@@ -886,6 +899,11 @@ damerau-levenshtein@^1.0.8:
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/damerau-levenshtein/-/damerau-levenshtein-1.0.8.tgz#b43d286ccbd36bc5b2f7ed41caf2d0aba1f8a6e7"
   integrity sha512-sdQSFB7+llfUcQHUQO3+B8ERRj0Oa4w9POWMI/puGtuf7gFywGmkaLCElnudfTiKZV+NvHqL0ifzdrI8Ro7ESA==
+
+dayjs@^1.11.10:
+  version "1.11.10"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.10.tgz#68acea85317a6e164457d6d6947564029a6a16a0"
+  integrity sha512-vjAczensTgRcqDERK0SR2XMwsF/tSvnvlv6VcF2GIhg6Sx4yOIt/irsr1RDJsKiIyBzJDpCoXiWWq28MqH2cnQ==
 
 debug@^3.2.7:
   version "3.2.7"
