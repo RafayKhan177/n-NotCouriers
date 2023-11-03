@@ -7,6 +7,7 @@ import "@mantine/core/styles.css";
 // import '@mantine/dates/styles.css';
 // import '@mantine/dropzone/styles.css';
 import '@mantine/code-highlight/styles.css';
+import { ToastContainer } from 'react-toastify';
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -33,6 +34,7 @@ export default function RootLayout({
           <Header />
           {children}
           <Footer />
+          <ToastContainer />
         </MantineProvider>
       </body>
     </html>
