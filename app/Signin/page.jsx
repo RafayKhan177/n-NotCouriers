@@ -12,7 +12,7 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { signInWithEmail } from '../../firebase/functions/auth'
+import { signInWithEmail } from '../../lib/firebase/functions/auth'
 
 function Copyright(props) {
     return (
@@ -31,7 +31,9 @@ export default function SignIn() {
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        signInWithEmail(data.email, data.password)
+        const { email, password } = Object.fromEntries(data);
+
+        signInWithEmail(email, password)
     };
 
     return (

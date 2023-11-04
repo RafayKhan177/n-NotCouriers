@@ -10,7 +10,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from 'next/link';
-import { signUpWithEmail } from '../../firebase/functions/auth'
+import { signUpWithEmail } from '../../lib/firebase/functions/auth'
 
 function Copyright(props) {
     return (
@@ -26,11 +26,22 @@ function Copyright(props) {
 }
 
 export default function SignUp() {
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        signUpWithEmail(data.email, data.password, data.data)
+        const { firstName, lastName, email, password } = Object.fromEntries(data);
+
+        const userData = { firstName, lastName, email, password };
+
+        try {
+            await signUpWithEmail(email, password, userData);
+            // Handle successful sign-up here
+        } catch (error) {
+            // Handle sign-up error here
+            console.error(error);
+        }
     };
+
 
     return (
         <div >
