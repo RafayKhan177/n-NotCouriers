@@ -57,12 +57,10 @@ const data = [
 ];
 
 export default function ClientServices() {
-  const items = data.map((item) => (
-    <Link href={item.link} style={{ textDecoration: "none" }}>
+  const items = data.map((item, index) => (
+    <Link key={index} href={item.link} style={{ textDecoration: "none" }}>
       <div className={classes.item} key={item.image}>
-        {/* <ThemeIcon variant="light" className={classes.itemIcon} size={60} radius="md"> */}
-        {/* <Image src={IMAGES[item.image]} /> */}
-        {/* </ThemeIcon> */}
+
 
         <div className={classes.blockLayout}>
           <Text
