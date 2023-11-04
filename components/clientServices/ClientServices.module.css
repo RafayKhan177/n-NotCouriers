@@ -1,10 +1,9 @@
 .wrapper {
-    padding-top: rem(80px);
     padding-bottom: rem(50px);
 }
 
 .item {
-    display: flex;
+    display: block;
 }
 
 .itemIcon {
@@ -44,4 +43,19 @@
     border-radius: var(--mantine-radius-sm);
     display: inline-block;
     color: light-dark(inherit, var(--mantine-color-white));
+}
+
+.blockLayout {
+    display: flex;
+    justify-content: flex-start;
+}
+
+
+.btn {
+    color: #fff;
+    background-color: #339af0;
+    padding: 10px 0px;
+    width: 200px;
+    text-align: center;
+    margin-right: 10px;
 }

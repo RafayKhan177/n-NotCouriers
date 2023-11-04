@@ -16,3 +16,13 @@
     height: rem(21px);
     border-radius: rem(21px);
   }
+
+
+    .title {
+      line-height: 1;
+      text-align: center;
+      margin-top: var(--mantine-spacing-xl);
+      font-size: 25px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }

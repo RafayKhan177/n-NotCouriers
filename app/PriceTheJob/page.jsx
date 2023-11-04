@@ -1,14 +1,14 @@
-"use client"
-import { useState } from 'react';
+"use client";
+import { useState } from "react";
 import { Button, MenuItem, TextField } from "@mui/material";
 
 export default function Page() {
   const [formData, setFormData] = useState({
-    pickupSuburb: '',
-    dropSuburb: '',
-    service: '',
-    pieces: '',
-    weight: '',
+    pickupSuburb: "",
+    dropSuburb: "",
+    service: "",
+    pieces: "",
+    weight: "",
   });
 
   const handleChange = (e) => {
@@ -17,30 +17,33 @@ export default function Page() {
   };
 
   const handleSubmit = () => {
-    console.log('Form Data:', formData);
+    console.log("Form Data:", formData);
   };
 
   const pickupSuburbOptions = [
-    { value: 'suburb1', label: 'Suburb 1' },
-    { value: 'suburb2', label: 'Suburb 2' },
+    { value: "suburb1", label: "Suburb 1" },
+    { value: "suburb2", label: "Suburb 2" },
     // Add more options as needed
   ];
 
   const dropSuburbOptions = [
-    { value: 'suburbA', label: 'Suburb A' },
-    { value: 'suburbB', label: 'Suburb B' },
+    { value: "suburbA", label: "Suburb A" },
+    { value: "suburbB", label: "Suburb B" },
     // Add more options as needed
   ];
 
   const serviceOptions = [
-    { value: 'service1', label: 'Service 1' },
-    { value: 'service2', label: 'Service 2' },
+    { value: "service1", label: "Service 1" },
+    { value: "service2", label: "Service 2" },
     // Add more options as needed
   ];
 
   return (
-    <div>
-      <p>Account: <span>frfrfr</span></p>
+    <div className="container">
+      <h1>Price A Job</h1>
+      <p>
+        Account: <span>frfrfr</span>
+      </p>
       <TextField
         name="pickupSuburb"
         select
@@ -106,9 +109,19 @@ export default function Page() {
       />
 
       <div>
-        <Button variant="contained" onClick={handleSubmit}>Price A Job</Button>
-        <Button variant="contained" onClick={() => setFormData({})}>Clear</Button>
-        <Button variant="contained">Client Service</Button>
+        <Button className="btn" variant="contained" onClick={handleSubmit}>
+          Price A Job
+        </Button>
+        <Button
+          className="btn"
+          variant="contained"
+          onClick={() => setFormData({})}
+        >
+          Clear
+        </Button>
+        <Button className="btn" variant="contained">
+          Client Service
+        </Button>
       </div>
     </div>
   );
