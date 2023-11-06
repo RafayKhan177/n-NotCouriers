@@ -7,6 +7,7 @@ import {
 import { doc, getDoc, getFirestore, setDoc, updateDoc } from "firebase/firestore";
 import { app } from "../config";
 import { toast } from "react-toastify";
+import { fetchDocById } from "./fetch"
 // useRouter
 
 
@@ -103,15 +104,10 @@ async function getLoggedInUserDocData() {
 
 async function fetchUserData() {
     const user = JSON.parse(localStorage.getItem("user"));
-    const docId = user.email;
-    const docRef = doc(db, "users", docId);
     try {
-        const docSnapshot = await getDoc(docRef);
-        if (!docSnapshot.exists()) {
-            notify("Doc not found.");
-            return null;
-        }
-        return docSnapshot.data();
+        const userData = await fetchDocById(user.email, "users")
+        localStorage.setItem("user", JSON.stringify(userData));
+        return userData;
     } catch (error) {
         notify("Error fetching Doc: " + error.message);
         return null;
@@ -123,5 +119,5 @@ export {
     signInWithEmail,
     saveUserDataToUserDoc,
     getLoggedInUserDocData,
-    fetchUserData
+    fetchUserData,
 };

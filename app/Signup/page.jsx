@@ -11,14 +11,12 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from 'next/link';
 import { signUpWithEmail } from '../../api/firebase/functions/auth'
-import { useRouter } from 'next/navigation'
-
 
 function Copyright(props) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
             {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
+            <Link color="inherit" href="https://rafay/">
                 Your Website
             </Link>{' '}
             {new Date().getFullYear()}
@@ -28,18 +26,15 @@ function Copyright(props) {
 }
 
 export default function SignUp() {
-    const router = useRouter()
     const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         const { firstName, lastName, email, password } = Object.fromEntries(data);
 
-        const userData = { firstName, lastName, email, password };
+        const userData = { firstName, lastName, email, password, role: "user" };
 
         try {
             await signUpWithEmail(email, password, userData);
-            router.push('/Signin', { scroll: false })
-
             // Handle successful sign-up here
         } catch (error) {
             // Handle sign-up error here
