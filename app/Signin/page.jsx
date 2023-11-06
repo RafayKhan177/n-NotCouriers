@@ -12,7 +12,7 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { signInWithEmail } from '../../lib/firebase/functions/auth'
+import { signInWithEmail } from '../../api/firebase/functions/auth'
 
 function Copyright(props) {
     return (

@@ -7,6 +7,8 @@ import {
 import { doc, getDoc, getFirestore, setDoc, updateDoc } from "firebase/firestore";
 import { app } from "../config";
 import { toast } from "react-toastify";
+// useRouter
+
 
 const auth = getAuth(app);
 const db = getFirestore();

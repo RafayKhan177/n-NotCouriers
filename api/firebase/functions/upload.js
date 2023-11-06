@@ -1,19 +1,19 @@
-import { addDoc, collection, doc, getFirestore, updateDoc as firestoreUpdateDoc, getDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getFirestore, updateDoc as firestoreUpdateDoc, getDoc, setDoc } from "firebase/firestore";
 import { app } from "../config";
 
 const db = getFirestore(app);
-const user = JSON.parse(localStorage.getItem("user"));
 
 async function postDoc(data, collectionName) {
+    const user = JSON.parse(localStorage.getItem("user"));
     try {
         const collectionRef = collection(db, collectionName);
         const docRef = await addDoc(collectionRef, data);
         const updatedData = {
             docId: docRef.id,
-            userEmail: user.email,
         };
         await updateDoc(collectionName, docRef.id, updatedData);
-        console.log(`New document created in ${collectionName} with ID: ${docRef.id} successfully.`);
+        userEmail: user.email,
+            console.log(`New document created in ${collectionName} with ID: ${docRef.id} successfully.`);
         return docRef;
     } catch (error) {
         console.error(`Error creating a new document in ${collectionName}: ${error}`);
@@ -34,6 +34,7 @@ async function updateDoc(collectionName, docId, data) {
 }
 
 async function addFrequentAddress(address) {
+    const user = JSON.parse(localStorage.getItem("user"));
     const docId = user.email
     try {
         const docRef = doc(db, "users", docId);
@@ -57,17 +58,21 @@ async function addFrequentAddress(address) {
     }
 }
 async function updateFrequentAddress(modifiedAddresses) {
+    const user = JSON.parse(localStorage.getItem("user"));
     const docId = user.email;
-    console.log(modifiedAddresses,docId);
+    const data = { frequentAddresses: modifiedAddresses };
+
     try {
         const docRef = doc(db, "users", docId);
-        await updateDoc(docRef, modifiedAddresses);
-        console.log(`Document updated with user data successfully.`);
+        await firestoreUpdateDoc(docRef, data, { merge: true });
+        console.log(`Document updated successfully.`);
         return true;
     } catch (error) {
         console.error(`Error updating the document: ${error}`);
         return false;
     }
 }
+
+
 
 export { updateDoc, postDoc, addFrequentAddress, updateFrequentAddress };

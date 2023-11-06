@@ -26,19 +26,20 @@ async function fetchDocById(docId, collectionName) {
 }
 
 async function fetchFrequentAddresses() {
-   const user = JSON.parse(localStorage.getItem("user"));
-    const docId = user.email; // Assuming user.email is a string
-    const docRef = doc(db, "users", docId); // Use docId as the document ID
+    const user = JSON.parse(localStorage.getItem("user"));
+    console.log(user.email,"wow")
+    const docId = user.email;
+    const docRef = doc(db, "users", docId);
     try {
         const docSnapshot = await getDoc(docRef);
         if (!docSnapshot.exists()) {
             notify("Doc not found.");
-            return null; // Return null or handle accordingly if the document doesn't exist
+            return null;
         }
         return docSnapshot.data().frequentAddresses;
     } catch (error) {
-        notify("Error fetching Doc: " + error.message); // Concatenate the error message
-        return null; // Return null or handle the error accordingly
+        notify("Error fetching Doc: " + error.message);
+        return null;
     }
 }
 

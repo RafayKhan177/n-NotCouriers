@@ -1,21 +1,19 @@
 "use client"
-import * as React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import { Paper, Button, Modal, TextField } from '@mui/material';
-import { updateFrequentAddress } from '../../api/firebase/functions/upload'
+import { useState } from 'react';
+import {
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+  Paper, Button, Modal, TextField,
+} from '@mui/material';
+import { updateFrequentAddress } from '../../api/firebase/functions/upload';
 
 export default function FrequentAddresses({ addresses }) {
-  const [modifiedAddresses, setModifiedAddresses] = React.useState(addresses);
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
-  const [editedAddress, setEditedAddress] = React.useState(null);
-  const [editedName, setEditedName] = React.useState('');
-  const [editedAddressValue, setEditedAddressValue] = React.useState('');
-  const [editedSuburb, setEditedSuburb] = React.useState('');
+  const [modifiedAddresses, setModifiedAddresses] = useState(addresses);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editedAddress, setEditedAddress] = useState(null);
+  const [editedName, setEditedName] = useState('');
+  const [editedAddressValue, setEditedAddressValue] = useState('');
+  const [editedSuburb, setEditedSuburb] = useState('');
+  const [editedIndex, setEditedIndex] = useState(null);
 
   const handleModify = (index) => {
     const addressToModify = { ...modifiedAddresses[index] };
@@ -23,22 +21,23 @@ export default function FrequentAddresses({ addresses }) {
     setEditedName(addressToModify.contact);
     setEditedAddressValue(addressToModify.address);
     setEditedSuburb(addressToModify.suburb);
+    setEditedIndex(index);
     setIsModalOpen(true);
   };
 
   const handleSave = () => {
-    if (editedAddress) {
+    if (editedAddress && editedIndex !== null) {
       const updatedAddresses = [...modifiedAddresses];
-      const index = updatedAddresses.findIndex((item) => item.id === editedAddress.id);
-      if (index !== -1) {
-        updatedAddresses[index] = {
+
+      if (editedIndex >= 0 && editedIndex < updatedAddresses.length) {
+        updatedAddresses[editedIndex] = {
           ...editedAddress,
           contact: editedName,
           address: editedAddressValue,
           suburb: editedSuburb,
         };
         setModifiedAddresses(updatedAddresses);
-        updateFrequentAddresses(updatedAddresses); // Pass the updated data to the function
+        updateFrequentAddress(updatedAddresses);
       }
     }
     setIsModalOpen(false);
@@ -48,20 +47,8 @@ export default function FrequentAddresses({ addresses }) {
     const updatedAddresses = [...modifiedAddresses];
     updatedAddresses.splice(index, 1);
     setModifiedAddresses(updatedAddresses);
-    updateFrequentAddresses(updatedAddresses); // Pass the updated data to the function
+    updateFrequentAddress(updatedAddresses);
   };
-
-
-  async function updateFrequentAddresses() {
-    try {
-      const data = { frequentAddresses: modifiedAddresses }
-      updateFrequentAddress(data)
-      console.log('Data updated successfully');
-    } catch (error) {
-      console.error(`Error updating data: ${error}`);
-    }
-
-  }
 
   return (
     <div>
@@ -73,7 +60,7 @@ export default function FrequentAddresses({ addresses }) {
               <TableCell>Name</TableCell>
               <TableCell>Address</TableCell>
               <TableCell>Suburb</TableCell>
-              <TableCell>Actions</TableCell> {/* New column for actions */}
+              <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

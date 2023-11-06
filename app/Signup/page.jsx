@@ -10,7 +10,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from 'next/link';
-import { signUpWithEmail } from '../../lib/firebase/functions/auth'
+import { signUpWithEmail } from '../../api/firebase/functions/auth'
+import { useRouter } from 'next/navigation'
+
 
 function Copyright(props) {
     return (
@@ -26,6 +28,7 @@ function Copyright(props) {
 }
 
 export default function SignUp() {
+    const router = useRouter()
     const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -35,6 +38,8 @@ export default function SignUp() {
 
         try {
             await signUpWithEmail(email, password, userData);
+            router.push('/Signin', { scroll: false })
+
             // Handle successful sign-up here
         } catch (error) {
             // Handle sign-up error here
@@ -116,7 +121,7 @@ export default function SignUp() {
                         </Button>
                         <Grid container justifyContent="flex-end">
                             <Grid item>
-                                <Link href="#" variant="body2">
+                                <Link href="/Signin" variant="body2">
                                     Already have an account? Sign in
                                 </Link>
                             </Grid>
