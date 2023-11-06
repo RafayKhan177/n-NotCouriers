@@ -6,6 +6,7 @@ import {
 } from "firebase/firestore";
 import { app } from "../config";
 import { toast } from "react-toastify";
+import { fetchUserData } from "./auth"
 
 const auth = getAuth(app);
 const db = getFirestore();
@@ -26,17 +27,9 @@ async function fetchDocById(docId, collectionName) {
 }
 
 async function fetchFrequentAddresses() {
-    const user = JSON.parse(localStorage.getItem("user"));
-    console.log(user.email,"wow")
-    const docId = user.email;
-    const docRef = doc(db, "users", docId);
     try {
-        const docSnapshot = await getDoc(docRef);
-        if (!docSnapshot.exists()) {
-            notify("Doc not found.");
-            return null;
-        }
-        return docSnapshot.data().frequentAddresses;
+        const user = await fetchUserData()
+        return user.frequentAddresses
     } catch (error) {
         notify("Error fetching Doc: " + error.message);
         return null;

@@ -1,12 +1,14 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MenuItem, TextField } from "@mui/material";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { DatePicker } from "@mui/x-date-pickers";
 import { postDoc, addFrequentAddress } from '../../api/firebase/functions/upload'
+import { fetchFrequentAddresses } from '../../api/firebase/functions/fetch'
+
 
 export default function Page() {
   const initialFormData = {
@@ -27,6 +29,7 @@ export default function Page() {
   };
 
   const [formData, setFormData] = useState(initialFormData);
+  const [frequentAddresses, setFrequentAddresses] = useState([])
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -92,11 +95,22 @@ export default function Page() {
       await postDoc(data, "placed_booking");
       await addFrequentAddress(addPickFrequentAddress)
       await addFrequentAddress(addDropFrequentAddress)
-      // console.log(addPickFrequentAddress, addDropFrequentAddress)
     } catch (error) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const data = await fetchFrequentAddresses();
+        setFrequentAddresses(data);
+      } catch (error) {
+        console.error('Error fetching data: ', error);
+      }
+    }
+    fetchData();
+  }, []);
 
   const frequentAddressOptions = [
     { value: 'address1', label: 'Address 1' },
@@ -145,9 +159,9 @@ export default function Page() {
           value={formData.pickupFrequentAddress}
           onChange={handleChange}
         >
-          {frequentAddressOptions.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
+          {frequentAddresses.map((option, index) => (
+            <MenuItem key={index} value={option.address}>
+              {option.address}
             </MenuItem>
           ))}
         </TextField>
@@ -162,9 +176,9 @@ export default function Page() {
           value={formData.suburb}
           onChange={handleChange}
         >
-          {suburbOptions.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
+         {frequentAddresses.map((option, index) => (
+            <MenuItem key={index} value={option.suburb}>
+              {option.suburb}
             </MenuItem>
           ))}
         </TextField>
@@ -250,11 +264,13 @@ export default function Page() {
           value={formData.frequentAddress}
           onChange={handleChange}
 
-        >{frequentAddressOptions.map((option) => (
-          <MenuItem key={option.value} value={option.value}>
-            {option.label}
-          </MenuItem>
-        ))}</TextField>
+        >
+          {frequentAddresses.map((option, index) => (
+            <MenuItem key={index} value={option.address}>
+              {option.address}
+            </MenuItem>
+          ))}
+          </TextField>
         <TextField
           name="dropSuburb"
           select
@@ -265,9 +281,9 @@ export default function Page() {
           value={formData.suburb}
           onChange={handleChange}
         >
-          {suburbOptions.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
+          {frequentAddresses.map((option, index) => (
+            <MenuItem key={index} value={option.suburb}>
+              {option.suburb}
             </MenuItem>
           ))}
         </TextField>

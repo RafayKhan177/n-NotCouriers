@@ -78,8 +78,6 @@ async function saveUserDataToUserDoc(email, userData) {
     }
 }
 
-
-
 async function getLoggedInUserDocData() {
     const user = JSON.parse(localStorage.getItem("user"));
     if (user) {
@@ -103,9 +101,27 @@ async function getLoggedInUserDocData() {
     }
 }
 
+async function fetchUserData() {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const docId = user.email;
+    const docRef = doc(db, "users", docId);
+    try {
+        const docSnapshot = await getDoc(docRef);
+        if (!docSnapshot.exists()) {
+            notify("Doc not found.");
+            return null;
+        }
+        return docSnapshot.data();
+    } catch (error) {
+        notify("Error fetching Doc: " + error.message);
+        return null;
+    }
+}
+
 export {
     signUpWithEmail,
     signInWithEmail,
     saveUserDataToUserDoc,
     getLoggedInUserDocData,
+    fetchUserData
 };
