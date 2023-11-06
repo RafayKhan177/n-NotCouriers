@@ -15,6 +15,7 @@
     "@mantine/core": "^7.1.7",
     "@mantine/ds": "^7.1.7",
     "@mantine/hooks": "^7.1.7",
+    "@mui/icons-material": "^5.14.16",
     "@mui/material": "^5.14.16",
     "@mui/x-date-pickers": "^6.17.0",
     "@tabler/icons-react": "^2.40.0",
@@ -32,6 +33,9 @@
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.0.1",
+    "postcss": "^8.4.31",
+    "postcss-preset-mantine": "^1.9.0",
+    "postcss-simple-vars": "^7.0.1",
     "typescript": "^5"
   }
 }
