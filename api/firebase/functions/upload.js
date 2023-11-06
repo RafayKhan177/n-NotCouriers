@@ -56,5 +56,18 @@ async function addFrequentAddress(address) {
         return false;
     }
 }
+async function updateFrequentAddress(modifiedAddresses) {
+    const docId = user.email;
+    console.log(modifiedAddresses,docId);
+    try {
+        const docRef = doc(db, "users", docId);
+        await updateDoc(docRef, modifiedAddresses);
+        console.log(`Document updated with user data successfully.`);
+        return true;
+    } catch (error) {
+        console.error(`Error updating the document: ${error}`);
+        return false;
+    }
+}
 
-export { updateDoc, postDoc, addFrequentAddress };
+export { updateDoc, postDoc, addFrequentAddress, updateFrequentAddress };
