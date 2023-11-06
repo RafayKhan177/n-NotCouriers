@@ -1,13 +1,10 @@
 "use client";
 import {
-  Image,
   Text,
   Container,
-  ThemeIcon,
   Title,
   SimpleGrid,
 } from "@mantine/core";
-// import IMAGES from './images';
 import classes from "./ClientServices.module.css";
 import Link from "next/link";
 
@@ -60,8 +57,6 @@ export default function ClientServices() {
   const items = data.map((item, index) => (
     <Link key={index} href={item.link} style={{ textDecoration: "none" }}>
       <div className={classes.item} key={item.image}>
-
-
         <div className={classes.blockLayout}>
           <Text
             fw={700}
@@ -83,7 +78,6 @@ export default function ClientServices() {
       <Title className={classes.title} order={2}>
         CLIENT SERVICES
       </Title>
-
       <SimpleGrid spacing={50} mt={30}>
         {items}
       </SimpleGrid>
