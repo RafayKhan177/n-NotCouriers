@@ -6,21 +6,27 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { DatePicker } from "@mui/x-date-pickers";
+import { postDoc } from '../../lib/firebase/functions/upload'
 
 export default function Page() {
-  const [formData, setFormData] = useState({
-    contact: '',
-    frequentAddress: '',
-    suburb: '',
-    address: '',
-    goodsDescription: '',
-    service: '',
-    date: null, // To be updated with date picker value
-    time: null, // To be updated with time picker value
-    pieces: '',
-    weight: '',
-    reference1: '',
-  });
+  const initialFormData = {
+    contact: "",
+    pickupFrequentAddress: "",
+    pickupSuburb: "",
+    pickupAddress: "",
+    pickupGoodsDescription: "",
+    service: "",
+    date: null,
+    time: null,
+    pieces: "",
+    weight: "",
+    dropFrequentAddress: "",
+    dropSuburb: "",
+    dropAddress: "",
+    dropReference1: "",
+  };
+
+  const [formData, setFormData] = useState(initialFormData);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,12 +34,68 @@ export default function Page() {
   };
 
   const handleDateChange = (date) => {
-    setFormData({ ...formData, date });
+    // Format the date as a string in the desired format
+    const formattedDate = date.format('MM/DD/YYYY');
+    setFormData({ ...formData, date: formattedDate });
   };
 
   const handleTimeChange = (time) => {
-    setFormData({ ...formData, time });
+    // Format the time as a string in the desired format
+    const formattedTime = time.format('LT', { locale: 'en-US' });
+    setFormData({ ...formData, time: formattedTime });
   };
+
+
+
+  const submit = async () => {
+    try {
+      const {
+        contact,
+        pickupFrequentAddress,
+        pickupSuburb,
+        pickupAddress,
+        pickupGoodsDescription,
+        service,
+        date,
+        time,
+        pieces,
+        weight,
+        dropFrequentAddress,
+        dropSuburb,
+        dropAddress,
+        dropReference1,
+      } = formData;
+
+      const pickupDetails = {
+        pickupFrequentAddress,
+        pickupSuburb,
+        pickupAddress,
+        pickupGoodsDescription,
+      };
+
+      const serviceInformation = {
+        service,
+        date,
+        time,
+        pieces,
+        weight,
+      };
+
+      const dropDetails = {
+        dropFrequentAddress,
+        dropSuburb,
+        dropAddress,
+        dropReference1,
+      };
+
+      const data = { contact, pickupDetails, dropDetails, serviceInformation };
+      console.log(data)
+      await postDoc(data, "placed_booking");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
 
   const frequentAddressOptions = [
     { value: 'address1', label: 'Address 1' },
@@ -64,7 +126,7 @@ export default function Page() {
         <TextField
           name="contact"
           label="Contact"
-          variant="standard"
+          variant="outlined"
           value={formData.contact}
           onChange={handleChange}
         />
@@ -73,13 +135,13 @@ export default function Page() {
       <div>
         <h3>Pickup Details</h3>
         <TextField
-          name="frequentAddress"
+          name="pickupFrequentAddress"
           select
           label="Frequent Address"
           defaultValue="EUR"
           helperText="Please select your currency"
-          variant="standard"
-          value={formData.frequentAddress}
+          variant="outlined"
+          value={formData.pickupFrequentAddress}
           onChange={handleChange}
         >
           {frequentAddressOptions.map((option) => (
@@ -90,12 +152,12 @@ export default function Page() {
         </TextField>
 
         <TextField
-          name="suburb"
+          name="pickupSuburb"
           select
           label="Suburb"
           defaultValue="EUR"
           helperText="Please select your currency"
-          variant="standard"
+          variant="outlined"
           value={formData.suburb}
           onChange={handleChange}
         >
@@ -107,7 +169,7 @@ export default function Page() {
         </TextField>
 
         <TextField
-          name="address"
+          name="pickupAddress"
           label="Address"
           multiline
           maxRows={4}
@@ -115,7 +177,7 @@ export default function Page() {
           onChange={handleChange}
         />
         <TextField
-          name="goodsDescription"
+          name="pickupGoodsDescription"
           label="Goods Description"
           multiline
           maxRows={4}
@@ -133,7 +195,7 @@ export default function Page() {
           label="Service"
           defaultValue="EUR"
           helperText="Please select your currency"
-          variant="standard"
+          variant="outlined"
           value={formData.service}
           onChange={handleChange}
         >
@@ -178,12 +240,12 @@ export default function Page() {
       <div>
         <h3>Drop Details</h3>
         <TextField
-          name="frequentAddress"
+          name="dropFrequentAddress"
           select
           label="Frequent Address"
           defaultValue="EUR"
           helperText="Please select your currency"
-          variant="standard"
+          variant="outlined"
           value={formData.frequentAddress}
           onChange={handleChange}
 
@@ -193,12 +255,12 @@ export default function Page() {
           </MenuItem>
         ))}</TextField>
         <TextField
-          name="suburb"
+          name="dropSuburb"
           select
           label="Suburb"
           defaultValue="EUR"
           helperText="Please select your currency"
-          variant="standard"
+          variant="outlined"
           value={formData.suburb}
           onChange={handleChange}
         >
@@ -209,7 +271,7 @@ export default function Page() {
           ))}
         </TextField>
         <TextField
-          name="address"
+          name="dropAddress"
           label="Address"
           multiline
           maxRows={4}
@@ -217,7 +279,7 @@ export default function Page() {
           onChange={handleChange}
         />
         <TextField
-          name="reference1"
+          name="dropReference1"
           label="Reference 1"
           multiline
           maxRows={4}
@@ -225,6 +287,7 @@ export default function Page() {
           onChange={handleChange}
         />
       </div>
+      <button onClick={submit}>Book Job</button>
     </section>
   );
 }
