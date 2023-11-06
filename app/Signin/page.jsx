@@ -13,6 +13,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { signInWithEmail } from '../../api/firebase/functions/auth'
+import { userRole } from "../../api/firebase/functions/auth"
 
 function Copyright(props) {
     return (
@@ -36,6 +37,7 @@ export default function SignIn() {
         signInWithEmail(email, password)
     };
 
+    if (!userRole() == null) return <div>already logged in</div>;
     return (
         <div>
             <Container component="main" maxWidth="xs">

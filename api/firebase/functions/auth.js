@@ -106,10 +106,23 @@ async function fetchUserData() {
     const user = JSON.parse(localStorage.getItem("user"));
     try {
         const userData = await fetchDocById(user.email, "users")
-        localStorage.setItem("user", JSON.stringify(userData));
+        localStorage.setItem("userDoc", JSON.stringify(userData));
         return userData;
     } catch (error) {
         notify("Error fetching Doc: " + error.message);
+        return null;
+    }
+}
+
+const userRole = () => {
+    try {
+        fetchUserData()
+        const user = JSON.parse(localStorage.getItem("userDoc"));
+        const role = user.role || null
+        console.log(role)
+        return role
+    } catch (error) {
+        notify("Error: " + error.message);
         return null;
     }
 }
@@ -120,4 +133,5 @@ export {
     saveUserDataToUserDoc,
     getLoggedInUserDocData,
     fetchUserData,
+    userRole
 };

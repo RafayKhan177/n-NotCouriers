@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Button, MenuItem, TextField } from "@mui/material";
+import { userRole } from "../../api/firebase/functions/auth"
 
 export default function Page() {
   const [formData, setFormData] = useState({
@@ -38,6 +39,7 @@ export default function Page() {
     // Add more options as needed
   ];
 
+  if (userRole() == null) return <div>Please log in</div>;
   return (
     <div className="container">
       <h1>Price A Job</h1>

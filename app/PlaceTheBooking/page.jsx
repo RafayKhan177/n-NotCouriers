@@ -8,7 +8,7 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { DatePicker } from "@mui/x-date-pickers";
 import { postDoc, addFrequentAddress } from '../../api/firebase/functions/upload'
 import { fetchFrequentAddresses } from '../../api/firebase/functions/fetch'
-
+import { userRole } from "../../api/firebase/functions/auth"
 
 export default function Page() {
   const initialFormData = {
@@ -132,7 +132,7 @@ export default function Page() {
     { value: 'service3', label: 'Service 3' },
     // Add more options as needed
   ];
-
+  if (userRole() == null) return <div>Please log in</div>;
   return (
     <section>
       <div>
@@ -176,7 +176,7 @@ export default function Page() {
           value={formData.suburb}
           onChange={handleChange}
         >
-         {frequentAddresses.map((option, index) => (
+          {frequentAddresses.map((option, index) => (
             <MenuItem key={index} value={option.suburb}>
               {option.suburb}
             </MenuItem>
@@ -270,7 +270,7 @@ export default function Page() {
               {option.address}
             </MenuItem>
           ))}
-          </TextField>
+        </TextField>
         <TextField
           name="dropSuburb"
           select
