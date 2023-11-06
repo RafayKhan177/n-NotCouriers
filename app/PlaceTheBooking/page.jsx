@@ -6,7 +6,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { DatePicker } from "@mui/x-date-pickers";
-import { postDoc } from '../../lib/firebase/functions/upload'
+import { postDoc, addFrequentAddress } from '../../lib/firebase/functions/upload'
 
 export default function Page() {
   const initialFormData = {
@@ -87,8 +87,12 @@ export default function Page() {
       };
 
       const data = { contact, pickupDetails, dropDetails, serviceInformation };
-      console.log(data)
+      const addPickFrequentAddress = { contact: contact, address: pickupDetails.pickupAddress, suburb: pickupDetails.pickupSuburb }
+      const addDropFrequentAddress = { contact: contact, address: dropDetails.dropAddress, suburb: dropDetails.dropSuburb }
       await postDoc(data, "placed_booking");
+      await addFrequentAddress(addPickFrequentAddress)
+      await addFrequentAddress(addDropFrequentAddress)
+      // console.log(addPickFrequentAddress, addDropFrequentAddress)
     } catch (error) {
       console.log(error);
     }
