@@ -39,7 +39,7 @@ export default function Page() {
     // Add more options as needed
   ];
 
-  if (userRole() == null) return <div>Please log in</div>;
+  if (userRole() == null) return <p>Please log in</p>;
   return (
     <div className="container">
       <h1>Price A Job</h1>

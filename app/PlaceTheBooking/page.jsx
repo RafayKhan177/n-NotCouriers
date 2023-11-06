@@ -132,7 +132,7 @@ export default function Page() {
     { value: 'service3', label: 'Service 3' },
     // Add more options as needed
   ];
-  if (userRole() == null) return <div>Please log in</div>;
+  if (userRole() == null) return <p>Please log in</p>;
   return (
     <section>
       <div>

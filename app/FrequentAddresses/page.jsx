@@ -21,7 +21,7 @@ export default function Page() {
     fetchData();
   }, []);
 
-  if (userRole() == null) return <div>Please log in</div>;
+  if (userRole() == null) return <p>Please log in</p>;
   return (
     <div>
       {isLoading ? ( // Render loading state if isLoading is true

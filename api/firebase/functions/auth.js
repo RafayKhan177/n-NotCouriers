@@ -116,7 +116,6 @@ async function fetchUserData() {
 
 const userRole = () => {
     try {
-        fetchUserData()
         const user = JSON.parse(localStorage.getItem("userDoc"));
         const role = user.role || null
         console.log(role)

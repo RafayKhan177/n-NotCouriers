@@ -44,7 +44,7 @@ export default function SignUp() {
     };
 
 
-    if (!userRole() == null) return <div>already logged in</div>;
+    if (!userRole() == null) return <p>already logged in</p>;
     return (
         <div >
             <Container component="main" maxWidth="xs">

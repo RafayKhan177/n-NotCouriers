@@ -3,10 +3,10 @@ import { userRole } from "../api/firebase/functions/auth"
 
 export default function Page() {
 
-  
-  
-  if (userRole() == null) return <div>Please log in</div>;
+
+
+  if (userRole() == null) return <p>Please log in</p>;
   return (
-    <div>hi</div>
+    <p>hi</p>
   );
 }
