@@ -6,11 +6,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { DatePicker } from "@mui/x-date-pickers";
-<<<<<<< HEAD
-import { storeData } from '../../firebase/functions/upload'
-=======
 import { postDoc } from '../../lib/firebase/functions/upload'
->>>>>>> Development
 
 export default function Page() {
   const initialFormData = {
@@ -48,13 +44,6 @@ export default function Page() {
     const formattedTime = time.format('LT', { locale: 'en-US' });
     setFormData({ ...formData, time: formattedTime });
   };
-
-<<<<<<< HEAD
-  const submit = async () => {
-    await storeData(formData, 'booking')
-  }
-=======
-
 
   const submit = async () => {
     try {
@@ -104,8 +93,6 @@ export default function Page() {
       console.log(error);
     }
   };
-
->>>>>>> Development
 
   const frequentAddressOptions = [
     { value: 'address1', label: 'Address 1' },
