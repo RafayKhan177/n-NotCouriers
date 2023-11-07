@@ -1,9 +1,10 @@
+"use client"
 import { ClientServices } from '../../components/Index'
-import { userRole } from "../../api/firebase/functions/auth"
+import { UserRole } from "../../api/userRole"
 
 export default function page() {
-  if (userRole() == null) return <p>Please log in</p>;
+  if (UserRole() == null) return <p>Please log in</p>;
   return (
-    <p><ClientServices /></p>
+    <ClientServices />
   )
 }

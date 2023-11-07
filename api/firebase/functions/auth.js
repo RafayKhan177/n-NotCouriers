@@ -118,7 +118,6 @@ const userRole = () => {
     try {
         const user = JSON.parse(localStorage.getItem("userDoc"));
         const role = user.role || null
-        console.log(role)
         return role
     } catch (error) {
         notify("Error: " + error.message);
