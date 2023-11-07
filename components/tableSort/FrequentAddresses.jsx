@@ -2,9 +2,10 @@
 import { useState } from 'react';
 import {
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
-  Paper, Button, Modal, TextField,
+  Paper, Modal, TextField,
 } from '@mui/material';
 import { updateFrequentAddress } from '../../api/firebase/functions/upload';
+import { Button } from '@mantine/core';
 
 export default function FrequentAddresses({ addresses }) {
   const [modifiedAddresses, setModifiedAddresses] = useState(addresses);
@@ -71,16 +72,13 @@ export default function FrequentAddresses({ addresses }) {
                 <TableCell>{row.address}</TableCell>
                 <TableCell>{row.suburb}</TableCell>
                 <TableCell>
-                  <Button
-                    variant="contained"
-                    color="primary"
+                  <Button variant="light" color="indigo"
                     onClick={() => handleModify(index)}
                   >
                     Modify
                   </Button>
                   <Button
-                    variant="contained"
-                    color="secondary"
+                    variant="light" color="pink"
                     onClick={() => handleDelete(index)}
                   >
                     Delete

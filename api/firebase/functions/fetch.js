@@ -1,8 +1,12 @@
 import { getAuth } from "firebase/auth";
 import {
+    collection,
     doc,
     getDoc,
+    getDocs,
     getFirestore,
+    query,
+    where,
 } from "firebase/firestore";
 import { app } from "../config";
 import { toast } from "react-toastify";
@@ -37,4 +41,22 @@ async function fetchFrequentAddresses() {
 }
 
 
-export { fetchDocById, fetchFrequentAddresses };
+
+async function fetchRecentInvoices() {
+    const user = await fetchUserData()
+    try {
+        const collectionRef = collection(db, 'placed_booking');
+        const q = query(collectionRef, where('userEmail', '==', user.email));
+        const querySnapshot = await getDocs(q);
+        const documents = [];
+        querySnapshot.forEach((doc) => {
+            documents.push({ id: doc.id, ...doc.data() });
+        });
+        return documents;
+    } catch (error) {
+        console.error('Error fetching documents:', error);
+        return [];
+    }
+}
+
+export { fetchDocById, fetchFrequentAddresses, fetchRecentInvoices };
