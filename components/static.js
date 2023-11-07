@@ -1,4 +1,4 @@
-const links = [
+const adminPages = [
     { link: '/', label: 'Home' },
     { link: '/ClientServices', label: 'Client Services' },
     { link: '/FrequentAddresses', label: 'Frequent Addresses' },
@@ -7,4 +7,22 @@ const links = [
     { link: '/RecentInvoices', label: 'Recent Invoices' },
 ];
 
-export { links }
+const userPages = [
+    { link: '/', label: 'Home' },
+    { link: '/ClientServices', label: 'Client Services' },
+    { link: '/FrequentAddresses', label: 'Frequent Addresses' },
+    { link: '/PlaceTheBooking', label: 'Place A Booking' },
+    { link: '/PriceTheJob', label: 'Price A Job' },
+    { link: '/RecentInvoices', label: 'Recent Invoices' },
+];
+
+const authPages = [
+    { link: '/Signin', label: 'Sign In' },
+    { link: '/Signup', label: 'Sign Pp' },
+];
+
+export {
+    adminPages,
+    userPages,
+    authPages
+}
