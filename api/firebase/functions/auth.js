@@ -45,6 +45,7 @@ async function signInWithEmail(email, password) {
         const userData = { email: email, key: password };
         await saveUserDataToUserDoc(email, userData);
         localStorage.setItem("user", JSON.stringify(user));
+        await fetchUserData()
         notify("Sign in successful!");
         return user;
     } catch (error) {
@@ -79,29 +80,6 @@ async function saveUserDataToUserDoc(email, userData) {
     }
 }
 
-async function getLoggedInUserDocData() {
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (user) {
-        const email = user.email;
-        const userDocRef = doc(db, "users", email);
-        try {
-            const userDoc = await getDoc(userDocRef);
-            if (userDoc.exists) {
-                return userDoc.data();
-            } else {
-                return null;
-            }
-        } catch (error) {
-            const errorMessage =
-                error.message || "An error occurred while fetching user data.";
-            notify(`Something went wrong: ${errorMessage}`);
-            throw error;
-        }
-    } else {
-        return null;
-    }
-}
-
 async function fetchUserData() {
     const user = JSON.parse(localStorage.getItem("user"));
     try {
@@ -128,7 +106,6 @@ export {
     signUpWithEmail,
     signInWithEmail,
     saveUserDataToUserDoc,
-    getLoggedInUserDocData,
     fetchUserData,
     userRole
 };

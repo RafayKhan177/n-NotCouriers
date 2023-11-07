@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Button, MenuItem, TextField } from "@mui/material";
-import { userRole } from "../../api/firebase/functions/auth"
 
 export default function Page() {
   const [formData, setFormData] = useState({
@@ -44,7 +43,10 @@ export default function Page() {
     const role = (JSON.parse(localStorage.getItem("userDoc")) || {}).role || null;
     setRole(role)
   }, []);
-  if (userRole() == null) return <p>Please log in</p>;
+
+  if (role === null) {
+    return <p>Please log in</p>;
+  }
   return (
     <div className="container">
       <h1>Price A Job</h1>

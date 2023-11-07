@@ -8,7 +8,6 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { DatePicker } from "@mui/x-date-pickers";
 import { postDoc, addFrequentAddress } from '../../api/firebase/functions/upload'
 import { fetchFrequentAddresses } from '../../api/firebase/functions/fetch'
-import { userRole } from "../../api/firebase/functions/auth"
 
 export default function Page() {
   const initialFormData = {
@@ -124,7 +123,10 @@ export default function Page() {
     const role = (JSON.parse(localStorage.getItem("userDoc")) || {}).role || null;
     setRole(role)
   }, []);
-  if (userRole() == null) return <p>Please log in</p>;
+
+  if (role === null) {
+    return <p>Please log in</p>;
+  }
   return (
     <section>
       <div>

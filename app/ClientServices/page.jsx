@@ -1,7 +1,6 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import { ClientServices } from '../../components/Index';
-import { userRole } from "../../api/firebase/functions/auth";
 
 export default function Page() {
   const [role, setRole] = useState(null);

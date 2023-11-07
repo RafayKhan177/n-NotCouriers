@@ -11,7 +11,6 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from 'next/link';
 import { signUpWithEmail } from '../../api/firebase/functions/auth'
-import { userRole } from "../../api/firebase/functions/auth"
 
 function Copyright(props) {
     return (
@@ -48,7 +47,10 @@ export default function SignUp() {
       const role = (JSON.parse(localStorage.getItem("userDoc")) || {}).role || null;
       setRole(role)
     }, []);
-    if (!userRole() == null) return <p>already logged in</p>;
+  
+    if (role !== null) {
+      return <p>Already loged in</p>;
+    }
     return (
         <div >
             <Container component="main" maxWidth="xs">

@@ -13,7 +13,6 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { signInWithEmail } from '../../api/firebase/functions/auth'
-import { userRole } from "../../api/firebase/functions/auth"
 
 function Copyright(props) {
     return (
@@ -37,12 +36,15 @@ export default function SignIn() {
         signInWithEmail(email, password)
     };
 
-    const [role, setRole] = React.useState(null);
-    React.useEffect(() => {
-      const role = (JSON.parse(localStorage.getItem("userDoc")) || {}).role || null;
-      setRole(role)
-    }, []);
-    if (!userRole() == null) return <p>already logged in</p>;
+  const [role, setRole] = React.useState(null);
+  React.useEffect(() => {
+    const role = (JSON.parse(localStorage.getItem("userDoc")) || {}).role || null;
+    setRole(role)
+  }, []);
+
+  if (role !== null) {
+    return <p>Already loged in</p>;
+  }
     return (
         <div>
             <Container component="main" maxWidth="xs">
