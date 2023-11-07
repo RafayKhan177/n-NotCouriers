@@ -37,8 +37,8 @@ export default function SignIn() {
         signInWithEmail(email, password)
     };
 
-    const [role, setRole] = useState(null);
-    useEffect(() => {
+    const [role, setRole] = React.useState(null);
+    React.useEffect(() => {
       const role = (JSON.parse(localStorage.getItem("userDoc")) || {}).role || null;
       setRole(role)
     }, []);
