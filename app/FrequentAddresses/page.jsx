@@ -21,7 +21,14 @@ export default function Page() {
     fetchData();
   }, []);
 
+
+  const [role, setRole] = useState(null);
+  useEffect(() => {
+    const role = (JSON.parse(localStorage.getItem("userDoc")) || {}).role || null;
+    setRole(role)
+  }, []);
   if (userRole() == null) return <p>Please log in</p>;
+  
   return (
     <div>
       {isLoading ? ( // Render loading state if isLoading is true

@@ -116,8 +116,7 @@ async function fetchUserData() {
 
 const userRole = () => {
     try {
-        const user = JSON.parse(localStorage.getItem("userDoc"));
-        const role = user.role || null
+        const role = (JSON.parse(localStorage.getItem("userDoc")) || {}).role || null;
         return role
     } catch (error) {
         notify("Error: " + error.message);

@@ -39,6 +39,11 @@ export default function Page() {
     // Add more options as needed
   ];
 
+  const [role, setRole] = useState(null);
+  useEffect(() => {
+    const role = (JSON.parse(localStorage.getItem("userDoc")) || {}).role || null;
+    setRole(role)
+  }, []);
   if (userRole() == null) return <p>Please log in</p>;
   return (
     <div className="container">

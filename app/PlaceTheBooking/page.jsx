@@ -112,26 +112,18 @@ export default function Page() {
     fetchData();
   }, []);
 
-  const frequentAddressOptions = [
-    { value: 'address1', label: 'Address 1' },
-    { value: 'address2', label: 'Address 2' },
-    { value: 'address3', label: 'Address 3' },
-    // Add more options as needed
-  ];
-
-  const suburbOptions = [
-    { value: 'suburbA', label: 'Suburb A' },
-    { value: 'suburbB', label: 'Suburb B' },
-    { value: 'suburbC', label: 'Suburb C' },
-    // Add more options as needed
-  ];
-
   const serviceOptions = [
     { value: 'service1', label: 'Service 1' },
     { value: 'service2', label: 'Service 2' },
     { value: 'service3', label: 'Service 3' },
     // Add more options as needed
   ];
+
+  const [role, setRole] = useState(null);
+  useEffect(() => {
+    const role = (JSON.parse(localStorage.getItem("userDoc")) || {}).role || null;
+    setRole(role)
+  }, []);
   if (userRole() == null) return <p>Please log in</p>;
   return (
     <section>

@@ -1,10 +1,20 @@
 "use client"
-import { ClientServices } from '../../components/Index'
-import { UserRole } from "../../api/userRole"
+import React, { useEffect, useState } from 'react';
+import { ClientServices } from '../../components/Index';
+import { userRole } from "../../api/firebase/functions/auth";
 
-export default function page() {
-  if (UserRole() == null) return <p>Please log in</p>;
+export default function Page() {
+  const [role, setRole] = useState(null);
+  useEffect(() => {
+    const role = (JSON.parse(localStorage.getItem("userDoc")) || {}).role || null;
+    setRole(role)
+  }, []);
+
+  if (role === null) {
+    return <p>Please log in</p>;
+  }
+
   return (
     <ClientServices />
-  )
+  );
 }
