@@ -170,7 +170,7 @@ export default function Page() {
           value={formData.suburb}
           onChange={handleChange}
         >
-          {frequentAddresses.map((option, index) => (
+          {frequentAddresses && frequentAddresses.map((option, index) => (
             <MenuItem key={index} value={option.suburb}>
               {option.suburb}
             </MenuItem>
@@ -208,7 +208,7 @@ export default function Page() {
           value={formData.service}
           onChange={handleChange}
         >
-          {serviceOptions.map((option) => (
+          {serviceOptions && serviceOptions.map((option) => (
             <MenuItem key={option.value} value={option.value}>
               {option.label}
             </MenuItem>
@@ -259,7 +259,7 @@ export default function Page() {
           onChange={handleChange}
 
         >
-          {frequentAddresses.map((option, index) => (
+          {frequentAddresses && frequentAddresses.map((option, index) => (
             <MenuItem key={index} value={option.address}>
               {option.address}
             </MenuItem>
@@ -275,7 +275,7 @@ export default function Page() {
           value={formData.suburb}
           onChange={handleChange}
         >
-          {frequentAddresses.map((option, index) => (
+          {frequentAddresses && frequentAddresses.map((option, index) => (
             <MenuItem key={index} value={option.suburb}>
               {option.suburb}
             </MenuItem>
