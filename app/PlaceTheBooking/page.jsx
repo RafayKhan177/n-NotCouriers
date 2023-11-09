@@ -10,18 +10,31 @@ import { postDoc, addFrequentAddress } from '@/api/firebase/functions/upload'
 import { fetchFrequentAddresses } from '@/api/firebase/functions/fetch'
 import { PlacesAutocomplete } from "@/components/Index"
 import { Grid } from '@mantine/core';
+import { serviceOptions } from "@/components/static"
+import { calculateDistance } from '@/api/distanceCalculator';
 
 export default function Page() {
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const data = await fetchFrequentAddresses();
+        setFrequentAddresses(data);
+      } catch (error) {
+        console.error('Error fetching data: ', error);
+      }
+    }
+    fetchData();
+  }, []);
   // -------------------------------State
   const initialFormData = {
     contact: "",
-    pickupFrequentAddress: "",
-    pickupGoodsDescription: "",
     service: "",
     date: null,
     time: null,
     pieces: "",
     weight: "",
+    pickupFrequentAddress: "",
+    pickupGoodsDescription: "",
     dropFrequentAddress: "",
     dropReference1: "",
   };
@@ -29,8 +42,14 @@ export default function Page() {
   const [frequentAddresses, setFrequentAddresses] = useState([])
   const [selectedDestination, setSelectedDestination] = useState(null)
   const [selectedOrigin, setselectedOrigin] = useState(null)
+  // -----------------------------State Handlers
+  const handleDestination = (location) => {
+    setSelectedDestination(location);
+  };
 
-  // -----------------------------Handle
+  const handleOrigin = (location) => {
+    setselectedOrigin(location);
+  };
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -50,7 +69,6 @@ export default function Page() {
       const {
         contact,
         pickupFrequentAddress,
-        pickupAddress,
         pickupGoodsDescription,
         service,
         date,
@@ -58,61 +76,53 @@ export default function Page() {
         pieces,
         weight,
         dropFrequentAddress,
-        dropAddress,
         dropReference1,
       } = formData;
-
-      const pickupDetails = {
-        pickupFrequentAddress,
-        pickupSuburb,
-        pickupAddress,
-        pickupGoodsDescription,
+  
+      const selectedOriginDetails = {
+        address: selectedOrigin.label,
+        coordinates: selectedOrigin.coordinates,
       };
-
-      const serviceInformation = {
-        service,
-        date,
-        time,
-        pieces,
-        weight,
+  
+      const selectedDestinationDetails = {
+        address: selectedDestination.label,
+        coordinates: selectedDestination.coordinates,
       };
-
-      const dropDetails = {
-        dropFrequentAddress,
-        dropSuburb,
-        dropAddress,
-        dropReference1,
-      };
-
-      const data = { contact, pickupDetails, dropDetails, serviceInformation };
-      const addPickFrequentAddress = { contact: contact, address: selectedOrigin.label }
-      const addDropFrequentAddress = { contact: contact, address: selectedDestination.label }
-      await postDoc(data, "placed_booking");
-      await addFrequentAddress(addPickFrequentAddress)
-      await addFrequentAddress(addDropFrequentAddress)
+  
+      const [pickupDetails, serviceInformation, dropDetails, distanceData] = await Promise.all([
+        {
+          pickupFrequentAddress,
+          selectedOriginDetails,
+          pickupGoodsDescription,
+        },
+        {
+          service,
+          date,
+          time,
+          pieces,
+          weight,
+        },
+        {
+          dropFrequentAddress,
+          selectedDestinationDetails,
+          dropReference1,
+        },
+        calculateDistance(selectedOrigin.coordinates, selectedDestination.coordinates)
+          .then(data => data.rows[0].elements[0]),
+      ]);
+  
+      const invoiceData = { contact, pickupDetails, dropDetails, serviceInformation, distanceData };
+      await Promise.all([
+        postDoc(invoiceData, "invoices"),
+        addFrequentAddress({ contact, ...selectedOriginDetails }),
+        addFrequentAddress({ contact, ...selectedDestinationDetails }),
+      ]);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
+  
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const data = await fetchFrequentAddresses();
-        setFrequentAddresses(data);
-      } catch (error) {
-        console.error('Error fetching data: ', error);
-      }
-    }
-    fetchData();
-  }, []);
-
-  const serviceOptions = [
-    { value: 'service1', label: 'Service 1' },
-    { value: 'service2', label: 'Service 2' },
-    { value: 'service3', label: 'Service 3' },
-    // Add more options as needed
-  ];
 
   const [role, setRole] = useState(null);
   useEffect(() => {
@@ -123,6 +133,7 @@ export default function Page() {
   if (role === null) {
     return <p>Please log in</p>;
   }
+
   return (
     <section style={{ width: '100%' }}>
       <Grid style={{ margin: 'auto' }}>
@@ -158,7 +169,7 @@ export default function Page() {
             ))}
           </TextField>
 
-          <PlacesAutocomplete onLocationSelect={location => setselectedOrigin(location)} />
+          <PlacesAutocomplete onLocationSelect={handleDestination} />
 
           <TextField
             name="pickupGoodsDescription"
@@ -187,7 +198,7 @@ export default function Page() {
           >
             {serviceOptions && serviceOptions.map((option) => (
               <MenuItem key={option.value} value={option.value}>
-                {option.label}
+                {option.value}
               </MenuItem>
             ))}
           </TextField>
@@ -245,7 +256,7 @@ export default function Page() {
             ))}
           </TextField>
 
-          <PlacesAutocomplete onLocationSelect={location => setSelectedDestination(location)} />
+          <PlacesAutocomplete onLocationSelect={handleOrigin} />
 
           <TextField
             name="dropReference1"

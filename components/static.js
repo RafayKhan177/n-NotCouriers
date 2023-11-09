@@ -21,8 +21,15 @@ const authPages = [
     { link: '/Signup', label: 'Sign Pp' },
 ];
 
+const serviceOptions = [
+    { value: 'Standard' },
+    { value: 'Express' },
+    { value: 'Direct' },
+];
+
 export {
     adminPages,
     userPages,
-    authPages
+    authPages,
+    serviceOptions
 }

@@ -45,7 +45,7 @@ async function fetchFrequentAddresses() {
 async function fetchRecentInvoices() {
     const user = await fetchUserData()
     try {
-        const collectionRef = collection(db, 'placed_booking');
+        const collectionRef = collection(db, 'invoices');
         const q = query(collectionRef, where('userEmail', '==', user.email));
         const querySnapshot = await getDocs(q);
         const documents = [];
