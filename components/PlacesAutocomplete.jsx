@@ -1,15 +1,19 @@
 "use client"
 import { useState } from 'react';
-import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
+import  GooglePlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-google-places-autocomplete';
 
 export default function PlacesAutocomplete({ onLocationSelect }) {
     const apiKey = 'AIzaSyBhY9LbIHmQUmjDsSfqYjRORMiiK133u1Y'; // Replace with your actual API key
     const [value, setValue] = useState(null);
-
-    const handleLocationSelect = (value) => {
+    console.log(value)
+    const handleLocationSelect = async (value) => {
         onLocationSelect(value);
-        setValue(value)
+        const results = await geocodeByAddress(value.label);
+        const latLng = await getLatLng(results[0]);
+        setValue(latLng);
     };
+
+
 
     return (
         <div>

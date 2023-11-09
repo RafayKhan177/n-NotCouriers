@@ -1,43 +1,34 @@
-"use client"
-import React, { useState, useEffect } from 'react';
+"use client";
+import { useEffect, useState } from "react";
+import { calculateDistance } from "@/api/distanceCalculator";
 
-function DistanceMatrix() {
-  const [distanceData, setDistanceData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  console.log(distanceData)
-
-  const API_KEY = "AIzaSyBhY9LbIHmQUmjDsSfqYjRORMiiK133u1Y"
+export default function Page() {
+  const [distance, setDistance] = useState([])
+  console.log(distance)
+  
+  const d = {
+    origin: {
+      lat: -33.8688197,
+      lng: 151.2092955
+    },
+    destination: {
+      lat: -36.9847807,
+      lng: 143.3906074
+    }
+  };
 
   useEffect(() => {
-    // Define the API URL with your parameters
-    const apiUrl = `https://maps.googleapis.com/maps/api/distancematrix/json?destinations=enc%3A_kjwFjtsbMt%60EgnKcqLcaOzkGari%40naPxhVg%7CJjjb%40cqLcaOzkGari%40naPxhV%3A&origins=40.6655101%2C-73.89188969999998&key=AIzaSyBhY9LbIHmQUmjDsSfqYjRORMiiK133u1Y`
+    const fetchDataAndSetData = async () => {
+      try {
+        const distanceData = await calculateDistance(d.origin, d.destination);
+        setDistance(distanceData)
+      } catch (error) {
+        console.error("Error fetching distance:", error);
+      }
+    };
 
-    fetch(apiUrl)
-      .then((response) => response.json())
-      .then((data) => {
-        setDistanceData(data);
-        console.log(data)
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-        setLoading(false);
-      });
+    fetchDataAndSetData();
   }, []);
 
-  return (
-    <div>
-      <h1>Distance Matrix Data</h1>
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <div>
-          {/* <p>Distance: {distanceData.rows[0].elements[0].distance.text}</p>
-          <p>Duration: {distanceData.rows[0].elements[0].duration.text}</p> */}
-        </div>
-      )}
-    </div>
-  );
+  return <main></main>;
 }
-
-export default DistanceMatrix;
