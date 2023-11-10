@@ -1,20 +1,24 @@
 import { addDoc, collection, doc, getFirestore, updateDoc as firestoreUpdateDoc, getDoc, setDoc } from "firebase/firestore";
 import { app } from "../config";
+// import { calculatePrice } from "@/api/priceCalculator"
 
 const db = getFirestore(app);
 
 async function postDoc(data, collectionName) {
     const user = JSON.parse(localStorage.getItem("userDoc"));
     try {
-        const collectionRef = collection(db, collectionName);
-        const docRef = await addDoc(collectionRef, data);
-        const updatedData = {
-            docId: docRef.id,
-            userEmail: user.email
-        };
-        await updateDoc(collectionName, docRef.id, updatedData);
-        console.log(`New document created in ${collectionName} with ID: ${docRef.id} successfully.`);
-        return docRef;
+        // const prc = calculatePrice(data)
+        // console.log(prc)
+
+        // const collectionRef = collection(db, collectionName);
+        // const docRef = await addDoc(collectionRef, data);
+        // const updatedData = {
+        //     docId: docRef.id,
+        //     userEmail: user.email
+        // };
+        // await updateDoc(collectionName, docRef.id, updatedData);
+        // console.log(`New document created in ${collectionName} with ID: ${docRef.id} successfully.`);
+        // return docRef;
     } catch (error) {
         console.error(`Error creating a new document in ${collectionName}: ${error}`);
         return null;
