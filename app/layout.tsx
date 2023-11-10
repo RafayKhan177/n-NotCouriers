@@ -1,4 +1,4 @@
-import { Header, Footer } from '../components/Index'
+import { Navbar, Footer } from '@/components/Index'
 import type { Metadata } from "next";
 import { MantineProvider, ColorSchemeScript } from "@mantine/core";
 import "./globals.css";
@@ -29,11 +29,11 @@ export default function RootLayout({
       </head>
       <body>
         <MantineProvider theme={theme}>
-          <Header>
+          <Navbar>
             {children}
             <Footer />
             <ToastContainer />
-          </Header>
+          </Navbar>
         </MantineProvider>
       </body>
     </html>
