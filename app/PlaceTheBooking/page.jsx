@@ -9,7 +9,7 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { postDoc, addFrequentAddress } from '@/api/firebase/functions/upload'
 import { fetchFrequentAddresses } from '@/api/firebase/functions/fetch'
 import { PlacesAutocomplete } from "@/components/Index"
-import { Grid } from '@mantine/core';
+import { Button, Divider, Grid } from '@mantine/core';
 import { serviceOptions } from "@/components/static"
 import { calculateDistance } from '@/api/distanceCalculator';
 import { calculatePrice } from '@/api/priceCalculator';
@@ -121,14 +121,14 @@ export default function Page() {
       const data = { contact, pickupDetails, dropDetails, serviceInformation, distanceData };
 
       const invoice = await calculatePrice(data);
-      emptyAllFields(); 
-      
+      emptyAllFields();
+
       await Promise.all([
         postDoc(invoice, "invoices"),
         addFrequentAddress({ contact, ...selectedOriginDetails }),
         addFrequentAddress({ contact, ...selectedDestinationDetails })
       ]);
-      
+
 
     } catch (error) {
       console.error(error);
@@ -147,14 +147,22 @@ export default function Page() {
     return <p>Please log in</p>;
   }
 
+  const styleField = {
+    width: '100%',
+    margin: '.8rem 0',
+    minWidth: '10rem'
+  }
+
   return (
-    <section style={{ width: '100%' }}>
-      <Grid style={{ margin: 'auto' }}>
+    <section style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', margin: "0 20%" }}>
+
+      <Grid style={{ margin: 'auto', display: 'flex', justifyContent: 'center', flexWrap: "wrap", width: '100%' }}>
         {/* col1 */}
-        <Grid.Col span={4}>
+        <Grid.Col span={6}>
           <h3>Job Information</h3>
           <p>Account <span>Lorem, ipsum dolor.</span> </p>
           <TextField
+            style={styleField}
             name="contact"
             label="Contact"
             variant="outlined"
@@ -163,9 +171,10 @@ export default function Page() {
           />
         </Grid.Col>
 
-        <Grid.Col span={4}>
+        <Grid.Col span={6}>
           <h3>Pickup Details</h3>
           <TextField
+            style={styleField}
             name="pickupFrequentAddress"
             select
             label="Frequent Address"
@@ -182,9 +191,8 @@ export default function Page() {
             ))}
           </TextField>
 
-          <PlacesAutocomplete onLocationSelect={handleDestination} />
-
           <TextField
+            style={styleField}
             name="pickupGoodsDescription"
             label="Goods Description"
             multiline
@@ -192,14 +200,19 @@ export default function Page() {
             value={formData.goodsDescription}
             onChange={handleChange}
           />
+
+          <PlacesAutocomplete onLocationSelect={handleDestination} />
+
         </Grid.Col>
       </Grid>
-      {/* <Divider/> */}
-      <Grid style={{ margin: 'auto' }}>
-        <Grid.Col span={4}>
+
+      <Divider style={{ maxWidth: "6rem", color: 'red' }} />
+
+      <Grid style={{ margin: 'auto', display: 'flex', justifyContent: 'center', flexWrap: "wrap" }}>
+        <Grid.Col span={6}>
           <h3>Service Information</h3>
-          <p></p>
           <TextField
+            style={styleField}
             name="service"
             select
             label="Service"
@@ -216,6 +229,25 @@ export default function Page() {
             ))}
           </TextField>
 
+          <TextField
+            style={styleField}
+            name="pieces"
+            label="Pieces"
+            multiline
+            maxRows={4}
+            value={formData.pieces}
+            onChange={handleChange}
+          />
+          <TextField
+            style={styleField}
+            name="weight"
+            label="Weight (kg)"
+            multiline
+            maxRows={4}
+            value={formData.weight}
+            onChange={handleChange}
+          />
+
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               label="Basic date picker"
@@ -228,30 +260,12 @@ export default function Page() {
               onChange={handleTimeChange}
             />
           </LocalizationProvider>
-
-          <TextField
-            name="pieces"
-            label="Pieces"
-            multiline
-            maxRows={4}
-            value={formData.pieces}
-            onChange={handleChange}
-          />
-          <TextField
-            name="weight"
-            label="Weight (kg)"
-            multiline
-            maxRows={4}
-            value={formData.weight}
-            onChange={handleChange}
-          />
         </Grid.Col>
 
-
-
-        <Grid.Col span={4}>
+        <Grid.Col span={6}>
           <h3>Drop Details</h3>
           <TextField
+            style={styleField}
             name="dropFrequentAddress"
             select
             label="Frequent Address"
@@ -269,9 +283,8 @@ export default function Page() {
             ))}
           </TextField>
 
-          <PlacesAutocomplete onLocationSelect={handleOrigin} />
-
           <TextField
+            style={styleField}
             name="dropReference1"
             label="Reference 1"
             multiline
@@ -279,10 +292,14 @@ export default function Page() {
             value={formData.reference1}
             onChange={handleChange}
           />
-          <button onClick={submit}>Book Job</button>
-        </Grid.Col>
 
+          <PlacesAutocomplete onLocationSelect={handleOrigin} />
+
+        </Grid.Col>
       </Grid >
+      <Divider style={{ margin: ".7rem" }} />
+
+      <Button variant='filled' color='red' onClick={submit}>Book Job</Button>
     </section>
   );
 }

@@ -15,8 +15,9 @@ function calculatePrice(data) {
         "2T": { min: 1001, max: 2000 },
         "4T": { min: 2001, max: Infinity },
     };
-
-    const weight = data.serviceInformation.weight;
+    
+    const weight = data.serviceInformation?.weight || data.weight;
+    const serviceType = data.serviceInformation?.service || data.service;    
     const distanceValue = parseFloat(data.distanceData.distance.text.match(/\d+/)[0]);
 
     const vehicle = Object.keys(weightCategories).find((category) => {
@@ -26,7 +27,6 @@ function calculatePrice(data) {
 
     const basePrice = distanceValue * perMileRates[vehicle];
 
-    const serviceType = data.serviceInformation.service;
 
     let totalPrice;
     if (serviceType === "Express") {
@@ -34,12 +34,12 @@ function calculatePrice(data) {
     } else if (serviceType === "Direct") {
         totalPrice = basePrice * 2;
     } else {
-        totalPrice = basePrice; 
+        totalPrice = basePrice;
     }
 
     const requestQuote = weight > 4000;
 
-    console.log("Total Price:", totalPrice);
+    // console.log("Total Price:", totalPrice);
 
     return { ...data, totalPrice, requestQuote };
 

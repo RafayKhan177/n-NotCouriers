@@ -1,11 +1,29 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Button, MenuItem, TextField } from "@mui/material";
+import { MenuItem, TextField } from "@mui/material";
+import { Button } from "@mantine/core";
+import { fetchFrequentAddresses } from "@/api/firebase/functions/fetch";
+import { serviceOptions } from "@/components/static";
+import { calculatePrice } from "@/api/priceCalculator";
+import { calculateDistance } from "@/api/distanceCalculator";
 
 export default function Page() {
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const data = await fetchFrequentAddresses();
+        setFrequentAddresses(data);
+      } catch (error) {
+        console.error('Error fetching data: ', error);
+      }
+    }
+    fetchData();
+  }, []);
+
+  const [frequentAddresses, setFrequentAddresses] = useState([])
   const [formData, setFormData] = useState({
-    pickupSuburb: "",
-    dropSuburb: "",
+    pickupAddress: "",
+    dropAddress: "",
     service: "",
     pieces: "",
     weight: "",
@@ -16,27 +34,21 @@ export default function Page() {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = () => {
-    console.log("Form Data:", formData);
+  const handleSubmit = async () => {
+    try {
+
+      const { dropAddress, pickupAddress, pieces, service, weight } = formData
+      const distance = await calculateDistance(formData.pickupAddress.coordinates, formData.dropAddress.coordinates);
+      const distanceData = distance.rows[0].elements[0]
+      const data = { distanceData, dropAddress, pickupAddress, pieces, service, weight };
+      const invoice = await calculatePrice(data);
+      alert(invoice.totalPrice);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
-  const pickupSuburbOptions = [
-    { value: "suburb1", label: "Suburb 1" },
-    { value: "suburb2", label: "Suburb 2" },
-    // Add more options as needed
-  ];
 
-  const dropSuburbOptions = [
-    { value: "suburbA", label: "Suburb A" },
-    { value: "suburbB", label: "Suburb B" },
-    // Add more options as needed
-  ];
-
-  const serviceOptions = [
-    { value: "service1", label: "Service 1" },
-    { value: "service2", label: "Service 2" },
-    // Add more options as needed
-  ];
 
   const [role, setRole] = useState(null);
   useEffect(() => {
@@ -47,43 +59,53 @@ export default function Page() {
   if (role === null) {
     return <p>Please log in</p>;
   }
+
+  const styleField = {
+    width: '100%',
+    margin: '.8rem 0',
+    minWidth: '10rem'
+  }
+
   return (
-    <div className="container">
+    <div className="container" style={{ margin: '0 20%' }}>
       <h1>Price A Job</h1>
       <p>
         Account: <span>frfrfr</span>
       </p>
       <TextField
-        name="pickupSuburb"
+        style={styleField}
+        name="pickupAddress"
         select
         label="Pickup Suburb"
-        value={formData.pickupSuburb}
+        value={formData.pickupAddress}
         onChange={handleChange}
         helperText="Please select your Suburb"
         variant="outlined"
       >
-        {pickupSuburbOptions.map((option) => (
-          <MenuItem key={option.value} value={option.value}>
-            {option.label}
+        {frequentAddresses && frequentAddresses.map((option, index) => (
+          <MenuItem key={index} value={option}>
+            {option.address}
           </MenuItem>
         ))}
       </TextField>
       <TextField
-        name="dropSuburb"
+        style={styleField}
+        name="dropAddress"
         select
         label="Drop Suburb"
-        value={formData.dropSuburb}
+        value={formData.dropAddress}
         onChange={handleChange}
         helperText="Please select your Suburb"
         variant="outlined"
       >
-        {dropSuburbOptions.map((option) => (
-          <MenuItem key={option.value} value={option.value}>
-            {option.label}
+        {frequentAddresses && frequentAddresses.map((option, index) => (
+          <MenuItem key={index} value={option}>
+            {option.address}
           </MenuItem>
         ))}
       </TextField>
       <TextField
+        style={styleField}
         name="service"
         select
         label="Service"
@@ -94,11 +116,12 @@ export default function Page() {
       >
         {serviceOptions.map((option) => (
           <MenuItem key={option.value} value={option.value}>
-            {option.label}
+            {option.value}
           </MenuItem>
         ))}
       </TextField>
       <TextField
+        style={styleField}
         name="pieces"
         id="outlined-multiline-flexible"
         label="Pieces"
@@ -108,6 +131,7 @@ export default function Page() {
         onChange={handleChange}
       />
       <TextField
+        style={styleField}
         name="weight"
         id="outlined-multiline-flexible"
         label="Weight (kg)"
@@ -117,18 +141,18 @@ export default function Page() {
         onChange={handleChange}
       />
 
-      <div>
-        <Button className="btn" variant="contained" onClick={handleSubmit}>
+      <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+        <Button size="lg" color="red" className="btn" variant="filled" onClick={handleSubmit}>
           Price A Job
         </Button>
-        <Button
+        <Button size="lg" color="red"
           className="btn"
-          variant="contained"
+          variant="filled"
           onClick={() => setFormData({})}
         >
           Clear
         </Button>
-        <Button className="btn" variant="contained">
+        <Button size="lg" color="red" className="btn" variant="filled">
           Client Service
         </Button>
       </div>
