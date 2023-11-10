@@ -12,6 +12,7 @@ import { PlacesAutocomplete } from "@/components/Index"
 import { Grid } from '@mantine/core';
 import { serviceOptions } from "@/components/static"
 import { calculateDistance } from '@/api/distanceCalculator';
+import { calculatePrice } from '@/api/priceCalculator';
 
 export default function Page() {
   useEffect(() => {
@@ -43,6 +44,12 @@ export default function Page() {
   const [selectedDestination, setSelectedDestination] = useState(null)
   const [selectedOrigin, setselectedOrigin] = useState(null)
   // -----------------------------State Handlers
+  const emptyAllFields = () => {
+    setFormData(initialFormData)
+    setFrequentAddresses([])
+    setSelectedDestination(null)
+    setselectedOrigin(null)
+  }
   const handleDestination = (location) => {
     setSelectedDestination(location);
   };
@@ -78,17 +85,17 @@ export default function Page() {
         dropFrequentAddress,
         dropReference1,
       } = formData;
-  
+
       const selectedOriginDetails = {
         address: selectedOrigin.label,
         coordinates: selectedOrigin.coordinates,
       };
-  
+
       const selectedDestinationDetails = {
         address: selectedDestination.label,
         coordinates: selectedDestination.coordinates,
       };
-  
+
       const [pickupDetails, serviceInformation, dropDetails, distanceData] = await Promise.all([
         {
           pickupFrequentAddress,
@@ -110,18 +117,24 @@ export default function Page() {
         calculateDistance(selectedOrigin.coordinates, selectedDestination.coordinates)
           .then(data => data.rows[0].elements[0]),
       ]);
-  
-      const invoiceData = { contact, pickupDetails, dropDetails, serviceInformation, distanceData };
+
+      const data = { contact, pickupDetails, dropDetails, serviceInformation, distanceData };
+
+      const invoice = await calculatePrice(data);
+      emptyAllFields(); 
+      
       await Promise.all([
-        postDoc(invoiceData, "invoices"),
+        postDoc(invoice, "invoices"),
         addFrequentAddress({ contact, ...selectedOriginDetails }),
-        addFrequentAddress({ contact, ...selectedDestinationDetails }),
+        addFrequentAddress({ contact, ...selectedDestinationDetails })
       ]);
+      
+
     } catch (error) {
       console.error(error);
     }
   };
-  
+
 
 
   const [role, setRole] = useState(null);
