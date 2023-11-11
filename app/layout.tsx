@@ -1,11 +1,12 @@
-import { Navbar, Footer } from '@/components/Index'
+import { Navbar, Footer } from "@/components/Index";
 import type { Metadata } from "next";
 import { MantineProvider, ColorSchemeScript } from "@mantine/core";
 import "./globals.css";
 import { theme } from "../theme";
 import "@mantine/core/styles.css";
-import '@mantine/code-highlight/styles.css';
-import { ToastContainer } from 'react-toastify';
+import "@mantine/code-highlight/styles.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const metadata: Metadata = {
   title: "Create Next App",
