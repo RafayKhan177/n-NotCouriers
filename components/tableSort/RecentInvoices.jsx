@@ -18,24 +18,25 @@ export default function RecentInvoices({ invoices }) {
                         <TableCell>Invoice(Excl)</TableCell>
                         <TableCell>GST</TableCell>
                         <TableCell>Invoice(Incl)</TableCell>
+                        <TableCell>View</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {invoices && invoices.map((row, index) => (
-                            <TableRow key={index + 1}>
-                                <TableCell>{row.docId}</TableCell>
-                                <TableCell>{row.serviceInformation.date}</TableCell>
-                                <TableCell>{row.serviceInformation.time}</TableCell>
-                                <TableCell>{0.00}</TableCell>
-                                <TableCell>{0.00}</TableCell>
-                                <TableCell>{0.00}</TableCell>
-                                <TableCell>
-                                    <Button variant="light" color="cyan" >
-                                        View This Entry
-                                    </Button>
-                                </TableCell>
-                            </TableRow>
-                        ))}
+                        <TableRow key={index + 1}>
+                            <TableCell>{row.docId}</TableCell>
+                            <TableCell>{row.serviceInformation.date}</TableCell>
+                            <TableCell>{row.serviceInformation.time}</TableCell>
+                            <TableCell>{0.00}</TableCell>
+                            <TableCell>{0.00}</TableCell>
+                            <TableCell>{0.00}</TableCell>
+                            <TableCell>
+                                <Button variant="light" color="cyan" >
+                                    View This Entry
+                                </Button>
+                            </TableCell>
+                        </TableRow>
+                    ))}
                 </TableBody>
             </Table>
         </TableContainer>

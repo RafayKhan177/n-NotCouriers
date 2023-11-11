@@ -41,7 +41,7 @@ const clientServiceslinks = [
         image: "Place Booking",
         title: "Place Booking",
         description: "Place a Booking",
-        link: "#",
+        link: "/PlaceTheBooking",
         icon: <PlaceBookingIcon />,
     },
     {
@@ -62,21 +62,21 @@ const clientServiceslinks = [
         image: "Price Job",
         title: "Price Job",
         description: "Price a booking",
-        link: "#",
+        link: "/PriceTheJob",
         icon: <PriceJobIcon />,
     },
     {
         image: "Addresses",
         title: "Addresses",
         description: "Manage frequent addresses",
-        link: "#",
+        link: "/FrequentAddresses",
         icon: <AddressesIcon />,
     },
     {
         image: "Invoices",
         title: "Invoices",
         description: "View invoices",
-        link: "#",
+        link: "/RecentInvoices",
         icon: <InvoicesIcon />,
     },
     {

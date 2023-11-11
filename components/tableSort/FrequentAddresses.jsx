@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useState } from 'react';
 import {
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
@@ -6,6 +6,7 @@ import {
 } from '@mui/material';
 import { updateFrequentAddress } from '../../api/firebase/functions/upload';
 import { Button } from '@mantine/core';
+import { PlacesAutocomplete } from '@/components/Index';
 
 export default function FrequentAddresses({ addresses }) {
   const [modifiedAddresses, setModifiedAddresses] = useState(addresses);
@@ -13,15 +14,14 @@ export default function FrequentAddresses({ addresses }) {
   const [editedAddress, setEditedAddress] = useState(null);
   const [editedName, setEditedName] = useState('');
   const [editedAddressValue, setEditedAddressValue] = useState('');
-  const [editedSuburb, setEditedSuburb] = useState('');
   const [editedIndex, setEditedIndex] = useState(null);
+  console.log(addresses)
 
   const handleModify = (index) => {
     const addressToModify = { ...modifiedAddresses[index] };
     setEditedAddress(addressToModify);
     setEditedName(addressToModify.contact);
-    setEditedAddressValue(addressToModify.address);
-    setEditedSuburb(addressToModify.suburb);
+    setEditedAddressValue(addressToModify.label);
     setEditedIndex(index);
     setIsModalOpen(true);
   };
@@ -34,8 +34,8 @@ export default function FrequentAddresses({ addresses }) {
         updatedAddresses[editedIndex] = {
           ...editedAddress,
           contact: editedName,
-          address: editedAddressValue,
-          suburb: editedSuburb,
+          address: editedAddressValue.label,
+          coordinates: editedAddressValue.coordinates
         };
         setModifiedAddresses(updatedAddresses);
         updateFrequentAddress(updatedAddresses);
@@ -60,8 +60,8 @@ export default function FrequentAddresses({ addresses }) {
               <TableCell>No</TableCell>
               <TableCell>Name</TableCell>
               <TableCell>Address</TableCell>
-              <TableCell>Suburb</TableCell>
-              <TableCell>Actions</TableCell>
+              <TableCell>Modify</TableCell>
+              <TableCell>Delete</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -70,17 +70,13 @@ export default function FrequentAddresses({ addresses }) {
                 <TableCell>{index + 1}</TableCell>
                 <TableCell>{row.contact}</TableCell>
                 <TableCell>{row.address}</TableCell>
-                <TableCell>{row.suburb}</TableCell>
                 <TableCell>
-                  <Button variant="light" color="indigo"
-                    onClick={() => handleModify(index)}
-                  >
+                  <Button variant="light" color="indigo" onClick={() => handleModify(index)}>
                     Modify
                   </Button>
-                  <Button
-                    variant="light" color="pink"
-                    onClick={() => handleDelete(index)}
-                  >
+                </TableCell>
+                <TableCell>
+                  <Button variant="light" color="pink" onClick={() => handleDelete(index)}>
                     Delete
                   </Button>
                 </TableCell>
@@ -93,29 +89,10 @@ export default function FrequentAddresses({ addresses }) {
       <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 300, backgroundColor: 'white', padding: 16 }}>
           <h2>Edit Address</h2>
-          <TextField
-            label="Name"
-            fullWidth
-            value={editedName}
-            onChange={(e) => setEditedName(e.target.value)}
-          />
-          <TextField
-            label="Address"
-            fullWidth
-            value={editedAddressValue}
-            onChange={(e) => setEditedAddressValue(e.target.value)}
-          />
-          <TextField
-            label="Suburb"
-            fullWidth
-            value={editedSuburb}
-            onChange={(e) => setEditedSuburb(e.target.value)}
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleSave}
-          >
+          <PlacesAutocomplete onLocationSelect={(selectedLocation) => setEditedAddressValue(selectedLocation)} />
+          <TextField label="Name" fullWidth value={editedName} onChange={(e) => setEditedName(e.target.value)} />
+
+          <Button variant="contained" color="primary" onClick={handleSave}>
             Save
           </Button>
         </div>
