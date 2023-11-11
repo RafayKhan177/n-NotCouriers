@@ -57,4 +57,32 @@ async function fetchRecentInvoices() {
   }
 }
 
-export { fetchDocById, fetchFrequentAddresses, fetchRecentInvoices };
+async function getDocByDateAndId(collectionName, targetDate, docId) {
+  try {
+    const q = query(
+      collection(db, collectionName),
+      where("docId", "==", docId),
+      where("serviceInformation.date", "==", targetDate)
+    );
+
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      console.log("No matching documents.");
+      return null;
+    }
+
+    const doc = querySnapshot.docs[0].data();
+    return doc.docId;
+  } catch (error) {
+    notify("Wrong Information");
+    return null;
+  }
+}
+
+export {
+  fetchDocById,
+  fetchFrequentAddresses,
+  fetchRecentInvoices,
+  getDocByDateAndId,
+};
