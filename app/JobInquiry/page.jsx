@@ -28,7 +28,7 @@ export default function Page() {
     if (result === null) {
       console.log("No matching document found.");
     } else {
-      router.push(`/BookingDetails/${result}`);
+      router.push(`/JobInquiry/${result}`);
     }
   };
 

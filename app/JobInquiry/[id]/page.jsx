@@ -1,11 +1,14 @@
-"use client"
+"use client";
 import { fetchDocById } from "@/api/firebase/functions/fetch";
+import { InvoicesDetials } from "@/components/Index";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 export default function Page() {
   const pathname = usePathname();
   const [invoice, setInvoice] = useState(null);
+
+  console.log(invoice);
 
   useEffect(() => {
     const fetchInvoice = async () => {
@@ -14,7 +17,7 @@ export default function Page() {
         const id = match && match[1];
 
         if (id) {
-          const data = await fetchDocById(id);
+          const data = await fetchDocById(id, "invoices");
           setInvoice(data);
         }
       } catch (error) {
@@ -27,12 +30,6 @@ export default function Page() {
   }, [pathname]);
 
   return (
-    <div>
-      {invoice ? (
-        <h1>{/* Render invoice data here */}</h1>
-      ) : (
-        <p>Loading...</p>
-      )}
-    </div>
+    <div>{invoice ? <InvoicesDetials {...invoice} /> : <p>Loading...</p>}</div>
   );
 }
