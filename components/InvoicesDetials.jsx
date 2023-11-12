@@ -1,6 +1,20 @@
 import React from "react";
 import { Typography, Paper, Grid } from "@mui/material";
 
+const renderDetails = (title, details) => (
+  <div>
+    <Typography variant="subtitle1" gutterBottom>
+      {title || "some thing went wrong"}
+    </Typography>
+    {details.map((detail, index) => (
+      <Typography key={index} variant="body2">
+        {detail.label || "some thing went wrong"}:{" "}
+        {detail.value || "some thing went wrong"}
+      </Typography>
+    ))}
+  </div>
+);
+
 const InvoiceDetails = ({
   distanceData,
   requestQuote,
@@ -25,76 +39,49 @@ const InvoiceDetails = ({
       }}
     >
       <Typography variant="h4" gutterBottom>
-        Service Details
+        Invoice Details
       </Typography>
 
       <div style={{ width: "80%" }}>
-        {/* Display distance data */}
-        <div>
-          <Typography variant="subtitle1" gutterBottom>
-            Distance Data
-          </Typography>
-          <Typography variant="body2">Status: {distanceData.status}</Typography>
-          <Typography variant="body2">
-            Duration: {distanceData.duration.text}
-          </Typography>
-          <Typography variant="body2">
-            Distance: {distanceData.distance.text}
-          </Typography>
-        </div>
+        {renderDetails("Account", [
+          { label: "Contact", value: contact },
+          { label: "Email", value: userEmail },
+          { label: "Order", value: docId },
+          { label: "Date", value: serviceInformation.date },
+          { label: "Time", value: serviceInformation.time },
+        ])}
 
-        {/* Display service information */}
-        <div>
-          <Typography variant="subtitle1" gutterBottom>
-            Service Information
-          </Typography>
-          <Typography variant="body2">
-            Service: {serviceInformation.service}
-          </Typography>
-          <Typography variant="body2">
-            Date: {serviceInformation.date}
-          </Typography>
-          <Typography variant="body2">
-            Weight: {serviceInformation.weight}
-          </Typography>
-          <Typography variant="body2">
-            Pieces: {serviceInformation.pieces}
-          </Typography>
-          <Typography variant="body2">
-            Time: {serviceInformation.time}
-          </Typography>
-        </div>
+        {renderDetails("Distance Information", [
+          { label: "Duration", value: distanceData.duration.text },
+          { label: "Distance", value: distanceData.distance.text },
+        ])}
 
-        {/* Display drop details */}
-        <div>
-          <Typography variant="subtitle1" gutterBottom>
-            Drop Details
-          </Typography>
-          <Typography variant="body2">
-            Drop Reference 1: {dropDetails.dropReference1}
-          </Typography>
-          <Typography variant="body2">
-            Selected Destination:{" "}
-            {dropDetails.selectedDestinationDetails.address}
-          </Typography>
-          {/* Add more details as needed */}
-        </div>
+        {renderDetails("Service Information", [
+          { label: "Service", value: serviceInformation.service },
+          { label: "Weight", value: serviceInformation.weight },
+          { label: "Cost", value: totalPrice },
+        ])}
 
-        {/* Display pickup details */}
-        <div>
-          <Typography variant="subtitle1" gutterBottom>
-            Pickup Details
-          </Typography>
-          <Typography variant="body2">
-            Pickup Goods Description: {pickupDetails.pickupGoodsDescription}
-          </Typography>
-          <Typography variant="body2">
-            Pickup Address: {pickupDetails.selectedOriginDetails.address}
-          </Typography>
-          {/* Add more details as needed */}
-        </div>
+        {renderDetails("Pickup Details", [
+          { label: "Suburb", value: "" }, // Add actual data if needed
+          {
+            label: "Address",
+            value: pickupDetails.selectedOriginDetails.address,
+          },
+          {
+            label: "Special Instruction",
+            value: pickupDetails.pickupGoodsDescription,
+          },
+        ])}
 
-        <Typography variant="body1">Total Price: {totalPrice}</Typography>
+        {renderDetails("Drop Details", [
+          { label: "Suburb", value: "" }, // Add actual data if needed
+          {
+            label: "Address",
+            value: dropDetails.selectedDestinationDetails.address,
+          },
+          { label: "Drop Reference 1", value: dropDetails.dropReference1 },
+        ])}
       </div>
     </Paper>
   );
