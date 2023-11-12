@@ -1,7 +1,8 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
 import { fetchRecentInvoices } from "../../api/firebase/functions/fetch";
-import { RecentInvoices } from "../../components/Index"
+import { RecentInvoices } from "../../components/Index";
+import { useRouter } from "next/router";
 
 export default function Page() {
   const [role, setRole] = useState(null);
@@ -27,5 +28,7 @@ export default function Page() {
     return <p>Please log in</p>;
   }
 
-  return (<RecentInvoices invoices={invoices} />);
+  return (
+    <RecentInvoices invoices={invoices}  />
+  );
 }
