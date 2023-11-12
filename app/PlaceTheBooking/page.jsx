@@ -75,6 +75,25 @@ export default function Page() {
   // -----------------------------Submit
   const submit = async () => {
     try {
+      const requiredFields = [
+        "contact",
+        "pickupFrequentAddress",
+        "pickupGoodsDescription",
+        "service",
+        "date",
+        "time",
+        "pieces",
+        "weight",
+        "dropFrequentAddress",
+        "dropSuburb",
+        "pickupSuburb",
+      ];
+
+      // Check if any required field is missing
+      if (requiredFields.some((field) => !formData[field])) {
+        alert("Please fill in all required fields.");
+      }
+
       const {
         contact,
         pickupFrequentAddress,
@@ -86,6 +105,8 @@ export default function Page() {
         weight,
         dropFrequentAddress,
         dropReference1,
+        dropSuburb,
+        pickupSuburb,
       } = formData;
 
       const selectedOriginDetails = {
@@ -104,6 +125,7 @@ export default function Page() {
             pickupFrequentAddress,
             selectedOriginDetails,
             pickupGoodsDescription,
+            pickupSuburb,
           },
           {
             service,
@@ -115,6 +137,7 @@ export default function Page() {
           {
             dropFrequentAddress,
             selectedDestinationDetails,
+            dropSuburb,
             dropReference1,
           },
           calculateDistance(

@@ -21,7 +21,7 @@ export default function Page() {
   };
   const handleSubmit = async () => {
     const result = await getDocByDateAndId(
-      "invoices",
+      "place_bookings",
       formData.date,
       formData.orderNo
     );

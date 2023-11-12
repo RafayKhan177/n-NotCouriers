@@ -61,7 +61,7 @@ const clientServiceslinks = [
     image: "Job Inquiry",
     title: "Job Inquiry",
     description: "Enquire on a specific booking",
-    link: "#",
+    link: "/JobInquiry",
     icon: <JobInquiryIcon />,
   },
   {
@@ -100,5 +100,5 @@ export {
   authPages,
   serviceOptions,
   clientServiceslinks,
-  suburbOption
+  suburbOption,
 };

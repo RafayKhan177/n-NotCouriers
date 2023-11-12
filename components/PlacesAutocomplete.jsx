@@ -1,9 +1,8 @@
 "use client";
-import { useState } from 'react';
 import GooglePlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-google-places-autocomplete';
 
 export default function PlacesAutocomplete({ onLocationSelect }) {
-    const apiKey = 'AIzaSyBhY9LbIHmQUmjDsSfqYjRORMiiK133u1Y'; // Replace with your actual API key
+    const apiKey = 'AIzaSyBhY9LbIHmQUmjDsSfqYjRORMiiK133u1Y'; 
 
     
     const handleLocationSelect = async (selected) => {
@@ -19,7 +18,7 @@ export default function PlacesAutocomplete({ onLocationSelect }) {
             <GooglePlacesAutocomplete
                 apiKey={apiKey}
                 autocompletionRequest={{
-                    componentRestrictions: { country: 'AU' }, // Restrict to Australia
+                    componentRestrictions: { country: 'AU' },
                 }}
                 selectProps={{
                     onChange: handleLocationSelect,

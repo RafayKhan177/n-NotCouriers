@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 import { MenuItem, TextField } from "@mui/material";
 import { Button } from "@mantine/core";
 import { fetchFrequentAddresses } from "@/api/firebase/functions/fetch";
-import { serviceOptions } from "@/components/static";
+import { serviceOptions, suburbOption } from "@/components/static";
 import { calculatePrice } from "@/api/priceCalculator";
 import { calculateDistance } from "@/api/distanceCalculator";
+import PlacesAutocomplete from "@/components/PlacesAutocomplete";
 
 export default function Page() {
   useEffect(() => {
@@ -14,16 +15,18 @@ export default function Page() {
         const data = await fetchFrequentAddresses();
         setFrequentAddresses(data);
       } catch (error) {
-        console.error('Error fetching data: ', error);
+        console.error("Error fetching data: ", error);
       }
     }
     fetchData();
   }, []);
 
-  const [frequentAddresses, setFrequentAddresses] = useState([])
+  const [selectedDestination, setSelectedDestination] = useState(null);
+  const [selectedOrigin, setSelectedOrigin] = useState(null);
+
   const [formData, setFormData] = useState({
-    pickupAddress: "",
-    dropAddress: "",
+    pickupSuburb: "",
+    dropSuburb: "",
     service: "",
     pieces: "",
     weight: "",
@@ -34,26 +37,44 @@ export default function Page() {
     setFormData({ ...formData, [name]: value });
   };
 
+  const handleDestination = (location) => {
+    setSelectedDestination(location.coordinates);
+  };
+
+  const handleOrigin = (location) => {
+    setSelectedOrigin(location.coordinates);
+  };
+
   const handleSubmit = async () => {
     try {
-
-      const { dropAddress, pickupAddress, pieces, service, weight } = formData
-      const distance = await calculateDistance(formData.pickupAddress.coordinates, formData.dropAddress.coordinates);
-      const distanceData = distance.rows[0].elements[0]
-      const data = { distanceData, dropAddress, pickupAddress, pieces, service, weight };
+      const { pickupSuburb, dropSuburb, service, pieces, weight } = formData;
+      const distance = await calculateDistance(
+        selectedOrigin,
+        selectedDestination
+      );
+      const distanceData = distance.rows[0].elements[0];
+      const data = {
+        distanceData,
+        pickupSuburb,
+        dropSuburb,
+        service,
+        pieces,
+        weight,
+        selectedOrigin,
+        selectedDestination,
+      };
       const invoice = await calculatePrice(data);
-      alert(invoice.totalPrice);
+      console.log(invoice);
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
-
-
   const [role, setRole] = useState(null);
   useEffect(() => {
-    const role = (JSON.parse(localStorage.getItem("userDoc")) || {}).role || null;
-    setRole(role)
+    const role =
+      (JSON.parse(localStorage.getItem("userDoc")) || {}).role || null;
+    setRole(role);
   }, []);
 
   if (role === null) {
@@ -61,48 +82,54 @@ export default function Page() {
   }
 
   const styleField = {
-    width: '100%',
-    margin: '.8rem 0',
-    minWidth: '10rem'
-  }
+    width: "100%",
+    margin: ".8rem 0",
+    minWidth: "10rem",
+  };
 
   return (
-    <div className="container" style={{ margin: '0 20%' }}>
+    <div className="container" style={{ margin: "0 20%" }}>
       <h1>Price A Job</h1>
-      <p>
-        Account: <span>frfrfr</span>
-      </p>
+
+      <div style={styleField}>
+        <PlacesAutocomplete onLocationSelect={handleOrigin} />
+        <br />
+        <PlacesAutocomplete onLocationSelect={handleDestination} />
+      </div>
+
       <TextField
         style={styleField}
-        name="pickupAddress"
+        name="pickupSuburb"
         select
         label="Pickup Suburb"
-        value={formData.pickupAddress}
+        value={formData.pickupSuburb}
         onChange={handleChange}
         helperText="Please select your Suburb"
         variant="outlined"
       >
-        {frequentAddresses && frequentAddresses.map((option, index) => (
-          <MenuItem key={index} value={option}>
-            {option.address}
-          </MenuItem>
-        ))}
+        {suburbOption &&
+          suburbOption.map((option, index) => (
+            <MenuItem key={index} value={option.value}>
+              {option.value}
+            </MenuItem>
+          ))}
       </TextField>
       <TextField
         style={styleField}
-        name="dropAddress"
+        name="dropSuburb"
         select
         label="Drop Suburb"
-        value={formData.dropAddress}
+        value={formData.dropSuburb}
         onChange={handleChange}
         helperText="Please select your Suburb"
         variant="outlined"
       >
-        {frequentAddresses && frequentAddresses.map((option, index) => (
-          <MenuItem key={index} value={option}>
-            {option.address}
-          </MenuItem>
-        ))}
+        {suburbOption &&
+          suburbOption.map((option, index) => (
+            <MenuItem key={index} value={option.value}>
+              {option.value}
+            </MenuItem>
+          ))}
       </TextField>
       <TextField
         style={styleField}
@@ -141,11 +168,19 @@ export default function Page() {
         onChange={handleChange}
       />
 
-      <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-        <Button size="lg" color="red" className="btn" variant="filled" onClick={handleSubmit}>
+      <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
+        <Button
+          size="lg"
+          color="red"
+          className="btn"
+          variant="filled"
+          onClick={handleSubmit}
+        >
           Price A Job
         </Button>
-        <Button size="lg" color="red"
+        <Button
+          size="lg"
+          color="red"
           className="btn"
           variant="filled"
           onClick={() => setFormData({})}
