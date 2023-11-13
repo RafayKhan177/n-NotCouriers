@@ -14,7 +14,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { signInWithEmail } from "../../api/firebase/functions/auth";
 import { useRouter } from "next/navigation";
-import { CAP } from "@/components/CAP";
+import { CAP } from "@/components/Index";
 
 function Copyright(props) {
   return (
