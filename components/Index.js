@@ -11,3 +11,4 @@ export { default as InvoicesDetials } from "./InvoicesDetials";
 export { default as MenageInvoices } from "./tableSort/MenageInvoices";
 
 export { default as CAP } from "./CAP";
+export { default as Checkout } from "./Checkout";

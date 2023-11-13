@@ -1,16 +1,12 @@
-"use client"
-import { useDisclosure } from '@mantine/hooks';
-import { AppShell, Burger, Button, Group } from '@mantine/core';
-import Link from 'next/link';
-import NextTopLoader from 'nextjs-toploader';
-import { useEffect, useState } from 'react';
-import {
-  adminPages,
-  userPages,
-  authPages
-} from "../static"
-import Image from 'next/image';
-import { Header } from '@/components/Index';
+"use client";
+import { useDisclosure } from "@mantine/hooks";
+import { AppShell, Burger, Button, Group } from "@mantine/core";
+import Link from "next/link";
+import NextTopLoader from "nextjs-toploader";
+import { useEffect, useState } from "react";
+import { adminPages, userPages, authPages } from "../static";
+import Image from "next/image";
+import { Header } from "@/components/Index";
 
 export default function Navbar({ children }) {
   const [opened, { toggle }] = useDisclosure();
@@ -33,7 +29,11 @@ export default function Navbar({ children }) {
   return (
     <AppShell
       header={{ height: 170 }}
-      navbar={{ width: 300, breakpoint: 'sm', collapsed: { desktop: true, mobile: !opened } }}
+      navbar={{
+        width: 300,
+        breakpoint: "sm",
+        collapsed: { desktop: true, mobile: !opened },
+      }}
       padding="md"
     >
       <AppShell.Header>
@@ -41,15 +41,10 @@ export default function Navbar({ children }) {
         <Group h="70%" px="md">
           <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
           <Group justify="space-between" style={{ flex: 1 }} mr={22}>
-            <Image
-              src="/logo.jpg"
-              width={200}
-              height={70}
-              alt="Logo"
-            />
+            <Image src="/logo.png" width={100} height={100} alt="Logo" />
             <Group ml="xl" gap={0} visibleFrom="sm">
               {userPagesToRender.map((val, ind) => (
-                <Link key={ind} href={val.link} >
+                <Link key={ind} href={val.link}>
                   <Button variant="light" color="red" mr={5}>
                     {val.label}
                   </Button>
@@ -62,8 +57,13 @@ export default function Navbar({ children }) {
 
       <AppShell.Navbar py="md" px={4}>
         {userPagesToRender.map((val, ind) => (
-          <Link key={ind} href={val.link} >
-            <Button style={{ width: '100%', height: "3rem", marginTop: ".5rem" }} variant="light" color="red" mr={5}>
+          <Link key={ind} href={val.link}>
+            <Button
+              style={{ width: "100%", height: "3rem", marginTop: ".5rem" }}
+              variant="light"
+              color="red"
+              mr={5}
+            >
               {val.label}
             </Button>
           </Link>

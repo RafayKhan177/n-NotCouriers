@@ -59,10 +59,10 @@ const CAP = ({ status }) => {
     <div style={containerStyle}>
       <div style={paperStyle}>
         <Image
-          src="/logo.jpg"
+          src="/logo.png"
           alt="Logo"
           width={300}
-          height={120}
+          height={300}
           style={logoStyle}
         />
         <h1 style={{ color: "#333333" }}>Welcome to Jet Couriers!</h1>
