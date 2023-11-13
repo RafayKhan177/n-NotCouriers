@@ -31,17 +31,26 @@ async function fetchDocById(docId, collectionName) {
 }
 
 async function fetchFrequentAddresses() {
+  const user = JSON.parse(localStorage.getItem("userDoc"));
+  if (!user) {
+    notify("You're not logged in");
+    return null;
+  }
   try {
     const user = await fetchUserData();
     return user.frequentAddresses;
   } catch (error) {
-    notify("Error Fetching Addresses: " + error.message);
+    notify("Something Went Wrong");
     return null;
   }
 }
 
 async function fetchRecentInvoices() {
-  const user = await fetchUserData();
+  const user = JSON.parse(localStorage.getItem("userDoc"));
+  if (!user) {
+    notify("You're not logged in");
+    return [];
+  }
   try {
     const collectionRef = collection(db, "place_bookings");
     const q = query(collectionRef, where("userEmail", "==", user.email));
@@ -50,14 +59,20 @@ async function fetchRecentInvoices() {
     querySnapshot.forEach((doc) => {
       documents.push({ id: doc.id, ...doc.data() });
     });
+    fetchUserData();
     return documents;
   } catch (error) {
-    notify("Error fetching Invoices:", error.message);
+    notify("Something Went Wrong");
     return [];
   }
 }
 
 async function getDocByDateAndId(collectionName, targetDate, docId) {
+  const user = JSON.parse(localStorage.getItem("userDoc"));
+  if (!user) {
+    notify("You're not logged in");
+    return null;
+  }
   try {
     const q = query(
       collection(db, collectionName),
@@ -81,22 +96,26 @@ async function getDocByDateAndId(collectionName, targetDate, docId) {
 }
 
 async function getCollection(collectionName) {
+  const user = JSON.parse(localStorage.getItem("userDoc"));
+  if (!user) {
+    notify("You're not logged in");
+    return [];
+  }
   try {
     const q = collection(db, collectionName);
     const querySnapshot = await getDocs(q);
-    const documents = querySnapshot.docs.map(doc => doc.data());
+    const documents = querySnapshot.docs.map((doc) => doc.data());
     return documents;
   } catch (error) {
-    notify('Error fetching collection');
+    notify("Something Went Wrong fetching");
     return [];
   }
 }
-
 
 export {
   fetchDocById,
   fetchFrequentAddresses,
   fetchRecentInvoices,
   getDocByDateAndId,
-  getCollection
+  getCollection,
 };

@@ -19,12 +19,10 @@ export default function ClientServices() {
   const router = useRouter();
 
   const logoutUser = async () => {
-    logout().then((res) => {
-      if (res === true) {
-        router.push(`/Signin`);
-      }
-    });
+    await logout();
+    router.push(`/Signin`);
   };
+  
 
   const items = clientServiceslinks.map((item, index) => (
     <Link

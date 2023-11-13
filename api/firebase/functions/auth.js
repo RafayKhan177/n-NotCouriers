@@ -100,7 +100,7 @@ const userRole = () => {
   try {
     const role =
       (JSON.parse(localStorage.getItem("userDoc")) || {}).role || null;
-      (JSON.parse(localStorage.getItem("user")) || {}).role || null;
+    (JSON.parse(localStorage.getItem("user")) || {}).role || null;
     return role;
   } catch (error) {
     notify("Something Went Wrong");
@@ -111,6 +111,7 @@ const userRole = () => {
 const logout = () => {
   try {
     localStorage.removeItem("user");
+    localStorage.removeItem("userDoc");
     notify("Logout Succesfully");
     return true;
   } catch (error) {

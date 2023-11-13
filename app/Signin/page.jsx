@@ -14,6 +14,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { signInWithEmail } from "../../api/firebase/functions/auth";
 import { useRouter } from "next/navigation";
+import CAP from "@/components/CAP";
 
 function Copyright(props) {
   return (
@@ -41,11 +42,8 @@ export default function SignIn() {
     const data = new FormData(event.currentTarget);
     const { email, password } = Object.fromEntries(data);
 
-    signInWithEmail(email, password).then((res) => {
-      if (res === true) {
-        router.push(`/`);
-      }
-    });
+    signInWithEmail(email, password);
+    router.push(`/`);
   };
 
   const [role, setRole] = React.useState(null);
@@ -56,7 +54,7 @@ export default function SignIn() {
   }, []);
 
   if (role !== null) {
-    return <p>Already loged in</p>;
+    return <CAP status={"alreadyLoggedIn"} />;
   }
   return (
     <div>

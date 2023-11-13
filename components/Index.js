@@ -9,3 +9,5 @@ export { default as PlacesAutocomplete } from "./PlacesAutocomplete";
 export { default as InvoicesDetials } from "./InvoicesDetials";
 // --------------------------------Admin
 export { default as MenageInvoices } from "./tableSort/MenageInvoices";
+
+export { default as CAP } from "./CAP";
