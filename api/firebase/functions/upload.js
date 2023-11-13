@@ -15,6 +15,11 @@ const db = getFirestore(app);
 
 async function postDoc(data, collectionName) {
   const user = JSON.parse(localStorage.getItem("userDoc"));
+  if (!user) {
+    notify("You're not logged in");
+    return null;
+  }
+
   try {
     const collectionRef = collection(db, collectionName);
     const docRef = await addDoc(collectionRef, data);
@@ -23,19 +28,25 @@ async function postDoc(data, collectionName) {
       userEmail: user.email,
     };
     await updateDoc(collectionName, docRef.id, updatedData);
-    notify(`Invoice Posted Succesfully`);
+    notify(`Invoice Posted Successfully`);
     return docRef;
   } catch (error) {
-    notify(`Something Went wrong`);
+    notify(`Something Went Wrong`);
     return null;
   }
 }
 
 async function updateDoc(collectionName, docId, data) {
+  const user = JSON.parse(localStorage.getItem("userDoc"));
+  if (!user) {
+    notify("You're not logged in");
+    return false;
+  }
+
   try {
     const docRef = doc(db, collectionName, docId);
     await firestoreUpdateDoc(docRef, data);
-    notify(`updated succesfully`);
+    notify(`Updated Successfully`);
     return true;
   } catch (error) {
     notify(`Something Went Wrong`);
@@ -45,6 +56,11 @@ async function updateDoc(collectionName, docId, data) {
 
 async function addFrequentAddress(address) {
   const user = JSON.parse(localStorage.getItem("user"));
+  if (!user) {
+    notify("You're not logged in");
+    return false;
+  }
+
   const docId = user.email;
   try {
     const docRef = doc(db, "users", docId);
@@ -67,14 +83,20 @@ async function addFrequentAddress(address) {
     return false;
   }
 }
+
 async function updateFrequentAddress(modifiedAddresses) {
   const user = JSON.parse(localStorage.getItem("user"));
+  if (!user) {
+    notify("You're not logged in");
+    return false;
+  }
+
   const docId = user.email;
   const data = { frequentAddresses: modifiedAddresses };
   try {
     const docRef = doc(db, "users", docId);
     await firestoreUpdateDoc(docRef, data, { merge: true });
-    notify(`Adddress Modified successfully.`);
+    notify(`Address Modified successfully.`);
     return true;
   } catch (error) {
     notify(`Something Went Wrong.`);

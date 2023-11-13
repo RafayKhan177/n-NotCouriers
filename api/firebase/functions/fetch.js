@@ -80,9 +80,23 @@ async function getDocByDateAndId(collectionName, targetDate, docId) {
   }
 }
 
+async function getCollection(collectionName) {
+  try {
+    const q = collection(db, collectionName);
+    const querySnapshot = await getDocs(q);
+    const documents = querySnapshot.docs.map(doc => doc.data());
+    return documents;
+  } catch (error) {
+    notify('Error fetching collection');
+    return [];
+  }
+}
+
+
 export {
   fetchDocById,
   fetchFrequentAddresses,
   fetchRecentInvoices,
   getDocByDateAndId,
+  getCollection
 };

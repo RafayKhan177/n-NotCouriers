@@ -5,42 +5,6 @@ import JobInquiryIcon from "@mui/icons-material/Help";
 import PriceJobIcon from "@mui/icons-material/MonetizationOn";
 import AddressesIcon from "@mui/icons-material/LocationOn";
 import InvoicesIcon from "@mui/icons-material/Receipt";
-import LogoutIcon from "@mui/icons-material/ExitToApp";
-
-const adminPages = [
-  { link: "/", label: "Home" },
-  { link: "/ClientServices", label: "Client Services" },
-  { link: "/FrequentAddresses", label: "Frequent Addresses" },
-  { link: "/PlaceTheBooking", label: "Place A Booking" },
-  { link: "/PriceTheJob", label: "Price A Job" },
-  { link: "/RecentInvoices", label: "Recent Invoices" },
-];
-
-const userPages = [
-  { link: "/", label: "Home" },
-  { link: "/ClientServices", label: "Client Services" },
-  { link: "/FrequentAddresses", label: "Frequent Addresses" },
-  { link: "/PlaceTheBooking", label: "Place A Booking" },
-  { link: "/PriceTheJob", label: "Price A Job" },
-  { link: "/RecentInvoices", label: "Recent Invoices" },
-];
-
-const authPages = [
-  { link: "/Signin", label: "Sign In" },
-  { link: "/Signup", label: "Sign Pp" },
-];
-
-const serviceOptions = [
-  { value: "Standard" },
-  { value: "Express" },
-  { value: "Direct" },
-];
-
-const suburbOption = [
-  { value: "Suburb 1" },
-  { value: "Suburb 2" },
-  { value: "Suburb 3" },
-];
 
 const clientServiceslinks = [
   {
@@ -85,13 +49,50 @@ const clientServiceslinks = [
     link: "/RecentInvoices",
     icon: <InvoicesIcon />,
   },
-  {
-    image: "Logout",
-    title: "Logout",
-    description: "Log Out",
-    link: "#",
-    icon: <LogoutIcon />,
-  },
+];
+
+const serviceOptions = [
+  { value: "Standard" },
+  { value: "Express" },
+  { value: "Direct" },
+];
+
+const suburbOption = [
+  { value: "Suburb 1" },
+  { value: "Suburb 2" },
+  { value: "Suburb 3" },
+];
+
+const adminPages = [
+  { link: "/", label: "Home" },
+  { link: "/ClientServices", label: "Client Services" },
+  { link: "/FrequentAddresses", label: "Frequent Addresses" },
+  { link: "/PlaceTheBooking", label: "Place A Booking" },
+  { link: "/PriceTheJob", label: "Price A Job" },
+  { link: "/RecentInvoices", label: "Recent Invoices" },
+];
+
+const userPages = [
+  { link: "/", label: "Home" },
+  { link: "/ClientServices", label: "Client Services" },
+  { link: "/FrequentAddresses", label: "Frequent Addresses" },
+  { link: "/PlaceTheBooking", label: "Place A Booking" },
+  { link: "/PriceTheJob", label: "Price A Job" },
+  { link: "/RecentInvoices", label: "Recent Invoices" },
+];
+
+const authPages = [
+  { link: "/Signin", label: "Sign In" },
+  { link: "/Signup", label: "Sign Pp" },
+];
+
+const statuses = [
+  { val: "booked", status: "Booked" },
+  { val: "etd", status: "E.T.D." },
+  { val: "allocated", status: "Allocated" },
+  { val: "pickedup", status: "Pick Up" },
+  { val: "delivered", status: "Delivered" },
+  { val: "pod", status: "P.O.D." },
 ];
 
 export {
@@ -101,4 +102,5 @@ export {
   serviceOptions,
   clientServiceslinks,
   suburbOption,
+  statuses,
 };
