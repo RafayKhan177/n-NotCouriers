@@ -45,7 +45,7 @@ async function fetchFrequentAddresses() {
   }
 }
 
-async function fetchRecentInvoices() {
+async function fetchPlace_booking() {
   const user = JSON.parse(localStorage.getItem("userDoc"));
   if (!user) {
     notify("You're not logged in");
@@ -66,7 +66,27 @@ async function fetchRecentInvoices() {
     return [];
   }
 }
-
+async function fetchPlace_job() {
+  const user = JSON.parse(localStorage.getItem("userDoc"));
+  if (!user) {
+    notify("You're not logged in");
+    return [];
+  }
+  try {
+    const collectionRef = collection(db, "place_job");
+    const q = query(collectionRef, where("userEmail", "==", user.email));
+    const querySnapshot = await getDocs(q);
+    const documents = [];
+    querySnapshot.forEach((doc) => {
+      documents.push({ id: doc.id, ...doc.data() });
+    });
+    fetchUserData();
+    return documents;
+  } catch (error) {
+    notify("Something Went Wrong");
+    return [];
+  }
+}
 async function getDocByDateAndId(collectionName, targetDate, docId) {
   const user = JSON.parse(localStorage.getItem("userDoc"));
   if (!user) {
@@ -115,7 +135,8 @@ async function getCollection(collectionName) {
 export {
   fetchDocById,
   fetchFrequentAddresses,
-  fetchRecentInvoices,
+  fetchPlace_booking,
+  fetchPlace_job,
   getDocByDateAndId,
   getCollection,
 };

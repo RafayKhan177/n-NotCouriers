@@ -1,4 +1,4 @@
-"use client";
+import React from "react";
 import { Button } from "@mantine/core";
 import {
   Table,
@@ -8,31 +8,34 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Typography,
 } from "@mui/material";
-// import generateAndOpenPDF from "@/api/GeneratePDF";
 
-export default function RecentInvoices({ invoices, viewInvoices }) {
-  //   const template = {
-  //     // ... Your template definition
-  //   };
+export default function RecentInvoices({ place_booking, place_job }) {
+  const handleViewEntry = (row) => {
+    // Implement your handleViewEntry logic
+    console.log("Viewing entry:", row);
+  };
 
-  //   const sampleData = {
-  //     image: "path/to/your/image.jpg",
-  //     date: "2023-11-12",
-  //     jobNo: "12345",
-  //     ref1: "ABC123",
-  //     ref2: "XYZ789",
-  //     from: "Origin City",
-  //     to: "Destination City",
-  //     service: "Express Delivery",
-  //     cost: "$100",
-  //     gst: "$10",
-  //     total: "$110",
-  //   };
-
-  //   const handleViewEntry = (row) => {
-  // generateAndOpenPDF(template, sampleData);
-  //   };
+  const renderTableRow = (row) => (
+    <TableRow key={row.docId}>
+      <TableCell>{row.docId}</TableCell>
+      <TableCell>{row.serviceInformation ? row.serviceInformation.date : row.date}</TableCell>
+      <TableCell>{row.serviceInformation ? row.serviceInformation.time : row.time}</TableCell>
+      <TableCell>{0.0}</TableCell>
+      <TableCell>{0.0}</TableCell>
+      <TableCell>{0.0}</TableCell>
+      <TableCell>
+        <Button
+          variant="light"
+          color="cyan"
+          onClick={() => handleViewEntry(row)}
+        >
+          View This Entry
+        </Button>
+      </TableCell>
+    </TableRow>
+  );
 
   return (
     <TableContainer component={Paper}>
@@ -49,26 +52,8 @@ export default function RecentInvoices({ invoices, viewInvoices }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {invoices &&
-            invoices.map((row, index) => (
-              <TableRow key={index + 1}>
-                <TableCell>{row.docId}</TableCell>
-                <TableCell>{row.serviceInformation.date}</TableCell>
-                <TableCell>{row.serviceInformation.time}</TableCell>
-                <TableCell>{0.0}</TableCell>
-                <TableCell>{0.0}</TableCell>
-                <TableCell>{0.0}</TableCell>
-                <TableCell>
-                  <Button
-                    variant="light"
-                    color="cyan"
-                    onClick={() => handleViewEntry(row)}
-                  >
-                    View This Entry
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
+          {place_booking && place_booking.map(renderTableRow)}
+          {place_job && place_job.map(renderTableRow)}
         </TableBody>
       </Table>
     </TableContainer>
