@@ -1,4 +1,4 @@
-import { Navbar, Footer } from "@/components/Index";
+import { Footer, Header, Navbar } from "@/components/Index";
 import type { Metadata } from "next";
 import { MantineProvider, ColorSchemeScript } from "@mantine/core";
 import "./globals.css";
@@ -7,6 +7,7 @@ import "@mantine/core/styles.css";
 import "@mantine/code-highlight/styles.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import NextTopLoader from "nextjs-toploader";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -30,11 +31,12 @@ export default function RootLayout({
       </head>
       <body>
         <MantineProvider theme={theme}>
-          <Navbar>
-            {children}
-            <Footer />
-            <ToastContainer />
-          </Navbar>
+          <Header />
+          <Navbar />
+          {children}
+          <Footer />
+          <ToastContainer />
+          <NextTopLoader color="#fff" />
         </MantineProvider>
       </body>
     </html>

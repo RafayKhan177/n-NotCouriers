@@ -1,79 +1,90 @@
 "use client";
-import { useDisclosure } from "@mantine/hooks";
-import { AppShell, Burger, Button, Group } from "@mantine/core";
+
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import NextTopLoader from "nextjs-toploader";
-import { useEffect, useState } from "react";
-import { adminPages, userPages, authPages } from "../static";
+import { adminPages, authPages, userPages } from "../static";
+import { Hidden, Menu, MenuItem } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import { Button } from "@mantine/core";
 import Image from "next/image";
-import { Header } from "@/components/Index";
 
-export default function Navbar({ children }) {
-  const [opened, { toggle }] = useDisclosure();
+const Navbar = () => {
+  const userDoc = JSON.parse(localStorage.getItem("userDoc")) || {};
+  const role = userDoc.role || null;
 
-  const [role, setRole] = useState(null);
+  const [userPagesToRender, setUserPagesToRender] = useState([]);
+
   useEffect(() => {
-    const userDoc = JSON.parse(localStorage.getItem("userDoc")) || {};
-    const userRole = userDoc.role || null;
-    setRole(userRole);
-  }, []);
-
-  const pages = {
-    admin: adminPages,
-    user: userPages,
-    auth: authPages,
-  };
-
-  const userPagesToRender = pages[role] || authPages;
+    const pages = {
+      admin: adminPages,
+      user: userPages,
+      auth: authPages,
+    };
+    setUserPagesToRender(pages[role] || authPages);
+  }, [role]);
 
   return (
-    <AppShell
-      header={{ height: 170 }}
-      navbar={{
-        width: 300,
-        breakpoint: "sm",
-        collapsed: { desktop: true, mobile: !opened },
+    <nav
+      style={{
+        display: "flex",
+        justifyContent: "space-around",
+        alignItems: "center",
       }}
-      padding="md"
     >
-      <AppShell.Header>
-        <Header />
-        <Group h="70%" px="md">
-          <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-          <Group justify="space-between" style={{ flex: 1 }} mr={22}>
-            <Image src="/logo.png" width={100} height={100} alt="Logo" />
-            <Group ml="xl" gap={0} visibleFrom="sm">
-              {userPagesToRender.map((val, ind) => (
-                <Link key={ind} href={val.link}>
-                  <Button variant="light" color="red" mr={5}>
-                    {val.label}
-                  </Button>
-                </Link>
-              ))}
-            </Group>
-          </Group>
-        </Group>
-      </AppShell.Header>
+      <Link href="/">
+        <Image src={"/logo.png"} alt="logo" width={120} height={120} />
+      </Link>
+      <Hidden mdDown>
+        <ButtonsSection userPagesToRender={userPagesToRender} />
+      </Hidden>
+      <Hidden mdUp>
+        <MenuSection userPagesToRender={userPagesToRender} />
+      </Hidden>
+    </nav>
+  );
+};
 
-      <AppShell.Navbar py="md" px={4}>
+export default Navbar;
+
+const ButtonsSection = ({ userPagesToRender }) => (
+  <div>
+    {userPagesToRender.map((val, ind) => (
+      <Link key={ind} href={val.link}>
+        <Button variant="light" color="red" style={{margin:"2px"}}>
+          {val.label}
+        </Button>
+      </Link>
+    ))}
+  </div>
+);
+
+const MenuSection = ({ userPagesToRender }) => {
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  return (
+    <>
+      <Button variant="light" color="red" onClick={handleMenuOpen}>
+        <MenuIcon />
+      </Button>
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleMenuClose}
+      >
         {userPagesToRender.map((val, ind) => (
-          <Link key={ind} href={val.link}>
-            <Button
-              style={{ width: "100%", height: "3rem", marginTop: ".5rem" }}
-              variant="light"
-              color="red"
-              mr={5}
-            >
-              {val.label}
-            </Button>
+          <Link style={{ textDecoration: "none" }} key={ind} href={val.link}>
+            <MenuItem style={{color:'grey'}} onClick={handleMenuClose}>{val.label}</MenuItem>
           </Link>
         ))}
-      </AppShell.Navbar>
-
-      <AppShell.Main>
-        {children}
-        <NextTopLoader />
-      </AppShell.Main>
-    </AppShell>
+      </Menu>
+    </>
   );
-}
+};
