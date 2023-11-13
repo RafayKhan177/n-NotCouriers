@@ -132,6 +132,19 @@ async function getCollection(collectionName) {
   }
 }
 
+async function fetchOptions() {
+  const docRef = doc(db, "data", "options");
+  try {
+    const doc = await getDoc(docRef);
+    if (!doc.exists()) {
+      notify("Doc not found.");
+    }
+    return doc.data();
+  } catch (error) {
+    notify("Error fetching Doc:", error);
+  }
+}
+
 export {
   fetchDocById,
   fetchFrequentAddresses,
@@ -139,4 +152,5 @@ export {
   fetchPlace_job,
   getDocByDateAndId,
   getCollection,
+  fetchOptions,
 };
