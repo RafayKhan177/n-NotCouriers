@@ -12,7 +12,8 @@ import Container from "@mui/material/Container";
 import Link from "next/link";
 import { signUpWithEmail } from "../../api/firebase/functions/auth";
 import { useRouter } from "next/navigation";
-import { CAP } from "@/component/Index";
+import { CAP } from "@/components/Index";
+
 
 function Copyright(props) {
   return (
