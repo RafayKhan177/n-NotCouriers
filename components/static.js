@@ -83,7 +83,7 @@ const userPages = [
 
 const authPages = [
   { link: "/Signin", label: "Sign In" },
-  { link: "/Signup", label: "Sign Pp" },
+  { link: "/Signup", label: "Sign Up" },
 ];
 
 const statuses = [
