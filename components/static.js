@@ -65,11 +65,10 @@ const suburbOption = [
 
 const adminPages = [
   { link: "/", label: "Home" },
-  { link: "/ClientServices", label: "Client Services" },
-  { link: "/FrequentAddresses", label: "Frequent Addresses" },
-  { link: "/PlaceTheBooking", label: "Place A Booking" },
-  { link: "/PriceTheJob", label: "Price A Job" },
-  { link: "/RecentInvoices", label: "Recent Invoices" },
+  { link: "/admin/ClientServices", label: "Client Services" },
+  { link: "/admin/MenageInvoices", label: "Menage Invoices" },
+  { link: "/admin/MenageUsers", label: "Menage Users" },
+  { link: "/admin/Services", label: "Menage Services" },
 ];
 
 const userPages = [

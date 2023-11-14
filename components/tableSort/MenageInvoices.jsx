@@ -43,7 +43,10 @@ export default function MenageInvoices({ place_booking, place_job }) {
   );
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer
+      component={Paper}
+      style={{ width: "80%", margin: "2rem auto" }}
+    >
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>

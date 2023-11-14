@@ -20,8 +20,12 @@ export default function RecentInvoices({ place_booking, place_job }) {
   const renderTableRow = (row) => (
     <TableRow key={row.docId}>
       <TableCell>{row.docId}</TableCell>
-      <TableCell>{row.serviceInformation ? row.serviceInformation.date : row.date}</TableCell>
-      <TableCell>{row.serviceInformation ? row.serviceInformation.time : row.time}</TableCell>
+      <TableCell>
+        {row.serviceInformation ? row.serviceInformation.date : row.date}
+      </TableCell>
+      <TableCell>
+        {row.serviceInformation ? row.serviceInformation.time : row.time}
+      </TableCell>
       <TableCell>{0.0}</TableCell>
       <TableCell>{0.0}</TableCell>
       <TableCell>{0.0}</TableCell>
@@ -38,7 +42,10 @@ export default function RecentInvoices({ place_booking, place_job }) {
   );
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer
+      component={Paper}
+      style={{ width: "80%", margin: "2rem auto" }}
+    >
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
