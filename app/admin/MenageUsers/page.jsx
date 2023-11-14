@@ -1,7 +1,7 @@
-"use client"
+"use client";
 import { useState, useEffect } from "react";
 import { getCollection } from "@/api/firebase/functions/fetch";
-import { Users } from "@/components/Index";
+import { Users, Stats } from "@/components/Index";
 
 export default function Page() {
   const [users, setUsers] = useState([]);
@@ -19,5 +19,10 @@ export default function Page() {
     getUsers();
   }, []);
 
-  return <Users users={users} />;
+  return (
+    <>
+      <Stats />
+      <Users users={users} />;
+    </>
+  );
 }

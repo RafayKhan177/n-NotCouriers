@@ -1,5 +1,5 @@
 "use client";
-import { MenageInvoices } from "@/components/Index";
+import { MenageInvoices, Stats } from "@/components/Index";
 import { useEffect, useState } from "react";
 import { getCollection } from "@/api/firebase/functions/fetch";
 
@@ -22,5 +22,10 @@ export default function Page() {
     fetchData();
   }, []);
 
-  return <MenageInvoices place_booking={place_booking} place_job={place_job} />;
+  return (
+    <>
+      <Stats />
+      <MenageInvoices place_booking={place_booking} place_job={place_job} />;
+    </>
+  );
 }

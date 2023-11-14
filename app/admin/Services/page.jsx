@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { fetchOptions } from "@/api/firebase/functions/fetch";
-import { Button, List, ListItem, Typography, TextField } from "@mui/material";
+import { List, ListItem, Typography, TextField } from "@mui/material";
 import { updateDoc } from "@/api/firebase/functions/upload";
+import { Stats } from "@/components/Index";
+import { Button } from "@mantine/core";
 
 export default function Page() {
   const [suburbs, setSuburbs] = useState([]);
@@ -44,50 +46,53 @@ export default function Page() {
   };
 
   return (
-    <div
-      style={{
-        maxWidth: 600,
-        margin: "auto",
-        padding: 16,
-        textAlign: "center",
-      }}
-    >
-      <Typography variant="h4" gutterBottom>
-        Suburbs
-      </Typography>
-      <List style={{ marginTop: 16 }}>
-        {suburbs.map((suburb, index) => (
-          <ListItem
-            key={index}
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Typography>{suburb}</Typography>
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={() => handleRemoveSuburb(index)}
+    <>
+      <Stats />
+      <div
+        style={{
+          maxWidth: 600,
+          margin: "auto",
+          padding: 16,
+          textAlign: "center",
+        }}
+      >
+        <Typography variant="h4" gutterBottom>
+          Suburbs
+        </Typography>
+        <List style={{ marginTop: 16 }}>
+          {suburbs.map((suburb, index) => (
+            <ListItem
+              key={index}
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
             >
-              Remove
-            </Button>
-          </ListItem>
-        ))}
-      </List>
-      <div style={{ display: "flex", alignItems: "center", marginTop: 16 }}>
-        <TextField
-          label="Add Suburb"
-          variant="outlined"
-          value={newSuburb}
-          onChange={(e) => setNewSuburb(e.target.value)}
-          style={{ marginRight: 16 }}
-        />
-        <Button variant="contained" color="primary" onClick={handleAddSuburb}>
-          Save
-        </Button>
+              <Typography>{suburb}</Typography>
+              <Button
+                variant="filled"
+                color="red"
+                onClick={() => handleRemoveSuburb(index)}
+              >
+                Remove
+              </Button>
+            </ListItem>
+          ))}
+        </List>
+        <div style={{ display: "flex", alignItems: "center", marginTop: 16 }}>
+          <TextField
+            label="Add Suburb"
+            variant="outlined"
+            value={newSuburb}
+            onChange={(e) => setNewSuburb(e.target.value)}
+            style={{ marginRight: 16 }}
+          />
+          <Button variant="light" color="red" size="lg" onClick={handleAddSuburb}>
+            Save
+          </Button>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
