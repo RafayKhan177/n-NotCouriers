@@ -1,11 +1,12 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TextField } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Button } from "@mantine/core";
 import { getDocByDateAndId } from "@/api/firebase/functions/fetch";
 import { useRouter } from "next/navigation";
+import { CAP } from "@/components/Index";
 
 export default function Page() {
   const router = useRouter();
@@ -31,6 +32,17 @@ export default function Page() {
       router.push(`/JobInquiry/${result}`);
     }
   };
+
+
+  const [role, setRole] = useState(null);
+  useEffect(() => {
+    const role = (JSON.parse(localStorage.getItem("userDoc")) || {}).role || null;
+    setRole(role)
+  }, []);
+
+  if (role === null) {
+    return <CAP status={"notLoggedIn"} />;
+  } 
 
   return (
     <>

@@ -1,18 +1,19 @@
-"use client"
-import { Container, Group, Anchor } from '@mantine/core';
-import { MantineLogo } from '@mantine/ds';
-import classes from './Footer.module.css';
+"use client";
+import { Container, Group, Anchor } from "@mantine/core";
+import { MantineLogo } from "@mantine/ds";
+import classes from "./Footer.module.css";
+import Image from "next/image";
 
 const links = [
-  { link: '#', label: 'Contact' },
-  { link: '#', label: 'Privacy' },
-  { link: '#', label: 'Blog' },
-  { link: '#', label: 'Careers' },
+  { link: "#", label: "Contact" },
+  { link: "#", label: "Privacy" },
+  { link: "#", label: "Blog" },
+  { link: "#", label: "Careers" },
 ];
 
 export default function Footer() {
   const items = links.map((link) => (
-    <Anchor<'a'>
+    <Anchor<"a">
       c="dimmed"
       key={link.label}
       href={link.link}
@@ -26,7 +27,7 @@ export default function Footer() {
   return (
     <div className={classes.footer}>
       <Container className={classes.inner}>
-        <MantineLogo size={28} />
+        <Image src={"/logo.png"} alt="logo" width={150} height={150} />
         <Group className={classes.links}>{items}</Group>
       </Container>
     </div>

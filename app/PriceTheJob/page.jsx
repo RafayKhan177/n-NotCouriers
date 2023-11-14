@@ -5,7 +5,7 @@ import { Button } from "@mantine/core";
 import { serviceOptions } from "@/components/static";
 import { calculatePrice } from "@/api/priceCalculator";
 import { calculateDistance } from "@/api/distanceCalculator";
-import { PlacesAutocomplete, Checkout } from "@/components/Index";
+import { PlacesAutocomplete, Checkout, CAP } from "@/components/Index";
 import { fetchDocById } from "@/api/firebase/functions/fetch";
 
 export default function Page() {
@@ -87,23 +87,21 @@ export default function Page() {
     }
   };
 
-  const [role, setRole] = useState(null);
-  useEffect(() => {
-    getSuburbs();
-    const role =
-      (JSON.parse(localStorage.getItem("userDoc")) || {}).role || null;
-    setRole(role);
-  }, []);
-
-  if (role === null) {
-    return <p>Please log in</p>;
-  }
-
   const styleField = {
     width: "100%",
     margin: ".8rem 0",
     minWidth: "10rem",
   };
+
+  const [role, setRole] = useState(null);
+  useEffect(() => {
+    const role = (JSON.parse(localStorage.getItem("userDoc")) || {}).role || null;
+    setRole(role)
+  }, []);
+
+  if (role === null) {
+    return <CAP status={"notLoggedIn"} />;
+  } 
 
   return (
     <>

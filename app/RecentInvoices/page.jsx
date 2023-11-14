@@ -4,7 +4,7 @@ import {
   fetchPlace_job,
   fetchPlace_booking,
 } from "../../api/firebase/functions/fetch";
-import { RecentInvoices } from "../../components/Index";
+import { CAP, RecentInvoices } from "@/components/Index";
 
 export default function Page() {
   const [role, setRole] = useState(null);
@@ -24,6 +24,15 @@ export default function Page() {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const role = (JSON.parse(localStorage.getItem("userDoc")) || {}).role || null;
+    setRole(role)
+  }, []);
+
+  if (role === null) {
+    return <CAP status={"notLoggedIn"} />;
+  } 
 
   return <RecentInvoices place_booking={place_booking} place_job={place_job} />;
 }

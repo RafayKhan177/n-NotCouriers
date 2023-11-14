@@ -1,6 +1,6 @@
 "use client";
-import { FrequentAddresses } from "../../components/Index";
-import { fetchFrequentAddresses } from "../../api/firebase/functions/fetch";
+import { CAP, FrequentAddresses } from "@/components/Index";
+import { fetchFrequentAddresses } from "@/api/firebase/functions/fetch";
 import { useEffect, useState } from "react";
 export default function Page() {
   const [address, setAddress] = useState([]);
@@ -28,7 +28,7 @@ export default function Page() {
   }, []);
 
   if (role === null) {
-    return <p>Please log in</p>;
+    return <CAP status={"notLoggedIn"} />;
   } 
   
   return (

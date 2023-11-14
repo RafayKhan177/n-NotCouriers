@@ -3,6 +3,7 @@ import { fetchDocById } from "@/api/firebase/functions/fetch";
 import { InvoicesDetials } from "@/components/Index";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { CAP } from "@/components/Index";
 
 export default function Page() {
   const pathname = usePathname();
@@ -29,6 +30,16 @@ export default function Page() {
     fetchInvoice();
   }, [pathname]);
 
+
+  const [role, setRole] = useState(null);
+  useEffect(() => {
+    const role = (JSON.parse(localStorage.getItem("userDoc")) || {}).role || null;
+    setRole(role)
+  }, []);
+
+  if (role === null) {
+    return <CAP status={"notLoggedIn"} />;
+  } 
   return (
     <div>{invoice ? <InvoicesDetials {...invoice} /> : <p>Loading...</p>}</div>
   );

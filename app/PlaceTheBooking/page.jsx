@@ -8,7 +8,7 @@ import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { DatePicker } from "@mui/x-date-pickers";
 import { postDoc, addFrequentAddress } from "@/api/firebase/functions/upload";
 import { fetchFrequentAddresses } from "@/api/firebase/functions/fetch";
-import { PlacesAutocomplete } from "@/components/Index";
+import { CAP, PlacesAutocomplete } from "@/components/Index";
 import { Button, Divider, div } from "@mantine/core";
 import { serviceOptions, suburbOption } from "@/components/static";
 import { calculateDistance } from "@/api/distanceCalculator";
@@ -167,17 +167,6 @@ export default function Page() {
     }
   };
 
-  const [role, setRole] = useState(null);
-  useEffect(() => {
-    const role =
-      (JSON.parse(localStorage.getItem("userDoc")) || {}).role || null;
-    setRole(role);
-  }, []);
-
-  if (role === null) {
-    return <p>Please log in</p>;
-  }
-
   const styleField = {
     minWidth: "20rem",
     width: "100%",
@@ -196,6 +185,16 @@ export default function Page() {
     width: "23rem",
   };
 
+  const [role, setRole] = useState(null);
+  useEffect(() => {
+    const role = (JSON.parse(localStorage.getItem("userDoc")) || {}).role || null;
+    setRole(role)
+  }, []);
+
+  if (role === null) {
+    return <CAP status={"notLoggedIn"} />;
+  } 
+  
   return (
     <section style={grid}>
       <div style={gridChild}>
