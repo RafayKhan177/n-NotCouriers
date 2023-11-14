@@ -11,12 +11,36 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 
-export default function MenageInvoices({ invoices }) {
+export default function MenageInvoices({ place_booking, place_job }) {
   const router = useRouter();
 
   const handleEdit = (id) => {
     router.push(`/admin/MenageInvoices/${id}`);
   };
+
+  const renderTableRow = (row) => (
+    <TableRow key={row.docId}>
+      <TableCell>{row.docId}</TableCell>
+      <TableCell>
+        {row.serviceInformation ? row.serviceInformation.date : row.date}
+      </TableCell>
+      <TableCell>
+        {row.serviceInformation ? row.serviceInformation.time : row.time}
+      </TableCell>
+      <TableCell>{0.0}</TableCell>
+      <TableCell>{0.0}</TableCell>
+      <TableCell>{0.0}</TableCell>
+      <TableCell>
+        <Button
+          variant="light"
+          color="cyan"
+          onClick={() => handleEdit(row.docId)}
+        >
+          Edit
+        </Button>
+      </TableCell>
+    </TableRow>
+  );
 
   return (
     <TableContainer component={Paper}>
@@ -29,30 +53,12 @@ export default function MenageInvoices({ invoices }) {
             <TableCell>Invoice(Excl)</TableCell>
             <TableCell>GST</TableCell>
             <TableCell>Invoice(Incl)</TableCell>
-            <TableCell>View</TableCell>
+            <TableCell>Edit</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {invoices &&
-            invoices.map((row, index) => (
-              <TableRow key={index + 1}>
-                <TableCell>{row.docId}</TableCell>
-                <TableCell>{row.serviceInformation.date}</TableCell>
-                <TableCell>{row.serviceInformation.time}</TableCell>
-                <TableCell>{0.0}</TableCell>
-                <TableCell>{0.0}</TableCell>
-                <TableCell>{0.0}</TableCell>
-                <TableCell>
-                  <Button
-                    variant="light"
-                    color="cyan"
-                    onClick={() => handleEdit(row.docId)}
-                  >
-                    Edit
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
+          {place_booking && place_booking.map(renderTableRow)}
+          {place_job && place_job.map(renderTableRow)}
         </TableBody>
       </Table>
     </TableContainer>

@@ -20,15 +20,17 @@ const notify = (msg) => toast(msg);
 async function fetchDocById(docId, collectionName) {
   const docRef = doc(db, collectionName, docId);
   try {
-    const doc = await getDoc(docRef);
-    if (!doc.exists()) {
+    const docSnapshot = await getDoc(docRef);
+    if (!docSnapshot.exists()) {
       notify("Doc not found.");
+      return null;
     }
-    return doc.data();
+    return docSnapshot.data();
   } catch (error) {
     notify("Error fetching Doc:", error);
   }
 }
+
 
 async function fetchFrequentAddresses() {
   const user = JSON.parse(localStorage.getItem("userDoc"));

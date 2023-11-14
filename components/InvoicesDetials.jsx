@@ -27,12 +27,7 @@ const renderDetails = (title, details) => (
           >
             {(detail && detail.label) || "something went wrong"}:
           </Text>
-          <Text
-            tt="uppercase"
-            size="lg"
-            fw={500}
-            c={"gray"}
-          >
+          <Text tt="uppercase" size="lg" fw={500} c={"gray"}>
             {(detail && detail.value) || "something went wrong"}
           </Text>
         </div>
@@ -40,18 +35,7 @@ const renderDetails = (title, details) => (
   </div>
 );
 
-const InvoiceDetails = ({
-  distanceData,
-  requestQuote,
-  contact,
-  totalPrice,
-  userEmail,
-  pickupDetails,
-  docId,
-  dropDetails,
-  serviceInformation,
-  progressInformation,
-}) => {
+const InvoiceDetails = (invoice, job) => {
   return (
     <section
       style={{
@@ -75,76 +59,156 @@ const InvoiceDetails = ({
         <Text tt="uppercase" size="xl" fw={900} c={"rgba(59, 58, 58, 1)"}>
           Invoice Details
         </Text>
-
         <div style={{ width: "80%" }}>
-          {renderDetails("Account", [
-            { label: "Contact", value: contact },
-            { label: "Email", value: userEmail },
-            { label: "Order", value: docId },
-          ])}
+          {job === false ? (
+            <>
+              {renderDetails("Account", [
+                { label: "Contact", value: invoice.contact },
+                { label: "Email", value: invoice.userEmail },
+                { label: "Order", value: invoice.docId },
+              ])}
 
-          {renderDetails("Distance Information", [
-            { label: "Duration", value: distanceData.duration.text },
-            { label: "Distance", value: distanceData.distance.text },
-          ])}
+              {renderDetails("Distance Information", [
+                {
+                  label: "Duration",
+                  value: invoice.distanceData.duration.text,
+                },
+                {
+                  label: "Distance",
+                  value: invoice.distanceData.distance.text,
+                },
+              ])}
 
-          {renderDetails("Service Information", [
-            { label: "Service", value: serviceInformation.service },
-            { label: "Weight", value: serviceInformation.weight },
-            { label: "Date Created", value: serviceInformation.date },
-            { label: "Time Created", value: serviceInformation.time },
-            { label: "Cost", value: totalPrice },
-          ])}
+              {renderDetails("Service Information", [
+                { label: "Service", value: invoice.serviceInformation.service },
+                { label: "Weight", value: invoice.serviceInformation.weight },
+                {
+                  label: "Date Created",
+                  value: invoice.serviceInformation.date,
+                },
+                {
+                  label: "Time Created",
+                  value: invoice.serviceInformation.time,
+                },
+                { label: "Cost", value: invoice.totalPrice },
+              ])}
 
-          {renderDetails("Pickup Details", [
-            { label: "Suburb", value: "" }, // Add actual data if needed
-            {
-              label: "Address",
-              value: pickupDetails.selectedOriginDetails.address,
-            },
-            {
-              label: "Special Instruction",
-              value: pickupDetails.pickupGoodsDescription,
-            },
-          ])}
+              {renderDetails("Pickup Details", [
+                { label: "Suburb", value: invoice.pickupDetails.pickupSuburb },
+                {
+                  label: "Address",
+                  value: invoice.pickupDetails.selectedOriginDetails.address,
+                },
+                {
+                  label: "Special Instruction",
+                  value: invoice.pickupDetails.pickupGoodsDescription,
+                },
+              ])}
 
-          {renderDetails("Drop Details", [
-            { label: "Suburb", value: "" }, // Add actual data if needed
-            {
-              label: "Address",
-              value: dropDetails.selectedDestinationDetails.address,
-            },
-            { label: "Drop Reference 1", value: dropDetails.dropReference1 },
-          ])}
+              {renderDetails("Drop Details", [
+                { label: "Suburb", value: invoice.dropDetails.dropSuburb },
+                {
+                  label: "Address",
+                  value: invoice.dropDetails.selectedDestinationDetails.address,
+                },
+                {
+                  label: "Drop Reference 1",
+                  value: invoice.dropDetails.dropReference1,
+                },
+              ])}
 
-          {renderDetails(
-            "Progress Information",
-            progressInformation && [
-              {
-                label: "Booked",
-                value: progressInformation.booked || "unaveilable",
-              },
-              {
-                label: "E.T.D.",
-                value: progressInformation.etd || "unaveilable",
-              },
-              {
-                label: "Allocated",
-                value: progressInformation.allocated || "unaveilable",
-              },
-              {
-                label: "Pick Up",
-                value: progressInformation.pickedup || "unaveilable",
-              },
-              {
-                label: "Delivered",
-                value: progressInformation.delivered || "unaveilable",
-              },
-              {
-                label: "P.O.D.",
-                value: progressInformation.pod || "unaveilable",
-              },
-            ]
+              {renderDetails(
+                "Progress Information",
+                invoice.progressInformation && [
+                  {
+                    label: "Booked",
+                    value: invoice.progressInformation.booked || "unaveilable",
+                  },
+                  {
+                    label: "E.T.D.",
+                    value: invoice.progressInformation.etd || "unaveilable",
+                  },
+                  {
+                    label: "Allocated",
+                    value:
+                      invoice.progressInformation.allocated || "unaveilable",
+                  },
+                  {
+                    label: "Pick Up",
+                    value:
+                      invoice.progressInformation.pickedup || "unaveilable",
+                  },
+                  {
+                    label: "Delivered",
+                    value:
+                      invoice.progressInformation.delivered || "unaveilable",
+                  },
+                  {
+                    label: "P.O.D.",
+                    value: invoice.progressInformation.pod || "unaveilable",
+                  },
+                ]
+              )}
+            </>
+          ) : (
+            <>
+              {renderDetails("Account", [
+                { label: "Email", value: invoice.userEmail },
+                { label: "Order", value: invoice.docId },
+              ])}
+
+              {renderDetails("Distance Information", [
+                {
+                  label: "Duration",
+                  value: invoice.distanceData.duration.text,
+                },
+                {
+                  label: "Distance",
+                  value: invoice.distanceData.distance.text,
+                },
+              ])}
+
+              {renderDetails("Service Information", [
+                { label: "Service", value: invoice.service },
+                { label: "Weight", value: invoice.weight },
+                { label: "Date Created", value: invoice.date },
+                { label: "Time Created", value: invoice.time },
+                { label: "Cost", value: invoice.totalPrice },
+              ])}
+
+              {renderDetails(
+                "Progress Information",
+                invoice.progressInformation && [
+                  {
+                    label: "Booked",
+                    value: invoice.progressInformation.booked || "unaveilable",
+                  },
+                  {
+                    label: "E.T.D.",
+                    value: invoice.progressInformation.etd || "unaveilable",
+                  },
+                  {
+                    label: "Allocated",
+                    value:
+                      invoice.progressInformation.allocated || "unaveilable",
+                  },
+                  {
+                    label: "Pick Up",
+                    value:
+                      invoice.progressInformation.pickedup || "unaveilable",
+                  },
+                  {
+                    label: "Delivered",
+                    value:
+                      invoice.progressInformation.delivered || "unaveilable",
+                  },
+                  {
+                    label: "P.O.D.",
+                    value: invoice.progressInformation.pod || "unaveilable",
+                  },
+                ]
+              )}
+            </>
           )}
         </div>
       </Paper>

@@ -2,16 +2,28 @@
 import { useEffect, useState } from "react";
 import { MenuItem, TextField } from "@mui/material";
 import { Button } from "@mantine/core";
-import { serviceOptions, suburbOption } from "@/components/static";
+import { serviceOptions } from "@/components/static";
 import { calculatePrice } from "@/api/priceCalculator";
 import { calculateDistance } from "@/api/distanceCalculator";
 import { PlacesAutocomplete, Checkout } from "@/components/Index";
+import { fetchDocById } from "@/api/firebase/functions/fetch";
 
 export default function Page() {
   const [selectedDestination, setSelectedDestination] = useState(null);
   const [selectedOrigin, setSelectedOrigin] = useState(null);
   const [show, setShow] = useState(false);
   const [invoiceData, setInvoiceData] = useState([]);
+  const [suburbOptions, setSuburbOptions] = useState([]);
+
+  const getSuburbs = async () => {
+    try {
+      const data = await fetchDocById("options", "data");
+      const suburbs = await data.suburb;
+      setSuburbOptions(suburbs);
+    } catch (error) {
+      console.error("Error fetching suburbs:", error);
+    }
+  };
 
   const [formData, setFormData] = useState({
     pickupSuburb: "",
@@ -77,6 +89,7 @@ export default function Page() {
 
   const [role, setRole] = useState(null);
   useEffect(() => {
+    getSuburbs();
     const role =
       (JSON.parse(localStorage.getItem("userDoc")) || {}).role || null;
     setRole(role);
@@ -115,13 +128,14 @@ export default function Page() {
             helperText="Please select your Suburb"
             variant="outlined"
           >
-            {suburbOption &&
-              suburbOption.map((option, index) => (
-                <MenuItem key={index} value={option.value}>
-                  {option.value}
+            {suburbOptions &&
+              suburbOptions.map((option, index) => (
+                <MenuItem key={index} value={option}>
+                  {option}
                 </MenuItem>
               ))}
           </TextField>
+
           <TextField
             style={styleField}
             name="dropSuburb"
@@ -132,10 +146,10 @@ export default function Page() {
             helperText="Please select your Suburb"
             variant="outlined"
           >
-            {suburbOption &&
-              suburbOption.map((option, index) => (
-                <MenuItem key={index} value={option.value}>
-                  {option.value}
+            {suburbOptions &&
+              suburbOptions.map((option, index) => (
+                <MenuItem key={index} value={option}>
+                  {option}
                 </MenuItem>
               ))}
           </TextField>

@@ -49,6 +49,7 @@ async function updateDoc(collectionName, docId, data) {
     notify(`Updated Successfully`);
     return true;
   } catch (error) {
+    console.log(error)
     notify(`Something Went Wrong`);
     return false;
   }

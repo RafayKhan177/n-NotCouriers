@@ -6,26 +6,26 @@ import { InvoicesDetials } from "@/components/Index";
 import { format } from "date-fns";
 import { updateDoc } from "@/api/firebase/functions/upload";
 import { Button, Text } from "@mantine/core";
-
-const statuses = [
-  { val: "booked", status: "Booked" },
-  { val: "etd", status: "E.T.D." },
-  { val: "allocated", status: "Allocated" },
-  { val: "pickedup", status: "Pick Up" },
-  { val: "delivered", status: "Delivered" },
-  { val: "pod", status: "P.O.D." },
-];
+import { statuses } from "@/components/static";
 
 export default function Page() {
   const pathname = usePathname();
   const [invoice, setInvoice] = useState(null);
+  const [job, setJob] = useState(false);
 
   useEffect(() => {
     const fetchInvoice = async () => {
       const match = pathname && pathname.match(/\/([^/]+)$/);
       const id = match && match[1];
+
       if (id) {
-        const data = await fetchDocById(id, "place_bookings");
+        let data = await fetchDocById(id, "place_bookings");
+
+        if (!data) {
+          data = await fetchDocById(id, "place_job");
+          setJob(true);
+        }
+
         setInvoice(data);
       }
     };
@@ -48,8 +48,11 @@ export default function Page() {
         [currentStatus]: currentDate,
       },
     };
+
+    setInvoice(data);
+
     const updatedInvoice = await updateDoc(
-      "place_bookings",
+      job === true ? "place_job" : "place_bookings",
       invoice.docId,
       data
     );
@@ -60,7 +63,11 @@ export default function Page() {
     <div>
       {invoice ? (
         <>
-          <InvoicesDetials {...invoice} />
+          {job === true ? (
+            <InvoicesDetials {...invoice} job={true} />
+          ) : (
+            <InvoicesDetials {...invoice} />
+          )}
           <div>
             <Text tt="uppercase" size="lg" fw={500} c={"gray"}>
               Change Status:
