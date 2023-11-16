@@ -30,6 +30,7 @@ async function signUpWithEmail(email, password, userData) {
     );
     const user = userCredential.user;
     await saveUserDataToUserDoc(email, userData);
+    window.location.href = "https://n-not-couriers.vercel.app/Signin";
     notify("Sign up successful!");
     return true;
   } catch (error) {
@@ -51,6 +52,7 @@ async function signInWithEmail(email, password) {
     await saveUserDataToUserDoc(email, userData);
     localStorage.setItem("user", JSON.stringify(user));
     await fetchUserData();
+    window.location.href = "https://n-not-couriers.vercel.app/";
     notify("Sign in successful!");
     return true;
   } catch (error) {
@@ -108,10 +110,11 @@ const userRole = () => {
   }
 };
 
-const logout = () => {
+const logout = async () => {
   try {
-    localStorage.removeItem("user");
-    localStorage.removeItem("userDoc");
+    await localStorage.removeItem("user");
+    await localStorage.removeItem("userDoc");
+    window.location.href = "https://n-not-couriers.vercel.app/Signin";
     notify("Logout Succesfully");
     return true;
   } catch (error) {
