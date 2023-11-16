@@ -11,7 +11,7 @@ import { fetchDocById } from "@/api/firebase/functions/fetch";
 export default function Page() {
   const [selectedDestination, setSelectedDestination] = useState(null);
   const [selectedOrigin, setSelectedOrigin] = useState(null);
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(true);
   const [invoiceData, setInvoiceData] = useState([]);
   const [suburbOptions, setSuburbOptions] = useState([]);
 

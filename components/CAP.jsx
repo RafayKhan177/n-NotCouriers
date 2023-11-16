@@ -20,6 +20,8 @@ const CAP = ({ status }) => {
 
   const logoStyle = {
     marginBottom: "15px",
+    height: "60%",
+    width: "100%",
   };
 
   let message = "";
@@ -35,12 +37,12 @@ const CAP = ({ status }) => {
     case "notAdmin":
       message = "You are not an admin. Only admins can access this feature.";
       loginButtonVariant = "light";
-      signupButtonVariant = "light";
+      signupButtonVariant = "filled";
       break;
     case "alreadyLoggedIn":
       message = "You are already logged in.";
+      signupButtonVariant = "filled";
       loginButtonVariant = "light";
-      signupButtonVariant = "light";
       homeButton = (
         <Link href="/" passHref>
           <Button variant="filled" color="lime">
@@ -59,10 +61,10 @@ const CAP = ({ status }) => {
     <div style={containerStyle}>
       <div style={paperStyle}>
         <Image
-          src="/logo.png"
+          src="/business-man-depressed-stressed-watching-decrease-graph-stock-financial-trade-market-diagram_1150-39760.jpg"
           alt="Logo"
-          width={300}
-          height={300}
+          width={600}
+          height={600}
           style={logoStyle}
         />
         <h1 style={{ color: "#333333" }}>Welcome to Jet Couriers!</h1>
@@ -70,12 +72,16 @@ const CAP = ({ status }) => {
         {status !== "notAdmin" && (
           <>
             {homeButton}
-            <Link href="/Signin" >
-              <Button variant={loginButtonVariant} style={{margin:'0 1rem'}} color="red">
+            <Link href="/Signin">
+              <Button
+                variant={loginButtonVariant}
+                style={{ margin: "0 1rem" }}
+                color="red"
+              >
                 Log In
               </Button>
             </Link>
-            <Link href="/Signup" >
+            <Link href="/Signup">
               <Button variant={signupButtonVariant} color="red">
                 Sign Up
               </Button>
