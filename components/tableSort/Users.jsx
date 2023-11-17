@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { TextField, InputAdornment } from "@mui/material";
+import { TextField, InputAdornment, MenuItem, Select } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import {
   Table,
@@ -12,6 +12,13 @@ import {
   Paper,
 } from "@mui/material";
 import { Button } from "@mantine/core";
+import { updateDoc } from "@/api/firebase/functions/upload";
+
+const roleOptions = [
+  { value: "admin", label: "Admin" },
+  { value: "moderator", label: "Moderator" },
+  { value: "user", label: "User" },
+];
 
 export default function Users({ users }) {
   const [searchTerm, setSearchTerm] = useState("");
@@ -25,6 +32,16 @@ export default function Users({ users }) {
       user.email.toLowerCase().includes(term.toLowerCase())
     );
     setFilteredUsers(filtered);
+  };
+
+  const handleStatusChange = async (event, index) => {
+    const selectedRole = event.target.value;
+    const updatedUsers = [...filteredUsers];
+    const changedUser = updatedUsers[index]; // Get the user that is being changed
+    changedUser.role = selectedRole;
+    setFilteredUsers(updatedUsers);
+    await updateDoc("users", changedUser.email, changedUser);
+    console.log("User Info:", changedUser);
   };
 
   return (
@@ -51,11 +68,11 @@ export default function Users({ users }) {
           <TableHead>
             <TableRow>
               <TableCell>No</TableCell>
-              <TableCell>Role</TableCell>
               <TableCell>Full Name</TableCell>
               <TableCell>Email</TableCell>
               <TableCell>All Addresses</TableCell>
               <TableCell>View</TableCell>
+              <TableCell>Role</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -66,7 +83,6 @@ export default function Users({ users }) {
                 return (
                   <TableRow key={index + 1}>
                     <TableCell>{index + 1}</TableCell>
-                    <TableCell>{role}</TableCell>
                     <TableCell>{`${firstName} ${lastName}`}</TableCell>
                     <TableCell>{email}</TableCell>
                     <TableCell>
@@ -80,6 +96,35 @@ export default function Users({ users }) {
                       >
                         Password
                       </Button>
+                    </TableCell>
+                    <TableCell>
+                      <Select
+                        value={role}
+                        onChange={(event) => handleStatusChange(event, index)}
+                        style={{
+                          width: "100%",
+                          height: 36,
+                          backgroundColor: "#7A04DD",
+                          borderRadius: 4,
+                          color: "#fff",
+                        }}
+                      >
+                        {roleOptions.map((option) => (
+                          <MenuItem
+                            key={option.value}
+                            style={{
+                              backgroundColor: "#7A04DD",
+                              padding: 15,
+                              color: "#fff",
+                              borderRadius: 10,
+                              margin: 5,
+                            }}
+                            value={option.value}
+                          >
+                            {option.label}
+                          </MenuItem>
+                        ))}
+                      </Select>
                     </TableCell>
                   </TableRow>
                 );
