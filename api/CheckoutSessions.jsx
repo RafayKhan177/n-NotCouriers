@@ -20,10 +20,9 @@ export default async function CheckoutSessions(data) {
         },
       ],
       mode: "payment",
-      success_url: "https://example.com/success",
-      cancel_url: "https://example.com/cancel",
+      success_url: `http://127.0.0.1:3000/payment/success?${data.docID}`,
+      cancel_url: `http://127.0.0.1:3000/payment/cancel?${data.docID}`,
     });
-    window.location.href = session.url;
     return {
       sessionId: session.id,
       url: session.url,
