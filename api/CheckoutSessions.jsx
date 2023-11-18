@@ -5,7 +5,7 @@ const STRIPE_KEY =
 
 const stripe = new Stripe(STRIPE_KEY);
 
-export default async function CheckoutSessions(data) {
+export default async function CheckoutSessions({ totalPrice, docId }) {
   try {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -14,21 +14,21 @@ export default async function CheckoutSessions(data) {
           price_data: {
             currency: "usd",
             product: "prod_P0yhyiTzbZLWrC",
-            unit_amount: 5000,
+            unit_amount: totalPrice * 100,
           },
           quantity: 1,
         },
       ],
       mode: "payment",
-      success_url: `http://127.0.0.1:3000/payment/success?${data.docID}`,
-      cancel_url: `http://127.0.0.1:3000/payment/cancel?${data.docID}`,
+      success_url: `http://127.0.0.1:3000/payment/success/${docId}`,
+      cancel_url: `http://127.0.0.1:3000/payment/cancel/${docId}`,
     });
     return {
       sessionId: session.id,
       url: session.url,
     };
   } catch (error) {
-    console.error("Error fetching data:", error);
+    console.error("Error fetching invoice:", error);
     return {
       error: "Internal Server Error",
     };

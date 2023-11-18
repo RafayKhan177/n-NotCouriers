@@ -11,7 +11,7 @@ import { fetchDocById } from "@/api/firebase/functions/fetch";
 export default function Page() {
   const [selectedDestination, setSelectedDestination] = useState(null);
   const [selectedOrigin, setSelectedOrigin] = useState(null);
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
   const [invoiceData, setInvoiceData] = useState([]);
   const [suburbOptions, setSuburbOptions] = useState([]);
 
@@ -95,13 +95,15 @@ export default function Page() {
 
   const [role, setRole] = useState(null);
   useEffect(() => {
-    const role = (JSON.parse(localStorage.getItem("userDoc")) || {}).role || null;
-    setRole(role)
+    const role =
+      (JSON.parse(localStorage.getItem("userDoc")) || {}).role || null;
+    setRole(role);
+    getSuburbs();
   }, []);
 
   if (role === null) {
     return <CAP status={"notLoggedIn"} />;
-  } 
+  }
 
   return (
     <>

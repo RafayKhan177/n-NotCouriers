@@ -11,8 +11,8 @@ export default function Page() {
         const url = new URL(window.location.href);
         const id = url.pathname.split("/").pop();
         const data = await fetchDocById(id, "place_job");
-        console.log(data);
         await updateDoc("place_job", id, { ...data, payment: "paid" });
+        window.location.href = "/";
       } catch (error) {
         console.error("Dastiyab ya update karne mein koi ghalati:", error);
       }
@@ -22,6 +22,8 @@ export default function Page() {
   }, []);
 
   return (
-    <div><p>working</p></div>
+    <div>
+      <p>working</p>
+    </div>
   );
 }

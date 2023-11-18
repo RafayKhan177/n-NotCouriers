@@ -31,7 +31,7 @@ async function postDoc(data, collectionName) {
     };
     await updateDoc(collectionName, docRef.id, updatedData);
     notify(`Invoice Posted Successfully`);
-    return docRef;
+    return docRef.id;
   } catch (error) {
     notify(`Something Went Wrong`);
     return null;
