@@ -5,6 +5,7 @@ import {
   getDoc,
   getDocs,
   getFirestore,
+  orderBy,
   query,
   where,
 } from "firebase/firestore";
@@ -13,7 +14,7 @@ import { toast } from "react-toastify";
 import { fetchUserData } from "./auth";
 
 const auth = getAuth(app);
-const db = getFirestore();
+const db = getFirestore(app);
 
 const notify = (msg) => toast(msg);
 
@@ -30,7 +31,6 @@ async function fetchDocById(docId, collectionName) {
     notify("Error fetching Doc:", error);
   }
 }
-
 
 async function fetchFrequentAddresses() {
   const user = JSON.parse(localStorage.getItem("userDoc"));
@@ -147,6 +147,39 @@ async function fetchOptions() {
   }
 }
 
+async function getBookingsBetweenDates(
+  fromDateString,
+  toDateString,
+  reference
+) {
+  try {
+    const collectionRef = collection(db, "place_bookings");
+    const q = query(
+      collectionRef,
+      where("serviceInformation.date", ">=", fromDateString),
+      where("serviceInformation.date", "<=", toDateString),
+      where("dropDetails.dropReference1", "==", reference)
+    );
+
+    const querySnapshot = await getDocs(q);
+    const docs = [];
+
+    querySnapshot.forEach((doc) => {
+      const docData = doc.data();
+      docs.push(docData);
+      console.log("Document data:", docData);
+    });
+
+    console.log(docs);
+
+    return docs;
+  } catch (error) {
+    console.error("Error:", error);
+    notify(`Something Went Wrong`);
+    return null;
+  }
+}
+
 export {
   fetchDocById,
   fetchFrequentAddresses,
@@ -155,4 +188,5 @@ export {
   getDocByDateAndId,
   getCollection,
   fetchOptions,
+  getBookingsBetweenDates,
 };

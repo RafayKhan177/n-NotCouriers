@@ -33,7 +33,7 @@ export default function RootLayout({
         <MantineProvider theme={theme}>
           <Header />
           <Navbar />
-          {children}
+          <div style={{ minHeight: "70vh" }}>{children}</div>
           <Footer />
           <ToastContainer />
           <NextTopLoader color="#fff" />

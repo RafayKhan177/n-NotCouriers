@@ -82,14 +82,12 @@ export default function Page() {
     try {
       const requiredFields = [
         "contact",
-        "pickupFrequentAddress",
         "pickupGoodsDescription",
         "service",
         "date",
         "time",
         "pieces",
         "weight",
-        "dropFrequentAddress",
         "dropSuburb",
         "pickupSuburb",
       ];

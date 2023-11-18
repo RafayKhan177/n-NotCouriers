@@ -6,6 +6,7 @@ import {
   updateDoc as firestoreUpdateDoc,
   getDoc,
   deleteDoc,
+  getDocs,
 } from "firebase/firestore";
 import { app } from "../config";
 import { toast } from "react-toastify";
@@ -50,7 +51,7 @@ async function updateDoc(collectionName, docId, data) {
     notify(`Updated Successfully`);
     return true;
   } catch (error) {
-    console.log(error)
+    console.log(error);
     notify(`Something Went Wrong`);
     return false;
   }
@@ -107,7 +108,7 @@ async function updateFrequentAddress(modifiedAddresses) {
 }
 
 async function deleteDocument(collectionName, docId) {
-  const user = JSON.parse(localStorage.getItem('userDoc'));
+  const user = JSON.parse(localStorage.getItem("userDoc"));
   if (!user) {
     notify("You're not logged in");
     return null;
@@ -118,9 +119,14 @@ async function deleteDocument(collectionName, docId) {
     await deleteDoc(collectionRef);
     notify(`Document Deleted Successfully`);
   } catch (error) {
-    console.error('Error deleting document:', error);
+    console.error("Error deleting document:", error);
     notify(`Something Went Wrong`);
   }
 }
-
-export { updateDoc, postDoc, addFrequentAddress, updateFrequentAddress, deleteDocument };
+export {
+  updateDoc,
+  postDoc,
+  addFrequentAddress,
+  updateFrequentAddress,
+  deleteDocument,
+};
