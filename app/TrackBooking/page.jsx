@@ -1,12 +1,11 @@
 "use client";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useState } from "react";
 import { TextField, Grid } from "@mui/material";
 import { Button } from "@mantine/core";
 import { getBookingsBetweenDates } from "@/api/firebase/functions/fetch";
 import { BookingsQuery } from "@/components/Index";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 const styleField = {
   width: "16rem",
