@@ -7,9 +7,12 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { DatePicker } from "@mui/x-date-pickers";
 import { postDoc, addFrequentAddress } from "@/api/firebase/functions/upload";
-import { fetchDocById, fetchFrequentAddresses } from "@/api/firebase/functions/fetch";
+import {
+  fetchDocById,
+  fetchFrequentAddresses,
+} from "@/api/firebase/functions/fetch";
 import { CAP, PlacesAutocomplete } from "@/components/Index";
-import { Button, Divider, div } from "@mantine/core";
+import { Button, Divider } from "@mantine/core";
 import { serviceOptions } from "@/components/static";
 import { calculateDistance } from "@/api/distanceCalculator";
 import { calculatePrice } from "@/api/priceCalculator";
@@ -46,7 +49,7 @@ export default function Page() {
   };
   const [formData, setFormData] = useState(initialFormData);
   const [suburbOptions, setSuburbOptions] = useState([]);
-  console.log(suburbOptions)
+  console.log(suburbOptions);
   const [frequentAddresses, setFrequentAddresses] = useState([]);
   const [selectedDestination, setSelectedDestination] = useState(null);
   const [selectedOrigin, setselectedOrigin] = useState(null);
