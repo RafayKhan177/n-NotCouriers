@@ -15,3 +15,4 @@ export { default as BookingsQuery } from "./tableSort/BookingsQuery";
 export { default as CAP } from "./CAP";
 export { default as Checkout } from "./Checkout";
 export { default as Stats } from "./stats/Stats";
+export { default as Loader } from "./Loading";
