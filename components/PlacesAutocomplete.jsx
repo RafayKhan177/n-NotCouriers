@@ -16,20 +16,22 @@ export default function PlacesAutocomplete({ onLocationSelect }) {
   };
 
   return (
-    <div style={{ backgroundColor: "#fff" }}>
-      <GooglePlacesAutocomplete
-        style={{ backgroundColor: "#fff" }}
-        apiKey={apiKey}
-        autocompletionRequest={{
-          componentRestrictions: { country: "AU" },
-        }}
-        selectProps={{
-          onChange: handleLocationSelect,
-        }}
-      />
+    <div style={{ background: "#fff" }}>
+      <div style={{ position: "absolute", width: "16rem", background: "#fff" }}>
+        <GooglePlacesAutocomplete
+          apiKey={apiKey}
+          autocompletionRequest={{
+            componentRestrictions: { country: "AU" },
+          }}
+          selectProps={{
+            onChange: handleLocationSelect,
+          }}
+        />
+      </div>
+      <p>...</p>
       <p
         style={{
-          fontWeight: 500,
+          fontWeight: 400,
           fontSize: "10px",
           marginLeft: "1rem",
           color: "gray",
@@ -37,7 +39,7 @@ export default function PlacesAutocomplete({ onLocationSelect }) {
       >
         Select Your Address
       </p>
-      <Divider style={{ margin: "1rem" }} />
+      {/* <Divider style={{ margin: "1rem" }} /> */}
     </div>
   );
 }

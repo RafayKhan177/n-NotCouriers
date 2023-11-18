@@ -173,7 +173,7 @@ export default function Page() {
 
   const styleField = {
     minWidth: "20rem",
-    width: "100%",
+    width: "70%",
     margin: ".8rem 0",
     minWidth: "10rem",
   };
@@ -187,6 +187,9 @@ export default function Page() {
 
   const gridChild = {
     width: "23rem",
+    display: "flex",
+    justifyContent: "center",
+    flexDirection: "column",
   };
 
   const [user, setUser] = useState(null);
@@ -226,7 +229,7 @@ export default function Page() {
             name="pickupFrequentAddress"
             select
             label="Frequent Address"
-            helperText="Please select your address"
+            helperText="Select address or address enter below"
             variant="outlined"
             value={formData.pickupFrequentAddress}
             onChange={handleChange}
@@ -238,6 +241,8 @@ export default function Page() {
                 </MenuItem>
               ))}
           </TextField>
+
+          <PlacesAutocomplete onLocationSelect={handleDestination} />
 
           <TextField
             style={styleField}
@@ -256,8 +261,6 @@ export default function Page() {
                 </MenuItem>
               ))}
           </TextField>
-
-          <PlacesAutocomplete onLocationSelect={handleDestination} />
 
           <TextField
             style={styleField}
@@ -296,7 +299,7 @@ export default function Page() {
 
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
-              label="Date picker"
+              label="Date"
               value={formData.date}
               onChange={handleDateChange}
             />
@@ -305,7 +308,7 @@ export default function Page() {
             </p>
             <TimePicker
               style={{ margin: "1rem 0" }}
-              label="Time picker"
+              label="Time"
               value={formData.time}
               onChange={handleTimeChange}
             />
@@ -337,7 +340,7 @@ export default function Page() {
             name="dropFrequentAddress"
             select
             label="Frequent Address"
-            helperText="Please select your address"
+            helperText="Select address or address enter below"
             variant="outlined"
             value={formData.dropFrequentAddress}
             onChange={handleChange}
@@ -349,6 +352,8 @@ export default function Page() {
                 </MenuItem>
               ))}
           </TextField>
+
+          <PlacesAutocomplete onLocationSelect={handleOrigin} />
 
           <TextField
             style={styleField}
@@ -368,8 +373,6 @@ export default function Page() {
               ))}
           </TextField>
 
-          <PlacesAutocomplete onLocationSelect={handleOrigin} />
-
           <TextField
             style={styleField}
             name="dropReference1"
@@ -380,7 +383,10 @@ export default function Page() {
             onChange={handleChange}
           />
         </div>
-        <Button variant="filled" color="red" onClick={submit}>
+      </div>
+
+      <div style={gridChild}>
+        <Button variant="filled" mt={10} color="red" onClick={submit}>
           Book Job
         </Button>
       </div>
