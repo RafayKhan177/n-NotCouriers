@@ -2,10 +2,10 @@
 
 import React, { useEffect, useState } from "react";
 import { MenuItem, TextField } from "@mui/material";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
-import { DatePicker } from "@mui/x-date-pickers";
 import { postDoc, addFrequentAddress } from "@/api/firebase/functions/upload";
 import {
   fetchDocById,
@@ -49,7 +49,6 @@ export default function Page() {
   };
   const [formData, setFormData] = useState(initialFormData);
   const [suburbOptions, setSuburbOptions] = useState([]);
-  console.log(suburbOptions);
   const [frequentAddresses, setFrequentAddresses] = useState([]);
   const [selectedDestination, setSelectedDestination] = useState(null);
   const [selectedOrigin, setselectedOrigin] = useState(null);
@@ -298,7 +297,7 @@ export default function Page() {
 
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
-              label="Basic date picker"
+              label="Date picker"
               value={formData.date}
               onChange={handleDateChange}
             />
@@ -307,7 +306,7 @@ export default function Page() {
             </p>
             <TimePicker
               style={{ margin: "1rem 0" }}
-              label="Basic time picker"
+              label="Time picker"
               value={formData.time}
               onChange={handleTimeChange}
             />

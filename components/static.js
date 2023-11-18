@@ -64,7 +64,6 @@ const suburbOption = [
 ];
 
 const adminPages = [
-  { link: "/", label: "Home" },
   { link: "/ClientServices", label: "Client Services" },
   { link: "/admin/MenageInvoices", label: "Menage Invoices" },
   { link: "/admin/MenageUsers", label: "Menage Users" },
@@ -72,7 +71,6 @@ const adminPages = [
 ];
 
 const userPages = [
-  { link: "/", label: "Home" },
   { link: "/ClientServices", label: "Client Services" },
   { link: "/FrequentAddresses", label: "Frequent Addresses" },
   { link: "/PlaceTheBooking", label: "Place A Booking" },
