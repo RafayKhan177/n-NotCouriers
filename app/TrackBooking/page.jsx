@@ -6,6 +6,7 @@ import { getBookingsBetweenDates } from "@/api/firebase/functions/fetch";
 import { BookingsQuery } from "@/components/Index";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import Link from "next/link";
 
 const styleField = {
   width: "16rem",
@@ -16,6 +17,7 @@ const containerStyle = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
+  width: "100%",
 };
 
 export default function Page() {
@@ -101,6 +103,17 @@ export default function Page() {
               >
                 Run Query
               </Button>
+              <Link href="/ClientServices" style={{ textDecoration: "none" }}>
+                <Button
+                  style={styleField}
+                  variant="filled"
+                  mt={10}
+                  color="red"
+                  size="lg"
+                >
+                  Client Services
+                </Button>
+              </Link>
             </Grid>
           </Grid>
         </>

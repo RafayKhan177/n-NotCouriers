@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TextField, InputAdornment, MenuItem, Select } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import {
@@ -16,13 +16,17 @@ import { updateDoc } from "@/api/firebase/functions/upload";
 
 const roleOptions = [
   { value: "admin", label: "Admin" },
-  { value: "moderator", label: "Moderator" },
+  { value: "business", label: "business" },
   { value: "user", label: "User" },
 ];
 
 export default function Users({ users }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredUsers, setFilteredUsers] = useState(users);
+
+  useEffect(() => {
+    setFilteredUsers(users);
+  }, [users]);
 
   const handleSearchChange = (event) => {
     const term = event.target.value;
@@ -37,7 +41,7 @@ export default function Users({ users }) {
   const handleStatusChange = async (event, index) => {
     const selectedRole = event.target.value;
     const updatedUsers = [...filteredUsers];
-    const changedUser = updatedUsers[index]; // Get the user that is being changed
+    const changedUser = updatedUsers[index];
     changedUser.role = selectedRole;
     setFilteredUsers(updatedUsers);
     await updateDoc("users", changedUser.email, changedUser);
@@ -104,7 +108,7 @@ export default function Users({ users }) {
                         style={{
                           width: "100%",
                           height: 36,
-                          backgroundColor: "#7A04DD",
+                          backgroundColor: "#339af0",
                           borderRadius: 4,
                           color: "#fff",
                         }}
@@ -113,7 +117,7 @@ export default function Users({ users }) {
                           <MenuItem
                             key={option.value}
                             style={{
-                              backgroundColor: "#7A04DD",
+                              backgroundColor: "#339af0",
                               padding: 15,
                               color: "#fff",
                               borderRadius: 10,

@@ -7,8 +7,10 @@ import { calculatePrice } from "@/api/priceCalculator";
 import { calculateDistance } from "@/api/distanceCalculator";
 import { PlacesAutocomplete, Checkout, CAP } from "@/components/Index";
 import { fetchDocById } from "@/api/firebase/functions/fetch";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
+  const nav = useRouter();
   const [selectedDestination, setSelectedDestination] = useState(null);
   const [selectedOrigin, setSelectedOrigin] = useState(null);
   const [show, setShow] = useState(false);
@@ -49,7 +51,6 @@ export default function Page() {
   const handleHide = () => {
     setShow(false);
   };
-
   const handleSubmit = async () => {
     try {
       const { pickupSuburb, dropSuburb, service, pieces, weight } = formData;
@@ -64,6 +65,14 @@ export default function Page() {
             selectedDestination
           );
           const distanceData = distance.rows[0].elements[0];
+
+          // Add current date and time
+          const currentDate = new Date();
+          const formattedDate = `${currentDate.getDate()}/${
+            currentDate.getMonth() + 1
+          }/${currentDate.getFullYear()}`;
+          const formattedTime = `${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
+
           const data = {
             distanceData,
             pickupSuburb,
@@ -73,6 +82,8 @@ export default function Page() {
             weight,
             selectedOrigin,
             selectedDestination,
+            date: formattedDate,
+            time: formattedTime,
           };
 
           const invoice = await calculatePrice(data);
@@ -110,12 +121,15 @@ export default function Page() {
       {show === true ? (
         <Checkout invoice={invoiceData} handleHide={handleHide} />
       ) : (
-        <div className="container" style={{ margin: "8rem 20%" }}>
+        <div style={{ margin: "8rem 20%", width: "60vw" }}>
           <h1>Price A Job</h1>
           <div style={styleField}>
-            <PlacesAutocomplete onLocationSelect={handleOrigin} />
+            <PlacesAutocomplete onLocationSelect={handleOrigin} width={true} />
             <br />
-            <PlacesAutocomplete onLocationSelect={handleDestination} />
+            <PlacesAutocomplete
+              onLocationSelect={handleDestination}
+              width={true}
+            />
           </div>
 
           <TextField
@@ -194,24 +208,24 @@ export default function Page() {
             style={{ display: "flex", flexDirection: "column", width: "100%" }}
           >
             <Button
-              size="lg"
               color="red"
-              className="btn"
-              variant="filled"
-              onClick={handleSubmit}
-            >
-              Price A Job
-            </Button>
-            <Button
-              size="lg"
-              color="red"
-              className="btn"
+              mt={3}
               variant="filled"
               onClick={() => setFormData({})}
             >
-              Clear
+              Clear Form
             </Button>
-            <Button size="lg" color="red" className="btn" variant="filled">
+            <Button color="red" mt={3} variant="filled" onClick={handleSubmit}>
+              Price A Job
+            </Button>
+            <Button
+              onClick={() => {
+                nav.push("/ClientServices");
+              }}
+              color="red"
+              mt={3}
+              variant="filled"
+            >
               Client Service
             </Button>
           </div>

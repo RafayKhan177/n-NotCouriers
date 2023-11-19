@@ -5,7 +5,7 @@ import GooglePlacesAutocomplete, {
   getLatLng,
 } from "react-google-places-autocomplete";
 
-export default function PlacesAutocomplete({ onLocationSelect }) {
+export default function PlacesAutocomplete({ onLocationSelect, width }) {
   const apiKey = "AIzaSyBhY9LbIHmQUmjDsSfqYjRORMiiK133u1Y";
 
   const handleLocationSelect = async (selected) => {
@@ -17,7 +17,15 @@ export default function PlacesAutocomplete({ onLocationSelect }) {
 
   return (
     <div style={{ background: "#fff" }}>
-      <div style={{ position: "absolute", width: "16rem", background: "#fff" }}>
+      <div
+        style={{
+          width:
+            width === false || width === undefined || width === null
+              ? "16rem"
+              : "100%",
+          background: "#fff",
+        }}
+      >
         <GooglePlacesAutocomplete
           apiKey={apiKey}
           autocompletionRequest={{
@@ -28,7 +36,7 @@ export default function PlacesAutocomplete({ onLocationSelect }) {
           }}
         />
       </div>
-      <p>...</p>
+      <Divider style={{ marginTop: ".4rem" }} />
       <p
         style={{
           fontWeight: 400,

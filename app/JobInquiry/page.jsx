@@ -7,6 +7,7 @@ import { Button } from "@mantine/core";
 import { getDocByDateAndId } from "@/api/firebase/functions/fetch";
 import { useRouter } from "next/navigation";
 import { CAP } from "@/components/Index";
+import Link from "next/link";
 
 export default function Page() {
   const router = useRouter();
@@ -33,19 +34,33 @@ export default function Page() {
     }
   };
 
+  const styleField = {
+    width: "16rem",
+  };
+
+  const containerStyle = {
+    marginTop: "5rem",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    flexDirection: "column",
+    gap: "1rem",
+  };
 
   const [role, setRole] = useState(null);
   useEffect(() => {
-    const role = (JSON.parse(localStorage.getItem("userDoc")) || {}).role || null;
-    setRole(role)
+    const role =
+      (JSON.parse(localStorage.getItem("userDoc")) || {}).role || null;
+    setRole(role);
   }, []);
 
   if (role === null) {
     return <CAP status={"notLoggedIn"} />;
-  } 
+  }
 
   return (
-    <>
+    <section style={containerStyle}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker
           label="Basic date picker"
@@ -54,6 +69,7 @@ export default function Page() {
         />
       </LocalizationProvider>
       <TextField
+        style={styleField}
         name="orderNo"
         label="Job Number"
         multiline
@@ -61,9 +77,25 @@ export default function Page() {
         value={formData.orderNo}
         onChange={(e) => setFormData({ ...formData, orderNo: e.target.value })}
       />
-      <Button variant="filled" color="red" onClick={handleSubmit}>
+      <Button
+        style={styleField}
+        variant="filled"
+        color="red"
+        onClick={handleSubmit}
+      >
         RUN QUERY
       </Button>
-    </>
+      <Link href="/ClientServices" style={{ textDecoration: "none" }}>
+        <Button
+          style={styleField}
+          variant="filled"
+          mt={10}
+          color="red"
+          size="md"
+        >
+          Client Services
+        </Button>
+      </Link>
+    </section>
   );
 }
