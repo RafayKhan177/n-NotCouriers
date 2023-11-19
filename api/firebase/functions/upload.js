@@ -30,7 +30,7 @@ async function postDoc(data, collectionName) {
       userEmail: user.email,
     };
     await updateDoc(collectionName, docRef.id, updatedData);
-    notify(`Invoice Posted Successfully`);
+    notify(`Posted Successfully`);
     return docRef.id;
   } catch (error) {
     notify(`Something Went Wrong`);
@@ -75,7 +75,7 @@ async function addFrequentAddress(address) {
       }
       userData.frequentAddresses.push(address);
       await updateDoc("users", docId, userData);
-      notify(`Frequent address added successfully.`);
+      notify(`Added successfully.`);
       return true;
     } else {
       notify(`Something Went Wrong.`);
@@ -99,7 +99,7 @@ async function updateFrequentAddress(modifiedAddresses) {
   try {
     const docRef = doc(db, "users", docId);
     await firestoreUpdateDoc(docRef, data, { merge: true });
-    notify(`Address Modified successfully.`);
+    notify(`Modified successfully.`);
     return true;
   } catch (error) {
     notify(`Something Went Wrong.`);
@@ -117,7 +117,7 @@ async function deleteDocument(collectionName, docId) {
   try {
     const collectionRef = doc(db, collectionName, docId);
     await deleteDoc(collectionRef);
-    notify(`Document Deleted Successfully`);
+    notify(`Remooved`);
   } catch (error) {
     console.error("Error deleting document:", error);
     notify(`Something Went Wrong`);

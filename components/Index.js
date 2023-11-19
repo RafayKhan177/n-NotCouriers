@@ -16,3 +16,6 @@ export { default as CAP } from "./CAP";
 export { default as Checkout } from "./Checkout";
 export { default as Stats } from "./stats/Stats";
 export { default as Loader } from "./Loading";
+export { default as ManageSuburbs } from "./management/Suburbs";
+export { default as ManageServices } from "./management/Services";
+export { default as AddUser } from "./management/AddUser";

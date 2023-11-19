@@ -35,7 +35,7 @@ async function signUpWithEmail(email, password, userData) {
     return true;
   } catch (error) {
     const errorMessage = error.message || "An error occurred during sign up.";
-    notify("Something Went Wrong");
+    notify(error.message);
     throw error;
   }
 }
@@ -48,7 +48,7 @@ async function signInWithEmail(email, password) {
       password
     );
     const user = userCredential.user;
-    const userData = { email: email, key: password };
+    const userData = { email: email, password: password };
     await saveUserDataToUserDoc(email, userData);
     localStorage.setItem("user", JSON.stringify(user));
     await fetchUserData();
@@ -56,7 +56,7 @@ async function signInWithEmail(email, password) {
     notify("Sign in successful!");
     return true;
   } catch (error) {
-    notify("Something Went Wrong");
+    notify(error.message);
     throw error;
   }
 }
@@ -82,7 +82,7 @@ async function saveUserDataToUserDoc(email, userData) {
   } catch (error) {
     const errorMessage =
       error.message || "An error occurred while saving user data.";
-    notify("Something Went Wrong");
+    notify(error.message);
   }
 }
 
@@ -93,7 +93,7 @@ async function fetchUserData() {
     localStorage.setItem("userDoc", JSON.stringify(userData));
     return userData;
   } catch (error) {
-    notify("Something Went Wrong");
+    notify(error.message);
     return null;
   }
 }
@@ -105,7 +105,7 @@ const userRole = () => {
     (JSON.parse(localStorage.getItem("user")) || {}).role || null;
     return role;
   } catch (error) {
-    notify("Something Went Wrong");
+    notify(error.message);
     return null;
   }
 };
@@ -118,7 +118,7 @@ const logout = async () => {
     notify("Logout Succesfully");
     return true;
   } catch (error) {
-    notify("Something Went Wrong");
+    notify(error.message);
     return null;
   }
 };

@@ -11,62 +11,93 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
-import { Button } from "@mantine/core";
+import { Button, Modal } from "@mantine/core";
 import { updateDoc } from "@/api/firebase/functions/upload";
+import { useDisclosure } from "@mantine/hooks";
+import { AddUser } from "../Index";
 
+// Role options for the Select component
 const roleOptions = [
   { value: "admin", label: "Admin" },
-  { value: "business", label: "business" },
+  { value: "business", label: "Business" },
   { value: "user", label: "User" },
 ];
 
+// Users component
 export default function Users({ users }) {
+  // State for search term and filtered users
+  const [opened, { open, close }] = useDisclosure(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredUsers, setFilteredUsers] = useState(users);
 
+  // Effect to update filtered users when users prop changes
   useEffect(() => {
     setFilteredUsers(users);
   }, [users]);
 
+  // Handler for search input change
   const handleSearchChange = (event) => {
     const term = event.target.value;
     setSearchTerm(term);
 
+    // Filter users based on email
     const filtered = users.filter((user) =>
       user.email.toLowerCase().includes(term.toLowerCase())
     );
     setFilteredUsers(filtered);
   };
 
+  // Handler for role change
   const handleStatusChange = async (event, index) => {
     const selectedRole = event.target.value;
+
+    // Update the selected user's role
     const updatedUsers = [...filteredUsers];
     const changedUser = updatedUsers[index];
     changedUser.role = selectedRole;
     setFilteredUsers(updatedUsers);
+
+    // Update user role in the database
     await updateDoc("users", changedUser.email, changedUser);
     console.log("User Info:", changedUser);
   };
 
+  // Render component
   return (
     <div style={{ width: "80%", margin: "2rem auto" }}>
-      {/* Styled Search Bar */}
-      <TextField
-        fullWidth
-        variant="outlined"
-        label="Search by Email"
-        value={searchTerm}
-        onChange={handleSearchChange}
-        style={{ margin: "1rem 0" }}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchIcon />
-            </InputAdornment>
-          ),
-        }}
-      />
+      <Modal opened={opened} onClose={close} title="Add New User" centered>
+        <AddUser />
+      </Modal>
 
+      {/* Styled Search Bar */}
+      <div style={{ width: "100%", display: "flex", alignItems: "center" }}>
+        <TextField
+          fullWidth
+          variant="outlined"
+          label="Search by Email"
+          value={searchTerm}
+          onChange={handleSearchChange}
+          style={{ margin: "1rem 0", width: "80%" }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
+        />
+        <Button
+          style={{ width: "20%", margin: ".2rem" }}
+          variant="light"
+          color="teal"
+          size="lg"
+          onClick={open}
+        >
+          Add User
+        </Button>
+      </div>
+
+      {/* Table displaying user information */}
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -102,6 +133,7 @@ export default function Users({ users }) {
                       </Button>
                     </TableCell>
                     <TableCell>
+                      {/* Select component for role change */}
                       <Select
                         value={role}
                         onChange={(event) => handleStatusChange(event, index)}
