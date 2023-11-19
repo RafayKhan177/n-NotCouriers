@@ -5,7 +5,6 @@ import {
   getDoc,
   getDocs,
   getFirestore,
-  orderBy,
   query,
   where,
 } from "firebase/firestore";
@@ -16,7 +15,7 @@ import { fetchUserData } from "./auth";
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-const notify = (msg) => toast(msg);
+const notify = (msg) => console.log(msg);
 
 async function fetchDocById(docId, collectionName) {
   const docRef = doc(db, collectionName, docId);

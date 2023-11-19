@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { Button } from "@mantine/core";
 import {
@@ -10,11 +11,13 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
+import { useRouter } from "next/navigation";
 
 export default function RecentInvoices({ place_booking, place_job }) {
-  const handleViewEntry = (row) => {
-    // Implement your handleViewEntry logic
-    console.log("Viewing entry:", row);
+  const router = useRouter();
+
+  const handleNavigate = (id) => {
+    router.push(`/RecentInvoices/${id}`);
   };
 
   const renderTableRow = (row) => (
@@ -33,7 +36,7 @@ export default function RecentInvoices({ place_booking, place_job }) {
         <Button
           variant="light"
           color="cyan"
-          onClick={() => handleViewEntry(row)}
+          onClick={() => handleNavigate(row.docId)}
         >
           View This Entry
         </Button>
