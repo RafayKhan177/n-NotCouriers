@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { MenuItem, TextField } from "@mui/material";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
-import { postDoc, addFrequentAddress } from "@/api/firebase/functions/upload";
+import { postInvoice, addFrequentAddress } from "@/api/firebase/functions/upload";
 import {
   fetchDocById,
   fetchFrequentAddresses,
@@ -163,7 +163,7 @@ export default function Page() {
       emptyAllFields();
 
       await Promise.all([
-        postDoc(invoice, "place_bookings"),
+        postInvoice(invoice, "place_bookings"),
         addFrequentAddress({ contact, ...selectedOriginDetails }),
         addFrequentAddress({ contact, ...selectedDestinationDetails }),
       ]);

@@ -16,7 +16,7 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import { Button } from "@mantine/core";
 import { IconButton } from "@mui/material";
 import CheckoutSessions from "@/api/CheckoutSessions";
-import { postDoc, updateDoc } from "@/api/firebase/functions/upload";
+import { postInvoice, updateDoc } from "@/api/firebase/functions/upload";
 
 export default function Checkout({ invoice, handleHide }) {
   const {
@@ -33,7 +33,7 @@ export default function Checkout({ invoice, handleHide }) {
 
   const handleCheckout = async () => {
     try {
-      const docId = await postDoc(
+      const docId = await postInvoice(
         { ...invoice, payment: "Not Yet" },
         "place_job"
       );
@@ -45,7 +45,7 @@ export default function Checkout({ invoice, handleHide }) {
         sessionId,
         payment: "Not Yet",
       });
-      window.location.href = url;
+      // window.location.href = url;
     } catch (error) {
       console.error("Error during checkout:", error);
     }

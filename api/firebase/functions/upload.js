@@ -6,7 +6,7 @@ import {
   updateDoc as firestoreUpdateDoc,
   getDoc,
   deleteDoc,
-  getDocs,
+  setDoc,
 } from "firebase/firestore";
 import { app } from "../config";
 import { toast } from "react-toastify";
@@ -32,6 +32,33 @@ async function postDoc(data, collectionName) {
     await updateDoc(collectionName, docRef.id, updatedData);
     notify(`Posted Successfully`);
     return docRef.id;
+  } catch (error) {
+    notify(`Something Went Wrong`);
+    return null;
+  }
+}
+
+async function postInvoice(data, collectionName) {
+  try {
+    const user = JSON.parse(localStorage.getItem("userDoc"));
+
+    if (!user) {
+      notify("You're not logged in");
+      return null;
+    }
+    const docId = `JETC${Math.floor(Math.random() * 99999) + 10000}`;
+
+    const docData = {
+      ...data,
+      docId: docId,
+      userEmail: user.email,
+    };
+    const docRef = doc(db, collectionName, docId); // Use the custom ID
+
+    await setDoc(docRef, docData); // Assuming you want to set the document data
+    notify(`Posted Successfully`);
+
+    return docRef.id; // Return the custom document ID
   } catch (error) {
     notify(`Something Went Wrong`);
     return null;
@@ -124,6 +151,7 @@ async function deleteDocument(collectionName, docId) {
   }
 }
 export {
+  postInvoice,
   updateDoc,
   postDoc,
   addFrequentAddress,
