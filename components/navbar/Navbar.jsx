@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { adminPages, authPages, userPages } from "../static";
+import { adminPages, authPages, businessPages, userPages } from "../static";
 import { Hidden, Menu, MenuItem } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Button } from "@mantine/core";
@@ -9,17 +9,17 @@ import Image from "next/image";
 
 const Navbar = () => {
   const [userPagesToRender, setUserPagesToRender] = useState([]);
+
   useEffect(() => {
-    setTimeout(() => {
-      const userDoc = JSON.parse(localStorage.getItem("userDoc")) || {};
-      const role = userDoc.role || null;
-      const pages = {
-        admin: adminPages,
-        user: userPages,
-        auth: authPages,
-      };
-      setUserPagesToRender(pages[role] || authPages);
-    }, 1000); // 1000 milliseconds (1 second)
+    const userDoc = JSON.parse(localStorage.getItem("userDoc")) || {};
+    const role = userDoc.role || null;
+    const pages = {
+      admin: adminPages,
+      business: businessPages,
+      user: userPages,
+      auth: authPages,
+    };
+    setUserPagesToRender(pages[role] || authPages);
   }, []);
 
   return (

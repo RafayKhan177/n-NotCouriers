@@ -74,6 +74,13 @@ const userPages = [
   { link: "/ClientServices", label: "Client Services" },
   { link: "/FrequentAddresses", label: "Frequent Addresses" },
   { link: "/PlaceTheBooking", label: "Place A Booking" },
+  { link: "/RecentInvoices", label: "Recent Invoices" },
+];
+
+const businessPages = [
+  { link: "/ClientServices", label: "Client Services" },
+  { link: "/FrequentAddresses", label: "Frequent Addresses" },
+  { link: "/PlaceTheBooking", label: "Place A Booking" },
   { link: "/PriceTheJob", label: "Price A Job" },
   { link: "/RecentInvoices", label: "Recent Invoices" },
 ];
@@ -100,4 +107,5 @@ export {
   clientServiceslinks,
   suburbOption,
   statuses,
+  businessPages
 };
