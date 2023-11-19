@@ -18,7 +18,7 @@ export default function Page() {
         const id = match && match[1];
 
         if (id) {
-          const data = await fetchDocById(id, "invoices");
+          const data = await fetchDocById(id, "place_bookings");
           setInvoice(data);
         }
       } catch (error) {
