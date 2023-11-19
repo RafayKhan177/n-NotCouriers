@@ -4,7 +4,7 @@ async function calculateDistance(origin, destination) {
     const destinationStr = `${destination.lat},${destination.lng}`;
     console.log(originStr, destinationStr);
     const response = await fetch(
-      `https://e-distance-matrix-ny2igar41-rafaykhan177.vercel.app/api/distance?originStr=${originStr}&destinationStr=${destinationStr}`
+      `https://e-distance-matrix.vercel.app/api/distance?originStr=${originStr}&destinationStr=${destinationStr}`
     );
 
     const data = await response.json();
