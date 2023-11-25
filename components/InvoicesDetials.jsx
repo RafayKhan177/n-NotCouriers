@@ -35,56 +35,54 @@ const renderDetails = (title, details) => (
 const InvoiceDetails = ({ invoice, job }) => {
   const serviceInfo = invoice.serviceInformation || invoice;
 
-  console.log(invoice.serviceInformation || invoice);
+  // const pAddress = (details) => {
+  //   if (
+  //     details &&
+  //     details.selectedOriginDetails &&
+  //     details.selectedOriginDetails.address
+  //   ) {
+  //     return details.selectedOriginDetails.address;
+  //   } else if (details && details.pickupDetails) {
+  //     const pickupDetails = details.pickupDetails;
 
-  const pAddress = (details) => {
-    if (
-      details &&
-      details.selectedOriginDetails &&
-      details.selectedOriginDetails.address
-    ) {
-      return details.selectedOriginDetails.address;
-    } else if (details && details.pickupDetails) {
-      const pickupDetails = details.pickupDetails;
+  //     if (
+  //       pickupDetails.selectedOriginDetails &&
+  //       pickupDetails.selectedOriginDetails.address
+  //     ) {
+  //       return pickupDetails.selectedOriginDetails.address;
+  //     } else if (pickupDetails.pickupFrequentAddress) {
+  //       return `${pickupDetails.pickupFrequentAddress.lat} ${pickupDetails.pickupFrequentAddress.lng}`;
+  //     }
+  //   }
 
-      if (
-        pickupDetails.selectedOriginDetails &&
-        pickupDetails.selectedOriginDetails.address
-      ) {
-        return pickupDetails.selectedOriginDetails.address;
-      } else if (pickupDetails.pickupFrequentAddress) {
-        return `${pickupDetails.pickupFrequentAddress.lat} ${pickupDetails.pickupFrequentAddress.lng}`;
-      }
-    }
+  //   return "Empty";
+  // };
 
-    return "Empty";
-  };
+  // const dAddress = (details) => {
+  //   if (
+  //     details &&
+  //     details.dropDetails &&
+  //     details.dropDetails.selectedDestinationDetails &&
+  //     details.dropDetails.selectedDestinationDetails.address
+  //   ) {
+  //     return details.dropDetails.selectedDestinationDetails.address;
+  //   } else if (details && details.dropDetails) {
+  //     const dropDetails = details.dropDetails;
 
-  const dAddress = (details) => {
-    if (
-      details &&
-      details.dropDetails &&
-      details.dropDetails.selectedDestinationDetails &&
-      details.dropDetails.selectedDestinationDetails.address
-    ) {
-      return details.dropDetails.selectedDestinationDetails.address;
-    } else if (details && details.dropDetails) {
-      const dropDetails = details.dropDetails;
+  //     if (
+  //       dropDetails.selectedDestinationDetails &&
+  //       dropDetails.selectedDestinationDetails.address
+  //     ) {
+  //       return dropDetails.selectedDestinationDetails.address;
+  //     } else if (dropDetails.dropFrequentAddress) {
+  //       return `${dropDetails.dropFrequentAddress.lat} ${dropDetails.dropFrequentAddress.lng}`;
+  //     }
+  //   } else if (details && details.selectedDestinationDetails) {
+  //     return `${details.selectedDestinationDetails.lat} ${details.selectedDestinationDetails.lng}`;
+  //   }
 
-      if (
-        dropDetails.selectedDestinationDetails &&
-        dropDetails.selectedDestinationDetails.address
-      ) {
-        return dropDetails.selectedDestinationDetails.address;
-      } else if (dropDetails.dropFrequentAddress) {
-        return `${dropDetails.dropFrequentAddress.lat} ${dropDetails.dropFrequentAddress.lng}`;
-      }
-    } else if (details && details.selectedDestinationDetails) {
-      return `${details.selectedDestinationDetails.lat} ${details.selectedDestinationDetails.lng}`;
-    }
-
-    return "Empty";
-  };
+  //   return "Empty";
+  // };
 
   return (
     <section
@@ -148,7 +146,7 @@ const InvoiceDetails = ({ invoice, job }) => {
             },
             {
               label: "Address",
-              value: pAddress(invoice),
+              value: "soon",
             },
             {
               label: "Special Instruction",
@@ -169,7 +167,7 @@ const InvoiceDetails = ({ invoice, job }) => {
             },
             {
               label: "Address",
-              value: dAddress(invoice),
+              value: "soon",
             },
             {
               label: "Drop Reference 1",
