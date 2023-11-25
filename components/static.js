@@ -65,7 +65,8 @@ const suburbOption = [
 
 const adminPages = [
   { link: "/ClientServices", label: "Client Services" },
-  { link: "/admin/MenageInvoices", label: "Menage Invoices" },
+  { link: "/admin/ManageJobs", label: "Menage Jobs" },
+  { link: "/admin/ManageBookings", label: "Menage Bookings" },
   { link: "/admin/MenageUsers", label: "Menage Users" },
   { link: "/admin/Services", label: "Menage Services" },
 ];
@@ -107,5 +108,5 @@ export {
   clientServiceslinks,
   suburbOption,
   statuses,
-  businessPages
+  businessPages,
 };

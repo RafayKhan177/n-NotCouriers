@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+
 import { Typography, Paper } from "@mui/material";
 import { Divider, Text } from "@mantine/core";
 
@@ -31,7 +32,7 @@ const renderDetails = (title, details) => (
 );
 
 const InvoiceDetails = (invoice, job) => {
-  console.log(invoice.serviceInformation.weight);
+  
   return (
     <section
       style={{
@@ -56,90 +57,157 @@ const InvoiceDetails = (invoice, job) => {
           Invoice Details
         </Text>
         <div style={{ width: "80%" }}>
-          <>
-            {renderDetails("Account", [
-              { label: "Email", value: invoice.userEmail },
-              { label: "Job Number", value: invoice.docId },
-            ])}
+          {job == false ? (
+            <>
+              {renderDetails("Account", [
+                { label: "Email", value: invoice.userEmail },
+                { label: "Job Number", value: invoice.docId },
+              ])}
 
-            {renderDetails("Distance Information", [
-              { label: "Duration", value: invoice.distanceData.duration.text },
-              { label: "Distance", value: invoice.distanceData.distance.text },
-            ])}
+              {renderDetails("Distance Information", [
+                {
+                  label: "Duration",
+                  value: invoice.distanceData.duration.text,
+                },
+                {
+                  label: "Distance",
+                  value: invoice.distanceData.distance.text,
+                },
+              ])}
 
-            {renderDetails("Service Information", [
-              {
-                label: "Service",
-                value: job
-                  ? invoice.service
-                  : invoice.serviceInformation.service,
-              },
-              {
-                label: "Weight",
-                value: job ? invoice.weight : invoice.serviceInformation.weight,
-              },
-              {
-                label: "Date Created",
-                value: job ? invoice.date : invoice.serviceInformation.date,
-              },
-              {
-                label: "Time Created",
-                value: job ? invoice.time : invoice.serviceInformation.time,
-              },
-              { label: "Cost", value: invoice.totalPrice },
-            ])}
+              {renderDetails("Service Information", [
+                { label: "Service", value: invoice.serviceInformation.service },
+                { label: "Weight", value: invoice.serviceInformation.weight },
+                {
+                  label: "Date Created",
+                  value: invoice.serviceInformation.date,
+                },
+                {
+                  label: "Distance",
+                  value: invoice.distanceData.distance.text,
+                },
+                {
+                  label: "Time Created",
+                  value: invoice.serviceInformation.time,
+                },
+                { label: "Cost", value: invoice.totalPrice },
+              ])}
 
-            {renderDetails("Pickup Details", [
-              { label: "Suburb", value: invoice.pickupDetails.pickupSuburb },
-              {
-                label: "Address",
-                value: invoice.pickupDetails.selectedOriginDetails.address,
-              },
-              {
-                label: "Special Instruction",
-                value: invoice.pickupDetails.pickupGoodsDescription,
-              },
-            ])}
+              {renderDetails("Pickup Details", [
+                { label: "Suburb", value: invoice.pickupDetails.pickupSuburb },
+                {
+                  label: "Address",
+                  value: invoice.pickupDetails.selectedOriginDetails.address,
+                },
+                {
+                  label: "Special Instruction",
+                  value: invoice.pickupDetails.pickupGoodsDescription,
+                },
+              ])}
 
-            {renderDetails("Drop Details", [
-              { label: "Suburb", value: invoice.dropDetails.dropSuburb },
-              {
-                label: "Address",
-                value: invoice.dropDetails.selectedDestinationDetails.address,
-              },
-              {
-                label: "Drop Reference 1",
-                value: invoice.dropDetails.dropReference1,
-              },
-            ])}
+              {renderDetails("Drop Details", [
+                { label: "Suburb", value: invoice.dropDetails.dropSuburb },
+                {
+                  label: "Address",
+                  value: invoice.dropDetails.selectedDestinationDetails.address,
+                },
+                {
+                  label: "Drop Reference 1",
+                  value: invoice.dropDetails.dropReference1,
+                },
+              ])}
 
-            {renderDetails("Progress Information", [
-              {
-                label: "Booked",
-                value: invoice.progressInformation.booked || "Not Completed",
-              },
-              {
-                label: "E.T.D.",
-                value: invoice.progressInformation.etd || "Not Completed",
-              },
-              {
-                label: "Allocated",
-                value: invoice.progressInformation.allocated || "Not Completed",
-              },
-              {
-                label: "Pick Up",
-                value: invoice.progressInformation.pickedup || "Not Completed",
-              },
-              {
-                label: "Delivered",
-                value: invoice.progressInformation.delivered || "Not Completed",
-              },
-              {
-                label: "P.O.D.",
-                value: invoice.progressInformation.pod || "Not Completed",
-              },
-            ])}
-          </>
+              {renderDetails("Progress Information", [
+                {
+                  label: "Booked",
+                  value: invoice.progressInformation.booked || "Not Completed",
+                },
+                {
+                  label: "E.T.D.",
+                  value: invoice.progressInformation.etd || "Not Completed",
+                },
+                {
+                  label: "Allocated",
+                  value:
+                    invoice.progressInformation.allocated || "Not Completed",
+                },
+                {
+                  label: "Pick Up",
+                  value:
+                    invoice.progressInformation.pickedup || "Not Completed",
+                },
+                {
+                  label: "Delivered",
+                  value:
+                    invoice.progressInformation.delivered || "Not Completed",
+                },
+                {
+                  label: "P.O.D.",
+                  value: invoice.progressInformation.pod || "Not Completed",
+                },
+              ])}
+            </>
+          ) : (
+            <>
+              {renderDetails("Account", [
+                { label: "Email", value: invoice.userEmail },
+                { label: "Job Number", value: invoice.docId },
+              ])}
+
+              {renderDetails("Distance Information", [
+                {
+                  label: "Duration",
+                  value: invoice.distanceData.duration.text,
+                },
+                {
+                  label: "Distance",
+                  value: invoice.distanceData.distance.text,
+                },
+              ])}
+
+              {renderDetails("Service Information", [
+                { label: "Service", value: invoice.service },
+                { label: "Weight", value: invoice.weight },
+                { label: "Date Created", value: invoice.date },
+                { label: "Time Created", value: invoice.time },
+                { label: "Cost", value: invoice.totalPrice },
+              ])}
+
+              {renderDetails(
+                "Progress Information",
+                invoice.progressInformation && [
+                  {
+                    label: "Booked",
+                    value:
+                      invoice.progressInformation.booked || "Not Completed",
+                  },
+                  {
+                    label: "E.T.D.",
+                    value: invoice.progressInformation.etd || "Not Completed",
+                  },
+                  {
+                    label: "Allocated",
+                    value:
+                      invoice.progressInformation.allocated || "Not Completed",
+                  },
+                  {
+                    label: "Pick Up",
+                    value:
+                      invoice.progressInformation.pickedup || "Not Completed",
+                  },
+                  {
+                    label: "Delivered",
+                    value:
+                      invoice.progressInformation.delivered || "Not Completed",
+                  },
+                  {
+                    label: "P.O.D.",
+                    value: invoice.progressInformation.pod || "Not Completed",
+                  },
+                ]
+              )}
+            </>
+          )}
         </div>
       </Paper>
     </section>
