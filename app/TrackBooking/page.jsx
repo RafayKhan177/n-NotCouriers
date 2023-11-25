@@ -13,7 +13,7 @@ const styleField = {
 };
 
 const containerStyle = {
-  marginTop: "5rem",
+  marginTop: "1rem",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
@@ -69,20 +69,28 @@ export default function Page() {
       ) : (
         <>
           <Grid container style={containerStyle}>
-            <Grid item xs={12} sm={8} md={6} lg={4}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <h1>TRACK BOOKINGS</h1>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   label="From Date"
                   value={formData.fromDate}
                   onChange={(date) => handleDateChange(date, "fromDate")}
                 />
-                <p style={{ color: "ghostwhite" }}>...</p>
+                <p style={{ color: "ghostwhite", height: "5px" }}>...</p>
                 <DatePicker
                   label="To Date"
                   value={formData.toDate}
                   onChange={(date) => handleDateChange(date, "toDate")}
                 />
-                <p style={{ color: "ghostwhite" }}>...</p>
+                <p style={{ color: "ghostwhite", height: "5px" }}>...</p>
               </LocalizationProvider>
               <TextField
                 style={styleField}
@@ -114,7 +122,7 @@ export default function Page() {
                   Client Services
                 </Button>
               </Link>
-            </Grid>
+            </div>
           </Grid>
         </>
       )}

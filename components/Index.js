@@ -9,6 +9,7 @@ export { default as HeroImage } from "./heroImage/HeroImage";
 export { default as Footer } from "./footer/Footer";
 export { default as PlacesAutocomplete } from "./PlacesAutocomplete";
 export { default as InvoicesDetials } from "./InvoicesDetials";
+export { default as JobDetail } from "./JobDetail";
 export { default as BookingsQuery } from "./tableSort/BookingsQuery";
 // --------------------------------Admin
 

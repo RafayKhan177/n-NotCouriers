@@ -68,7 +68,6 @@ export default function FrequentAddresses({ addresses }) {
           <TableHead>
             <TableRow>
               <TableCell>No</TableCell>
-              <TableCell>Name</TableCell>
               <TableCell>Address</TableCell>
               <TableCell>Modify</TableCell>
               <TableCell>Delete</TableCell>
@@ -79,7 +78,6 @@ export default function FrequentAddresses({ addresses }) {
               modifiedAddresses.map((row, index) => (
                 <TableRow key={index + 1}>
                   <TableCell>{index + 1}</TableCell>
-                  <TableCell>{row.contact}</TableCell>
                   <TableCell>{row.address}</TableCell>
                   <TableCell>
                     <Button

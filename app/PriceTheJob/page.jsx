@@ -86,7 +86,11 @@ export default function Page() {
             time: formattedTime,
           };
 
-          const invoice = await calculatePrice(data);
+          const invoice = await calculatePrice([
+            ...data,
+            { progressInformation: [] },
+          ]);
+
           setInvoiceData(invoice);
           setShow(true);
         } catch (error) {
@@ -121,11 +125,20 @@ export default function Page() {
       {show === true ? (
         <Checkout invoice={invoiceData} handleHide={handleHide} />
       ) : (
-        <div style={{ margin: "8rem auto", width: "60vw",maxWidth:'25rem' }}>
-          <h1>Price A Job</h1>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            maxWidth: "25rem",
+            margin: "auto",
+          }}
+        >
+          <h1>PRICE A JOB</h1>
           <div style={styleField}>
             <PlacesAutocomplete onLocationSelect={handleOrigin} width={true} />
-            <br />
+          
             <PlacesAutocomplete
               onLocationSelect={handleDestination}
               width={true}
@@ -204,31 +217,35 @@ export default function Page() {
             onChange={handleChange}
           />
 
-          <div
-            style={{ display: "flex", flexDirection: "column", width: "100%" }}
+          <Button
+            w={180}
+            color="red"
+            mt={3}
+            variant="filled"
+            onClick={() => setFormData({})}
           >
-            <Button
-              color="red"
-              mt={3}
-              variant="filled"
-              onClick={() => setFormData({})}
-            >
-              Clear Form
-            </Button>
-            <Button color="red" mt={3} variant="filled" onClick={handleSubmit}>
-              Price A Job
-            </Button>
-            <Button
-              onClick={() => {
-                nav.push("/ClientServices");
-              }}
-              color="red"
-              mt={3}
-              variant="filled"
-            >
-              Client Service
-            </Button>
-          </div>
+            Clear Form
+          </Button>
+          <Button
+            w={180}
+            color="red"
+            mt={3}
+            variant="filled"
+            onClick={handleSubmit}
+          >
+            Price A Job
+          </Button>
+          <Button
+            w={180}
+            onClick={() => {
+              nav.push("/ClientServices");
+            }}
+            color="red"
+            mt={3}
+            variant="filled"
+          >
+            Client Service
+          </Button>
         </div>
       )}
     </>

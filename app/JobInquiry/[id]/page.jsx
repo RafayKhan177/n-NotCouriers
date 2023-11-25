@@ -1,6 +1,6 @@
 "use client";
 import { fetchDocById } from "@/api/firebase/functions/fetch";
-import { InvoicesDetials } from "@/components/Index";
+import { JobDetail } from "@/components/Index";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { CAP } from "@/components/Index";
@@ -40,7 +40,5 @@ export default function Page() {
   if (role === null) {
     return <CAP status={"notLoggedIn"} />;
   }
-  return (
-    <div>{invoice ? <InvoicesDetials {...invoice} /> : <p>Loading...</p>}</div>
-  );
+  return <div>{invoice ? <JobDetail {...invoice} /> : <p>Loading...</p>}</div>;
 }
