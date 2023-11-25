@@ -54,9 +54,7 @@ export default function Suburbs() {
           textAlign: "center",
         }}
       >
-        <Typography variant="h4" gutterBottom>
-          Suburbs
-        </Typography>
+        <h1>Suburbs</h1>
         <List style={{ marginTop: 16 }}>
           {suburbs.map((suburb, index) => (
             <ListItem
@@ -86,7 +84,12 @@ export default function Suburbs() {
             onChange={(e) => setNewSuburb(e.target.value)}
             style={{ marginRight: 16 }}
           />
-          <Button variant="light" color="red" size="lg" onClick={handleAddSuburb}>
+          <Button
+            variant="light"
+            color="red"
+            size="lg"
+            onClick={handleAddSuburb}
+          >
             Save
           </Button>
         </div>

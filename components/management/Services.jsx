@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from "react";
 import { fetchOptions } from "@/api/firebase/functions/fetch";
 import { updateDoc } from "@/api/firebase/functions/upload";
-import { List, ListItem, Typography, TextField, Button } from "@mui/material";
+import { List, ListItem, Typography, TextField } from "@mui/material";
+import { Button } from "@mantine/core";
 
 export default function PerKmRates() {
   const [rates, setRates] = useState({});
@@ -38,20 +39,41 @@ export default function PerKmRates() {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+      }}
+    >
+      <h1>Services Price</h1>
       <List>
         {Object.entries(rates).map(([key, value]) => (
           <ListItem key={key}>
-            <Typography variant="body1">{key}</Typography>
+            <Typography width={80} variant="body1" sx={{ minWidth: 120 }}>
+              {key}
+            </Typography>
             <TextField
               type="number"
               value={value}
               onChange={(e) => handleRateChange(key, e.target.value)}
+              sx={{ ml: 2, width: 100 }}
+              minWidth={200}
+              InputProps={{
+                startAdornment: (
+                  <Typography variant="body1" sx={{ mr: 1 }}>
+                    $
+                  </Typography>
+                ),
+              }}
             />
           </ListItem>
         ))}
       </List>
-      <Button onClick={handleSave}>Save</Button>
+      <Button variant="light" color="red" size="lg" onClick={handleSave}>
+        Save
+      </Button>
     </div>
   );
 }
