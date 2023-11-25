@@ -171,7 +171,7 @@ const InvoiceDetails = ({ invoice, job }) => {
             },
             {
               label: "Address",
-              value: dAddress(),
+              value: dAddress(invoice),
             },
             {
               label: "Drop Reference 1",
