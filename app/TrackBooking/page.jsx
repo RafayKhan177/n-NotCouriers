@@ -61,7 +61,7 @@ export default function Page() {
   };
 
   return (
-    <div>
+    <div style={{ width: "90%", margin: "auto" }}>
       {show ? (
         <>
           <BookingsQuery bookings={bookings} />

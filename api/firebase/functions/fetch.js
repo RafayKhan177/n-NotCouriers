@@ -88,17 +88,18 @@ async function fetchPlace_job() {
     return [];
   }
 }
-async function getDocByDateAndId(collectionName, targetDate, docId) {
+async function getDocByDateAndId(collectionName, id, date) {
   const user = JSON.parse(localStorage.getItem("userDoc"));
   if (!user) {
     notify("You're not logged in");
     return null;
   }
+
   try {
     const q = query(
       collection(db, collectionName),
-      where("docId", "==", docId),
-      where("serviceInformation.date", "==", targetDate)
+      where("docId", "==", id),
+      where("date", "==", date)
     );
 
     const querySnapshot = await getDocs(q);
@@ -111,7 +112,7 @@ async function getDocByDateAndId(collectionName, targetDate, docId) {
     const doc = querySnapshot.docs[0].data();
     return doc.docId;
   } catch (error) {
-    notify("Wrong Information");
+    console.log(error.message);
     return null;
   }
 }

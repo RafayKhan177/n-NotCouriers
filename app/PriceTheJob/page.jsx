@@ -121,7 +121,7 @@ export default function Page() {
       {show === true ? (
         <Checkout invoice={invoiceData} handleHide={handleHide} />
       ) : (
-        <div style={{ margin: "8rem 20%", width: "60vw" }}>
+        <div style={{ margin: "8rem auto", width: "60vw",maxWidth:'25rem' }}>
           <h1>Price A Job</h1>
           <div style={styleField}>
             <PlacesAutocomplete onLocationSelect={handleOrigin} width={true} />

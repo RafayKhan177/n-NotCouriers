@@ -39,13 +39,12 @@ export default function Checkout({ invoice, handleHide }) {
       );
       const checkoutSession = await CheckoutSessions({ totalPrice, docId });
       const { sessionId, url } = checkoutSession;
-
       updateDoc("place_job", docId, {
         ...invoice,
         sessionId,
         payment: "Not Yet",
       });
-      // window.location.href = url;
+      window.location.href = url;
     } catch (error) {
       console.error("Error during checkout:", error);
     }
@@ -173,42 +172,6 @@ export default function Checkout({ invoice, handleHide }) {
             <strong>Weight:</strong>
           </div>{" "}
           {weight}
-        </Typography>
-
-        {/* Distance */}
-        <Typography
-          variant="body1"
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginTop: "8px",
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <IconButton>
-              <TimelineIcon />
-            </IconButton>
-            <strong>Distance:</strong>
-          </div>{" "}
-          {distanceData.distance.text}
-        </Typography>
-
-        {/* Duration */}
-        <Typography
-          variant="body1"
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginTop: "8px",
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <IconButton>
-              <ScheduleIcon />
-            </IconButton>
-            <strong>Duration:</strong>
-          </div>{" "}
-          {distanceData.duration.text}
         </Typography>
 
         {/* Total Price */}

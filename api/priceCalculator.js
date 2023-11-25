@@ -1,48 +1,48 @@
-function calculatePrice(data) {
-    console.log(data)
-    const perMileRates = {
-        Courier: 2,
-        HT: 5,
-        "1T": 10,
-        "2T": 20,
-        "4T": 30,
-    };
+import { fetchOptions } from "./firebase/functions/fetch";
 
-    const weightCategories = {
-        Courier: { min: 0, max: 30 },
-        HT: { min: 31, max: 500 },
-        "1T": { min: 501, max: 1000 },
-        "2T": { min: 1001, max: 2000 },
-        "4T": { min: 2001, max: Infinity },
-    };
-    
-    const weight = data.serviceInformation?.weight || data.weight;
-    const serviceType = data.serviceInformation?.service || data.service;    
-    const distanceValue = parseFloat(data.distanceData.distance.text.match(/\d+/)[0]);
+async function calculatePrice(data) {
+  const res = await fetchOptions();
+  const perKmRates = await res.perKmRates;
 
-    const vehicle = Object.keys(weightCategories).find((category) => {
-        const categoryRange = weightCategories[category];
-        return weight >= categoryRange.min && weight <= categoryRange.max;
-    });
+  const weightCategories = {
+    Courier: { min: 0, max: 30 },
+    HT: { min: 31, max: 500 },
+    "1T": { min: 501, max: 1000 },
+    "2T": { min: 1001, max: 2000 },
+    "4T": { min: 2001, max: Infinity },
+  };
 
-    const basePrice = distanceValue * perMileRates[vehicle];
+  const weight = data.serviceInformation?.weight || data.weight;
+  const serviceType = data.serviceInformation?.service || data.service;
+  const distanceValueMiles = parseFloat(
+    data.distanceData.distance.text.match(/\d+/)[0]
+  );
 
+  // Convert miles to kilometers (1 mile is approximately 1.60934 kilometers)
+  const distanceValueKm = distanceValueMiles * 1.60934;
 
-    let totalPrice;
-    if (serviceType === "Express") {
-        totalPrice = basePrice * 1.5;
-    } else if (serviceType === "Direct") {
-        totalPrice = basePrice * 2;
-    } else {
-        totalPrice = basePrice;
-    }
+  const vehicle = Object.keys(weightCategories).find((category) => {
+    const categoryRange = weightCategories[category];
+    return weight >= categoryRange.min && weight <= categoryRange.max;
+  });
 
-    const requestQuote = weight > 4000;
+  const basePrice = distanceValueKm * perKmRates[vehicle];
 
-    // console.log("Total Price:", totalPrice);
+  let totalPrice;
+  if (serviceType === "Express") {
+    totalPrice = basePrice * 1.5;
+  } else if (serviceType === "Direct") {
+    totalPrice = basePrice * 2;
+  } else {
+    totalPrice = basePrice;
+  }
 
-    return { ...data, totalPrice, requestQuote };
+  const requestQuote = weight > 4000;
 
+  // Round the totalPrice to the nearest whole number
+  totalPrice = Math.round(totalPrice);
+
+  return { ...data, totalPrice, requestQuote };
 }
 
 export { calculatePrice };

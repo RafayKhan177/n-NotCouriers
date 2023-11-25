@@ -18,7 +18,7 @@ export default function Page() {
         const id = match && match[1];
 
         if (id) {
-          const data = await fetchDocById(id, "place_bookings");
+          const data = await fetchDocById(id, "place_job");
           setInvoice(data);
         }
       } catch (error) {
@@ -30,16 +30,16 @@ export default function Page() {
     fetchInvoice();
   }, [pathname]);
 
-
   const [role, setRole] = useState(null);
   useEffect(() => {
-    const role = (JSON.parse(localStorage.getItem("userDoc")) || {}).role || null;
-    setRole(role)
+    const role =
+      (JSON.parse(localStorage.getItem("userDoc")) || {}).role || null;
+    setRole(role);
   }, []);
 
   if (role === null) {
     return <CAP status={"notLoggedIn"} />;
-  } 
+  }
   return (
     <div>{invoice ? <InvoicesDetials {...invoice} /> : <p>Loading...</p>}</div>
   );

@@ -18,20 +18,24 @@ export default function Page() {
   const [formData, setFormData] = useState(initialFormData);
 
   const handleDateChange = (date) => {
-    const formattedDate = date ? date.format("MM/DD/YYYY") : null;
+    const formattedDate = date ? date.format("DD/MM/YYYY") : null;
     setFormData({ ...formData, date: formattedDate });
   };
+
   const handleSubmit = async () => {
-    const result = await getDocByDateAndId(
-      "place_bookings",
-      formData.date,
-      formData.orderNo
-    );
-    if (result === null) {
-      console.log("No matching document found.");
-    } else {
-      router.push(`/JobInquiry/${result}`);
+
+    const requiredFields = [
+      "date",
+      "orderNo"
+    ];
+
+    // Check if any required field is missing
+    if (requiredFields.some((field) => !formData[field])) {
+      alert("Please fill in all required fields.");
+      return;
     }
+    router.push(`/JobInquiry/${formData.orderNo}`);
+   
   };
 
   const styleField = {
@@ -63,7 +67,7 @@ export default function Page() {
     <section style={containerStyle}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker
-          label="Basic date picker"
+          label="Select Date"
           value={formData.date}
           onChange={handleDateChange}
         />

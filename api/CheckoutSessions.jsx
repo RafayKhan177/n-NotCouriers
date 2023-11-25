@@ -21,7 +21,7 @@ export default async function CheckoutSessions({ totalPrice, docId }) {
       ],
       mode: "payment",
       success_url: `https://n-not-couriers.vercel.app/payment/success/${docId}`,
-      cancel_url: `https://n-not-couriers.vercel.app/cancel/${docId}`,
+      cancel_url: `https://n-not-couriers.vercel.app/payment/cancel/${docId}`,
     });
     return {
       sessionId: session.id,
