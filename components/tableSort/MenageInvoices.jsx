@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 
-export default function MenageInvoices({ place_booking, place_job, title }) {
+export default function MenageInvoices({ invoice, title }) {
   const router = useRouter();
   const handleEdit = (id) => {
     router.push(`/admin/Invoices/${id}`);
@@ -112,8 +112,8 @@ export default function MenageInvoices({ place_booking, place_job, title }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {place_booking && place_booking.map(renderTableRow)}
-          {place_job && place_job.map(renderTableRow)}
+          {invoice && invoice.map(renderTableRow)}
+          {/* {place_job && place_job.map(renderTableRow)} */}
         </TableBody>
       </Table>
     </TableContainer>

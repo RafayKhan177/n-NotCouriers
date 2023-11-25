@@ -11,7 +11,7 @@ import {
   fetchDocById,
   fetchFrequentAddresses,
 } from "@/api/firebase/functions/fetch";
-import { CAP, PlacesAutocomplete } from "@/components/Index";
+import { CAP, PlacesAutocomplete, Loader } from "@/components/Index";
 import { Button } from "@mantine/core";
 import { serviceOptions } from "@/components/static";
 import { calculateDistance } from "@/api/distanceCalculator";
@@ -245,7 +245,7 @@ export default function Page() {
   return (
     <>
       {loading === true ? (
-        <p>loading</p>
+        <Loader />
       ) : (
         <>
           <section style={grid}>
