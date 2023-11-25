@@ -35,55 +35,47 @@ const renderDetails = (title, details) => (
 const InvoiceDetails = ({ invoice, job }) => {
   const serviceInfo = invoice.serviceInformation || invoice;
 
-  // const pAddress = (details) => {
-  //   if (
-  //     details &&
-  //     details.selectedOriginDetails &&
-  //     details.selectedOriginDetails.address
-  //   ) {
-  //     return details.selectedOriginDetails.address;
-  //   } else if (details && details.pickupDetails) {
-  //     const pickupDetails = details.pickupDetails;
+  const getAddress = (addressObj) =>
+    addressObj && addressObj.address !== "none" ? addressObj.address : null;
 
-  //     if (
-  //       pickupDetails.selectedOriginDetails &&
-  //       pickupDetails.selectedOriginDetails.address
-  //     ) {
-  //       return pickupDetails.selectedOriginDetails.address;
-  //     } else if (pickupDetails.pickupFrequentAddress) {
-  //       return `${pickupDetails.pickupFrequentAddress.lat} ${pickupDetails.pickupFrequentAddress.lng}`;
-  //     }
-  //   }
+  const formatCoordinates = (coordinates) =>
+    coordinates ? `${coordinates.lat} ${coordinates.lng}` : null;
 
-  //   return "Empty";
-  // };
+  const pAddress = (details) => {
+    if (details && details.pickupDetails) {
+      const pickupDetails = details.pickupDetails;
+      const selectedOriginDetails = pickupDetails.selectedOriginDetails;
 
-  // const dAddress = (details) => {
-  //   if (
-  //     details &&
-  //     details.dropDetails &&
-  //     details.dropDetails.selectedDestinationDetails &&
-  //     details.dropDetails.selectedDestinationDetails.address
-  //   ) {
-  //     return details.dropDetails.selectedDestinationDetails.address;
-  //   } else if (details && details.dropDetails) {
-  //     const dropDetails = details.dropDetails;
+      return (
+        formatCoordinates(selectedOrigin) ||
+        (selectedOriginDetails && getAddress(selectedOriginDetails)) ||
+        (pickupDetails.pickupFrequentAddress &&
+          formatCoordinates(pickupDetails.pickupFrequentAddress)) ||
+        "Empty"
+      );
+    }
 
-  //     if (
-  //       dropDetails.selectedDestinationDetails &&
-  //       dropDetails.selectedDestinationDetails.address
-  //     ) {
-  //       return dropDetails.selectedDestinationDetails.address;
-  //     } else if (dropDetails.dropFrequentAddress) {
-  //       return `${dropDetails.dropFrequentAddress.lat} ${dropDetails.dropFrequentAddress.lng}`;
-  //     }
-  //   } else if (details && details.selectedDestinationDetails) {
-  //     return `${details.selectedDestinationDetails.lat} ${details.selectedDestinationDetails.lng}`;
-  //   }
+    return "Empty";
+  };
 
-  //   return "Empty";
-  // };
+  const dAddress = (details) => {
+    if (details && details.dropDetails) {
+      const dropDetails = details.dropDetails;
+      const selectedDestinationDetails = dropDetails.selectedDestinationDetails;
 
+      return (
+        (selectedDestinationDetails &&
+          getAddress(selectedDestinationDetails.address)) ||
+        (dropDetails.dropFrequentAddress &&
+          formatCoordinates(dropDetails.dropFrequentAddress)) ||
+        formatCoordinates(selectedDestination) ||
+        "Empty"
+      );
+    }
+
+    return "Empty";
+  };
+  // Example usage:
   return (
     <section
       style={{
@@ -146,7 +138,7 @@ const InvoiceDetails = ({ invoice, job }) => {
             },
             {
               label: "Address",
-              value: "soon",
+              value: pAddress(invoice),
             },
             {
               label: "Special Instruction",
@@ -167,7 +159,7 @@ const InvoiceDetails = ({ invoice, job }) => {
             },
             {
               label: "Address",
-              value: "soon",
+              value: dAddress(invoice),
             },
             {
               label: "Drop Reference 1",

@@ -17,7 +17,7 @@ export default function MenageInvoices({ invoice, title }) {
     router.push(`/admin/Invoices/${id}`);
   };
 
-  function getAbbreviatedMonth(dateStr) {
+  function getFormattedDate(dateStr) {
     const [day, month, year] = dateStr.split("/");
     const formattedDate = new Date(`${month}/${day}/${year}`);
 
@@ -26,14 +26,16 @@ export default function MenageInvoices({ invoice, title }) {
       return null;
     }
 
-    const monthAbbreviation = new Intl.DateTimeFormat("en", {
+    const dayOfMonth = formattedDate.getDate();
+    const monthName = new Intl.DateTimeFormat("en", {
       month: "short",
     }).format(formattedDate);
+    const yearDigits = formattedDate.getFullYear();
 
-    return monthAbbreviation;
+    return `${dayOfMonth}/${monthName.toUpperCase()}/${yearDigits}`;
   }
 
-  function getAbbreviatedMonthbooking(dateStr) {
+  function getFormattedDateJob(dateStr) {
     // Extract month, day, and year components
     const [month, day, year] = dateStr.split("/");
 
@@ -46,19 +48,23 @@ export default function MenageInvoices({ invoice, title }) {
       return null; // or throw an error, depending on your use case
     }
 
-    const monthAbbreviation = new Intl.DateTimeFormat("en", {
+    const dayOfMonth = formattedDate.getDate();
+    const monthName = new Intl.DateTimeFormat("en", {
       month: "short",
     }).format(formattedDate);
+    const yearDigits = formattedDate.getFullYear();
 
-    return monthAbbreviation;
+    return `${dayOfMonth}/${monthName.toUpperCase()}/${yearDigits}`;
   }
+
+  
   const renderTableRow = (row) => (
     <TableRow key={row.docId}>
       <TableCell>{row.docId}</TableCell>
       <TableCell>
         {row.serviceInformation
-          ? getAbbreviatedMonthbooking(row.serviceInformation.date)
-          : getAbbreviatedMonth(row.date)}
+          ? getFormattedDateJob(row.serviceInformation.date)
+          : getFormattedDate(row.date)}
       </TableCell>
       <TableCell>
         {row.serviceInformation ? row.serviceInformation.time : row.time}
