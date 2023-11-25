@@ -16,6 +16,8 @@ import { useRouter } from "next/navigation";
 export default function RecentInvoices({ place_booking, place_job }) {
   const router = useRouter();
 
+  console.log(place_booking, place_job);
+
   const handleNavigate = (id) => {
     router.push(`/RecentInvoices/${id}`);
   };

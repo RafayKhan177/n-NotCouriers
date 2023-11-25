@@ -61,12 +61,12 @@ export default function Page() {
 
   return (
     <div>
-      {invoice ? (
+      {invoice && invoice ? (
         <>
           {job === true ? (
             <InvoicesDetials {...invoice} job={true} />
           ) : (
-            <InvoicesDetials {...invoice} />
+            <InvoicesDetials {...invoice} job={false} />
           )}
           <div>
             <Text tt="uppercase" size="lg" fw={500} c={"gray"}>

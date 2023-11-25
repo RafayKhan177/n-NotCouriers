@@ -84,12 +84,10 @@ export default function Page() {
             selectedDestination,
             date: formattedDate,
             time: formattedTime,
+            progressInformation: [],
           };
 
-          const invoice = await calculatePrice([
-            ...data,
-            { progressInformation: [] },
-          ]);
+          const invoice = await calculatePrice(data);
 
           setInvoiceData(invoice);
           setShow(true);
@@ -138,7 +136,7 @@ export default function Page() {
           <h1>PRICE A JOB</h1>
           <div style={styleField}>
             <PlacesAutocomplete onLocationSelect={handleOrigin} width={true} />
-          
+
             <PlacesAutocomplete
               onLocationSelect={handleDestination}
               width={true}
