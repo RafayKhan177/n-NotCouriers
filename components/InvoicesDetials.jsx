@@ -37,6 +37,57 @@ const InvoiceDetails = ({ invoice, job }) => {
 
   console.log(invoice.serviceInformation || invoice);
 
+  const pAddress = (details) => {
+    if (
+      details &&
+      details.selectedOriginDetails &&
+      details.selectedOriginDetails.address
+    ) {
+      return details.selectedOriginDetails.address;
+    } else if (details && details.pickupDetails) {
+      const pickupDetails = details.pickupDetails;
+
+      if (
+        pickupDetails.selectedOriginDetails &&
+        pickupDetails.selectedOriginDetails.address
+      ) {
+        return pickupDetails.selectedOriginDetails.address;
+      } else if (pickupDetails.pickupFrequentAddress) {
+        return `${pickupDetails.pickupFrequentAddress.lat} ${pickupDetails.pickupFrequentAddress.lng}`;
+      }
+    }
+
+    return "Empty";
+  };
+
+  const dAddress = (details) => {
+    if (
+      details &&
+      details.dropDetails &&
+      details.dropDetails.selectedDestinationDetails &&
+      details.dropDetails.selectedDestinationDetails.address
+    ) {
+      return details.dropDetails.selectedDestinationDetails.address;
+    } else if (details && details.dropDetails) {
+      const dropDetails = details.dropDetails;
+
+      if (
+        dropDetails.selectedDestinationDetails &&
+        dropDetails.selectedDestinationDetails.address
+      ) {
+        return dropDetails.selectedDestinationDetails.address;
+      } else if (dropDetails.dropFrequentAddress) {
+        return `${dropDetails.dropFrequentAddress.lat} ${dropDetails.dropFrequentAddress.lng}`;
+      }
+    } else if (details && details.selectedDestinationDetails) {
+      return `${details.selectedDestinationDetails.lat} ${details.selectedDestinationDetails.lng}`;
+    }
+
+    return "Empty";
+  };
+
+  const value = getDestinationAddress(invoice);
+
   return (
     <section
       style={{
@@ -99,16 +150,7 @@ const InvoiceDetails = ({ invoice, job }) => {
             },
             {
               label: "Address",
-              value:
-                (invoice.pickupDetails &&
-                  invoice.pickupDetails.selectedOriginDetails.address) ||
-                (invoice.pickupDetails &&
-                  invoice.pickupDetails.pickupFrequentAddress.lat +
-                    invoice.pickupDetails.pickupFrequentAddress.lng) ||
-                (invoice.selectedOriginDetails &&
-                  invoice.selectedOriginDetails.lat +
-                    invoice.pickupDetails.pickupFrequentAddress.lng) ||
-                "Empty",
+              value: pAddress(invoice),
             },
             {
               label: "Special Instruction",
@@ -129,16 +171,7 @@ const InvoiceDetails = ({ invoice, job }) => {
             },
             {
               label: "Address",
-              value:
-                (invoice.dropDetails &&
-                  invoice.dropDetails.selectedDestinationDetails.address) ||
-                (invoice.dropDetails &&
-                  invoice.dropDetails.dropFrequentAddress.lat +
-                    invoice.dropDetails.dropFrequentAddress.lng) ||
-                (invoice.dropDetails &&
-                  invoice.selectedDestinationDetails.lat +
-                    invoice.selectedDestinationDetails.lng) ||
-                "Empty",
+              value: dAddress(),
             },
             {
               label: "Drop Reference 1",
