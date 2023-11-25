@@ -86,8 +86,6 @@ const InvoiceDetails = ({ invoice, job }) => {
     return "Empty";
   };
 
-  const value = getDestinationAddress(invoice);
-
   return (
     <section
       style={{
