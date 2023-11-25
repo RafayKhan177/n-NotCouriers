@@ -71,9 +71,9 @@ export default function Page() {
       {invoice && invoice ? (
         <>
           {job === true ? (
-            <InvoicesDetials {...invoice} job={true} />
+            <InvoicesDetials invoice={invoice} job={true} />
           ) : (
-            <InvoicesDetials {...invoice} job={false} />
+            <InvoicesDetials invoice={invoice} job={false} />
           )}
           <div
             style={{
@@ -85,7 +85,7 @@ export default function Page() {
             }}
           >
             <Button
-            mb={40}
+              mb={40}
               w={300}
               onClick={() => {
                 window.print();
