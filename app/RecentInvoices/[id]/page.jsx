@@ -34,9 +34,9 @@ export default function Page() {
       {invoice ? (
         <>
           {isJob ? (
-            <InvoicesDetials {...invoice} job={true} />
+            <InvoicesDetials invoice={...invoice} job={true} />
           ) : (
-            <InvoicesDetials {...invoice} />
+            <InvoicesDetials invoice={...invoice}  job={null} />
           )}
         </>
       ) : (
