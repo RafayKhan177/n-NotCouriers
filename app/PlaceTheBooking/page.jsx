@@ -43,9 +43,9 @@ export default function Page() {
     time: null,
     pieces: "",
     weight: "",
-    pickupFrequentAddress: "",
     pickupGoodsDescription: "",
-    dropFrequentAddress: "",
+    pickupFrequentAddress: [],
+    dropFrequentAddress: [],
     dropReference1: "",
     dropSuburb: "",
     pickupSuburb: "",
@@ -57,6 +57,7 @@ export default function Page() {
   const [selectedOrigin, setselectedOrigin] = useState(null);
   const [loading, setLoading] = useState(false);
   const [autoaddress, setAutoaddress] = useState(true);
+  console.log(formData);
   // -----------------------------State Handlers
   const emptyAllFields = () => {
     setFormData(initialFormData);
@@ -77,8 +78,6 @@ export default function Page() {
   };
   const handleChangeDd = (e) => {
     const { name, value } = e.target;
-    // setSelectedDestination([]);
-    // setselectedOrigin([]);
     setAutoaddress(false);
     setFormData({ ...formData, [name]: value });
   };
@@ -97,26 +96,6 @@ export default function Page() {
     try {
       setLoading(true);
 
-      // List of required fields
-      const requiredFields = [
-        "contact",
-        "pickupGoodsDescription",
-        "service",
-        "date",
-        "time",
-        "pieces",
-        "weight",
-        "dropSuburb",
-        "pickupSuburb",
-      ];
-
-      // Check if any required field is missing
-      if (requiredFields.some((field) => !formData[field])) {
-        alert("Please fill in all required fields.");
-        return;
-      }
-
-      // Destructure form data
       const {
         contact,
         pickupFrequentAddress,
@@ -132,7 +111,6 @@ export default function Page() {
         pickupSuburb,
       } = formData;
 
-      // Extract details for origin and destination
       const selectedOriginDetails = {
         address: (selectedOrigin && selectedOrigin.label) || "none",
         coordinates: (selectedOrigin && selectedOrigin.coordinates) || "none",
@@ -144,44 +122,40 @@ export default function Page() {
           (selectedDestination && selectedDestination.coordinates) || "none",
       };
 
-      // Use Promise.all to handle asynchronous operations
-      const [pickupDetails, serviceInformation, dropDetails] =
-        await Promise.all([
-          {
-            pickupFrequentAddress,
-            selectedOriginDetails,
-            pickupGoodsDescription,
-            pickupSuburb,
-          },
-          {
-            service,
-            date,
-            time,
-            pieces,
-            weight,
-          },
-          {
-            dropFrequentAddress,
-            selectedDestinationDetails,
-            dropSuburb,
-            dropReference1,
-          },
-        ]);
+      const pickupDetails = {
+        pickupFrequentAddress,
+        selectedOriginDetails,
+        pickupGoodsDescription,
+        pickupSuburb,
+      };
 
-      // Handle error for calculateDistance
+      const serviceInformation = {
+        service,
+        date,
+        time,
+        pieces,
+        weight,
+      };
+
+      const dropDetails = {
+        dropFrequentAddress,
+        selectedDestinationDetails,
+        dropSuburb,
+        dropReference1,
+      };
+
       let distanceData;
       try {
         distanceData = await calculateDistance(
-          pickupFrequentAddress || selectedOrigin.coordinates,
-          dropFrequentAddress || selectedDestination.coordinates
+          pickupFrequentAddress.coordinates || selectedOrigin.coordinates,
+          dropFrequentAddress.coordinates || selectedDestination.coordinates
         ).then((data) => data.rows[0].elements[0]);
       } catch (distanceError) {
         console.error("Error calculating distance:", distanceError);
-        // Handle the error, e.g., show a message to the user
+        setLoading(false);
         return;
       }
 
-      // Organize data for submission
       const data = {
         contact,
         pickupDetails,
@@ -190,13 +164,8 @@ export default function Page() {
         distanceData,
       };
 
-      // Calculate invoice and clear fields
       const invoice = await calculatePrice(data);
-      emptyAllFields();
-      console.log(invoice);
 
-      // Execute asynchronous operations in parallel
-      // Uncomment and test the following lines
       await Promise.all([
         postInvoice(invoice, "place_bookings"),
         addFrequentAddress({ contact, ...selectedOriginDetails }),
@@ -282,7 +251,7 @@ export default function Page() {
                 >
                   {frequentAddresses &&
                     frequentAddresses.map((option, index) => (
-                      <MenuItem key={index} value={option.coordinates}>
+                      <MenuItem key={index} value={option}>
                         {option.address}
                       </MenuItem>
                     ))}
@@ -399,7 +368,7 @@ export default function Page() {
                 >
                   {frequentAddresses &&
                     frequentAddresses.map((option, index) => (
-                      <MenuItem key={index} value={option.coordinates}>
+                      <MenuItem key={index} value={option}>
                         {option.address}
                       </MenuItem>
                     ))}

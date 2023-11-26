@@ -11,8 +11,8 @@ import { useRouter } from "next/navigation";
 
 export default function Page() {
   const nav = useRouter();
-  const [selectedDestination, setSelectedDestination] = useState(null);
-  const [selectedOrigin, setSelectedOrigin] = useState(null);
+  const [selectedDestinationDetails, setSelectedDestination] = useState(null);
+  const [selectedOriginDetails, setSelectedOrigin] = useState(null);
   const [show, setShow] = useState(false);
   const [invoiceData, setInvoiceData] = useState([]);
   const [suburbOptions, setSuburbOptions] = useState([]);
@@ -41,11 +41,11 @@ export default function Page() {
   };
 
   const handleDestination = (location) => {
-    setSelectedDestination(location.coordinates);
+    setSelectedDestination(location);
   };
 
   const handleOrigin = (location) => {
-    setSelectedOrigin(location.coordinates);
+    setSelectedOrigin(location);
   };
 
   const handleHide = () => {
@@ -61,8 +61,8 @@ export default function Page() {
       } else {
         try {
           const distance = await calculateDistance(
-            selectedOrigin,
-            selectedDestination
+            selectedOriginDetails.coordinates,
+            selectedDestinationDetails.coordinates
           );
           const distanceData = distance.rows[0].elements[0];
 
@@ -80,8 +80,8 @@ export default function Page() {
             service,
             pieces,
             weight,
-            selectedOrigin,
-            selectedDestination,
+            pickupDetails: selectedOriginDetails,
+            dropDetails: selectedDestinationDetails,
             date: formattedDate,
             time: formattedTime,
             progressInformation: [],

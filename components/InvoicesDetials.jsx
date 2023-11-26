@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Paper } from "@mui/material";
 import { Text } from "@mantine/core";
 
@@ -32,50 +32,97 @@ const renderDetails = (title, details) => (
   </div>
 );
 
-const InvoiceDetails = ({ invoice, job }) => {
+const InvoiceDetails = ({ invoice }) => {
   const serviceInfo = invoice.serviceInformation || invoice;
+  const [pickupAddress, setPickupAddress] = useState("Empty");
+  const [dropAddress, setDropAddress] = useState("Empty");
 
-  // const getAddress = (addressObj) =>
-  //   addressObj && addressObj.address !== "none" ? addressObj.address : null;
+  const getAddress = (addressObj) =>
+    addressObj && addressObj.address !== "none" ? addressObj.address : null;
 
-  // const formatCoordinates = (coordinates) =>
-  //   coordinates ? `${coordinates.lat} ${coordinates.lng}` : null;
+  const formatCoordinates = (coordinates) =>
+    coordinates ? `${coordinates.lat} ${coordinates.lng}` : null;
 
-  // const pAddress = (details) => {
-  //   if (details && details.pickupDetails) {
-  //     const pickupDetails = details.pickupDetails;
-  //     const selectedOriginDetails = pickupDetails.selectedOriginDetails;
+  console.log(invoice);
+  useEffect(() => {
+    const pAddress = () => {
+      if (invoice && invoice.pickupDetails) {
+        const pickupDetails = invoice.pickupDetails;
+        const selectedOriginDetails = pickupDetails.selectedOriginDetails;
 
-  //     return (
-  //       formatCoordinates(selectedOrigin) ||
-  //       (selectedOriginDetails && getAddress(selectedOriginDetails)) ||
-  //       (pickupDetails.pickupFrequentAddress &&
-  //         formatCoordinates(pickupDetails.pickupFrequentAddress)) ||
-  //       "Empty"
-  //     );
-  //   }
+        return (
+          (selectedOriginDetails && getAddress(selectedOriginDetails)) ||
+          (pickupDetails.pickupFrequentAddress &&
+            formatCoordinates(pickupDetails.pickupFrequentAddress)) ||
+          pickupDetails.label ||
+          "Empty"
+        );
+      }
+      return "Empty";
+    };
 
-  //   return "Empty";
-  // };
+    const dAddress = () => {
+      if (invoice && invoice.dropDetails) {
+        const dropDetails = invoice.dropDetails;
+        const selectedDestinationDetails =
+          dropDetails.selectedDestinationDetails;
 
-  // const dAddress = (details) => {
-  //   if (details && details.dropDetails) {
-  //     const dropDetails = details.dropDetails;
-  //     const selectedDestinationDetails = dropDetails.selectedDestinationDetails;
+        return (
+          (selectedDestinationDetails &&
+            getAddress(selectedDestinationDetails)) ||
+          (dropDetails.dropFrequentAddress &&
+            formatCoordinates(dropDetails.dropFrequentAddress)) ||
+          dropDetails.label ||
+          "Empty"
+        );
+      }
 
-  //     return (
-  //       (selectedDestinationDetails &&
-  //         getAddress(selectedDestinationDetails.address)) ||
-  //       (dropDetails.dropFrequentAddress &&
-  //         formatCoordinates(dropDetails.dropFrequentAddress)) ||
-  //       formatCoordinates(selectedDestination) ||
-  //       "Empty"
-  //     );
-  //   }
+      return "Empty";
+    };
 
-  //   return "Empty";
-  // };
-  // Example usage:
+    // Set pickup and drop addresses
+    try {
+      const pickupAddressResult = pAddress();
+      setPickupAddress(pickupAddressResult);
+
+      const dropAddressResult = dAddress();
+      setDropAddress(dropAddressResult);
+    } catch (error) {
+      console.error("Error processing invoice:", error);
+    }
+  }, [invoice]);
+
+  console.log(invoice);
+
+  const a = {
+    dropDetails: {
+      selectedDestinationDetails: {
+        address: "Lahore",
+      },
+      dropFrequentAddress: {
+        lat: 123,
+        lng: 456,
+      },
+    },
+    pickupDetails: {
+      selectedOriginDetails: {
+        address: "Islamabad",
+      },
+      pickupFrequentAddress: {
+        lat: 123,
+        lng: 456,
+      },
+    },
+    selectedDestination: {
+      lat: 123,
+      lng: 456,
+    },
+    selectedOrigin: {
+      lat: 123,
+      lng: 456,
+    },
+  };
+
   return (
     <section
       style={{
@@ -138,7 +185,7 @@ const InvoiceDetails = ({ invoice, job }) => {
             },
             {
               label: "Address",
-              value: "soon",
+              value: pickupAddress,
             },
             {
               label: "Special Instruction",
@@ -159,7 +206,7 @@ const InvoiceDetails = ({ invoice, job }) => {
             },
             {
               label: "Address",
-              value: "soon",
+              value: dropAddress,
             },
             {
               label: "Drop Reference 1",
