@@ -113,9 +113,10 @@ export default function Page() {
     setRole(role);
     getSuburbs();
   }, []);
+
   if (role === null) {
     return <CAP status={"notLoggedIn"} />;
-  } else if (role !== null || role === "user") {
+  } else if (role !== null && role === "user") {
     return <p>Restricted</p>;
   }
 
