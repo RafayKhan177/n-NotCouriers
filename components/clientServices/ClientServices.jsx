@@ -6,6 +6,9 @@ import { clientServiceslinks } from "@/components/static";
 import LogoutIcon from "@mui/icons-material/ExitToApp";
 import { logout } from "@/api/firebase/functions/auth";
 import { useRouter } from "next/navigation";
+import PriceJobIcon from "@mui/icons-material/MonetizationOn";
+import { useEffect, useState } from "react";
+// import PriceJobIcon from "./PriceJobIcon"; // Assuming PriceJobIcon is imported
 
 const logoutInfo = {
   image: "Logout",
@@ -17,12 +20,18 @@ const logoutInfo = {
 
 export default function ClientServices() {
   const router = useRouter();
+  const [userRole, setUserRole] = useState([]);
+
+  useEffect(() => {
+    const userDoc = JSON.parse(localStorage.getItem("userDoc")) || {};
+    const role = userDoc.role || null;
+    setUserRole(role);
+  }, []);
 
   const logoutUser = async () => {
     await logout();
     router.push(`/Signin`);
   };
-  
 
   const items = clientServiceslinks.map((item, index) => (
     <Link
@@ -58,17 +67,16 @@ export default function ClientServices() {
     </Link>
   ));
 
-  return (
-    <Container size={700} className={classes.wrapper}>
-      <Text className={classes.supTitle}>Client Services</Text>
-
-      <SimpleGrid cols={{ base: 1, xs: 2 }} spacing={50} mt={30}>
-        {items}
-        <div
-          onClick={logoutUser}
-          className={`${classes.item} ${classes.link}`}
-          style={{ cursor: "pointer" }}
-        >
+  // Conditionally render the Price Job link if userRole is admin
+  if (userRole === "business" || userRole === "admin") {
+    items.push(
+      <Link
+        href="/PriceTheJob"
+        key="adminLink"
+        passHref
+        style={{ textDecoration: "none" }}
+      >
+        <div className={`${classes.item} ${classes.link}`}>
           <ThemeIcon
             variant="light"
             color="red"
@@ -76,7 +84,7 @@ export default function ClientServices() {
             size={60}
             radius="md"
           >
-            {logoutInfo.icon}
+            <PriceJobIcon />
           </ThemeIcon>
           <div>
             <Text
@@ -85,11 +93,52 @@ export default function ClientServices() {
               style={{ color: "black" }}
               className={classes.itemTitle}
             >
-              {logoutInfo.title}
+              Price Job
             </Text>
-            <Text c="dimmed">{logoutInfo.description}</Text>
+            <Text c="dimmed">Price a booking</Text>
           </div>
         </div>
+      </Link>
+    );
+  }
+
+  // Add the logout link at the end
+  items.push(
+    <div
+      onClick={logoutUser}
+      className={`${classes.item} ${classes.link}`}
+      style={{ cursor: "pointer" }}
+      key="logoutLink"
+    >
+      <ThemeIcon
+        variant="light"
+        color="red"
+        className={classes.itemIcon}
+        size={60}
+        radius="md"
+      >
+        {logoutInfo.icon}
+      </ThemeIcon>
+      <div>
+        <Text
+          fw={700}
+          fz="lg"
+          style={{ color: "black" }}
+          className={classes.itemTitle}
+        >
+          {logoutInfo.title}
+        </Text>
+        <Text c="dimmed">{logoutInfo.description}</Text>
+      </div>
+    </div>
+  );
+
+  return (
+    <Container size={700} className={classes.wrapper}>
+      <Text className={classes.supTitle}>Client Services</Text>
+
+      <SimpleGrid cols={{ base: 1, xs: 2 }} spacing={50} mt={30}>
+        {items}
       </SimpleGrid>
     </Container>
   );

@@ -28,13 +28,7 @@ const clientServiceslinks = [
     link: "/JobInquiry",
     icon: <JobInquiryIcon />,
   },
-  {
-    image: "Price Job",
-    title: "Price Job",
-    description: "Price a booking",
-    link: "/PriceTheJob",
-    icon: <PriceJobIcon />,
-  },
+ 
   {
     image: "Addresses",
     title: "Addresses",
