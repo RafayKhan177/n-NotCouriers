@@ -35,46 +35,46 @@ const renderDetails = (title, details) => (
 const InvoiceDetails = ({ invoice, job }) => {
   const serviceInfo = invoice.serviceInformation || invoice;
 
-  const getAddress = (addressObj) =>
-    addressObj && addressObj.address !== "none" ? addressObj.address : null;
+  // const getAddress = (addressObj) =>
+  //   addressObj && addressObj.address !== "none" ? addressObj.address : null;
 
-  const formatCoordinates = (coordinates) =>
-    coordinates ? `${coordinates.lat} ${coordinates.lng}` : null;
+  // const formatCoordinates = (coordinates) =>
+  //   coordinates ? `${coordinates.lat} ${coordinates.lng}` : null;
 
-  const pAddress = (details) => {
-    if (details && details.pickupDetails) {
-      const pickupDetails = details.pickupDetails;
-      const selectedOriginDetails = pickupDetails.selectedOriginDetails;
+  // const pAddress = (details) => {
+  //   if (details && details.pickupDetails) {
+  //     const pickupDetails = details.pickupDetails;
+  //     const selectedOriginDetails = pickupDetails.selectedOriginDetails;
 
-      return (
-        formatCoordinates(selectedOrigin) ||
-        (selectedOriginDetails && getAddress(selectedOriginDetails)) ||
-        (pickupDetails.pickupFrequentAddress &&
-          formatCoordinates(pickupDetails.pickupFrequentAddress)) ||
-        "Empty"
-      );
-    }
+  //     return (
+  //       formatCoordinates(selectedOrigin) ||
+  //       (selectedOriginDetails && getAddress(selectedOriginDetails)) ||
+  //       (pickupDetails.pickupFrequentAddress &&
+  //         formatCoordinates(pickupDetails.pickupFrequentAddress)) ||
+  //       "Empty"
+  //     );
+  //   }
 
-    return "Empty";
-  };
+  //   return "Empty";
+  // };
 
-  const dAddress = (details) => {
-    if (details && details.dropDetails) {
-      const dropDetails = details.dropDetails;
-      const selectedDestinationDetails = dropDetails.selectedDestinationDetails;
+  // const dAddress = (details) => {
+  //   if (details && details.dropDetails) {
+  //     const dropDetails = details.dropDetails;
+  //     const selectedDestinationDetails = dropDetails.selectedDestinationDetails;
 
-      return (
-        (selectedDestinationDetails &&
-          getAddress(selectedDestinationDetails.address)) ||
-        (dropDetails.dropFrequentAddress &&
-          formatCoordinates(dropDetails.dropFrequentAddress)) ||
-        formatCoordinates(selectedDestination) ||
-        "Empty"
-      );
-    }
+  //     return (
+  //       (selectedDestinationDetails &&
+  //         getAddress(selectedDestinationDetails.address)) ||
+  //       (dropDetails.dropFrequentAddress &&
+  //         formatCoordinates(dropDetails.dropFrequentAddress)) ||
+  //       formatCoordinates(selectedDestination) ||
+  //       "Empty"
+  //     );
+  //   }
 
-    return "Empty";
-  };
+  //   return "Empty";
+  // };
   // Example usage:
   return (
     <section
@@ -138,7 +138,7 @@ const InvoiceDetails = ({ invoice, job }) => {
             },
             {
               label: "Address",
-              value: pAddress(invoice),
+              value: "soon",
             },
             {
               label: "Special Instruction",
@@ -159,7 +159,7 @@ const InvoiceDetails = ({ invoice, job }) => {
             },
             {
               label: "Address",
-              value: dAddress(invoice),
+              value: "soon",
             },
             {
               label: "Drop Reference 1",
