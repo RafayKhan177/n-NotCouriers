@@ -18,11 +18,11 @@ const renderDetails = (title, details) => (
             alignItems: "center",
           }}
         >
-          <h4 tt="uppercase" size="lg" fw={700} style={{ color: "grey" }}>
-            {(detail && detail.label) || "something went wrong"}:
+          <h4 tt="uppercase" fw={700} style={{ color: "grey" }}>
+            {(detail && detail.label) || "empty"}:
           </h4>
-          <h4 tt="uppercase" size="lg" fw={500} style={{ color: "gray" }}>
-            {(detail && detail.value) || "something went wrong"}
+          <h4 tt="uppercase" fw={500}>
+            {(detail && detail.value) || "empty"}
           </h4>
         </div>
       ))}
@@ -112,10 +112,10 @@ const InvoiceDetails = (invoice, job) => {
             )}
             {renderDetails("Pickup Details", [
               { label: "Suburb", value: invoice.pickupSuburb },
-              // {
-              //   label: "Address",
-              //   value: invoice.pickupDetails.selectedOriginDetails.address,
-              // },
+              {
+                label: "Address",
+                value: invoice.pickupDetails.label,
+              },
               {
                 label: "Delivered",
                 value: invoice.progressInformation.delivered || "Not Yet",
@@ -124,10 +124,10 @@ const InvoiceDetails = (invoice, job) => {
 
             {renderDetails("Drop Details", [
               { label: "Suburb", value: invoice.dropSuburb },
-              // {
-              //   label: "Address",
-              //   value: invoice.dropDetails.selectedDestinationDetails.address,
-              // },
+              {
+                label: "Address",
+                value: invoice.dropDetails.label,
+              },
               {
                 label: "Delivered",
                 value: invoice.progressInformation.delivered || "Not Yet",

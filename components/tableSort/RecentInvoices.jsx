@@ -13,6 +13,46 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 
+function getFormattedDate(dateStr) {
+  const [day, month, year] = dateStr.split("/");
+  const formattedDate = new Date(`${month}/${day}/${year}`);
+
+  if (isNaN(formattedDate)) {
+    console.error(`Invalid date: ${dateStr}`);
+    return null;
+  }
+
+  const dayOfMonth = formattedDate.getDate();
+  const monthName = new Intl.DateTimeFormat("en", {
+    month: "short",
+  }).format(formattedDate);
+  const yearDigits = formattedDate.getFullYear();
+
+  return `${dayOfMonth}/${monthName.toUpperCase()}/${yearDigits}`;
+}
+
+function getFormattedDateJob(dateStr) {
+  // Extract month, day, and year components
+  const [month, day, year] = dateStr.split("/");
+
+  // Create a new date using the rearranged components
+  const formattedDate = new Date(`${month}/${day}/${year}`);
+
+  // Check if the date is valid before formatting
+  if (isNaN(formattedDate)) {
+    console.error(`Invalid date: ${dateStr}`);
+    return null; // or throw an error, depending on your use case
+  }
+
+  const dayOfMonth = formattedDate.getDate();
+  const monthName = new Intl.DateTimeFormat("en", {
+    month: "short",
+  }).format(formattedDate);
+  const yearDigits = formattedDate.getFullYear();
+
+  return `${dayOfMonth}/${monthName.toUpperCase()}/${yearDigits}`;
+}
+
 export default function RecentInvoices({ place_booking, place_job }) {
   const router = useRouter();
 
@@ -22,49 +62,14 @@ export default function RecentInvoices({ place_booking, place_job }) {
     router.push(`/RecentInvoices/${id}`);
   };
 
-  function getAbbreviatedMonth(dateStr) {
-    const [day, month, year] = dateStr.split("/");
-    const formattedDate = new Date(`${month}/${day}/${year}`);
-
-    if (isNaN(formattedDate)) {
-      console.error(`Invalid date: ${dateStr}`);
-      return null;
-    }
-
-    const monthAbbreviation = new Intl.DateTimeFormat("en", {
-      month: "short",
-    }).format(formattedDate);
-
-    return monthAbbreviation;
-  }
-
-  function getAbbreviatedMonthbooking(dateStr) {
-    // Extract month, day, and year components
-    const [month, day, year] = dateStr.split("/");
-
-    // Create a new date using the rearranged components
-    const formattedDate = new Date(`${month}/${day}/${year}`);
-
-    // Check if the date is valid before formatting
-    if (isNaN(formattedDate)) {
-      console.error(`Invalid date: ${dateStr}`);
-      return null; // or throw an error, depending on your use case
-    }
-
-    const monthAbbreviation = new Intl.DateTimeFormat("en", {
-      month: "short",
-    }).format(formattedDate);
-
-    return monthAbbreviation;
-  }
-
-  const renderTableRow = (row) => (
+  const renderTableRow = (row, cat) => (
     <TableRow key={row.docId}>
+      <TableCell>{cat}</TableCell>
       <TableCell>{row.docId}</TableCell>
       <TableCell>
         {row.serviceInformation
-          ? getAbbreviatedMonthbooking(row.serviceInformation.date)
-          : getAbbreviatedMonth(row.date)}
+          ? getFormattedDateJob(row.serviceInformation.date)
+          : getFormattedDate(row.date)}
       </TableCell>
       <TableCell>
         {row.serviceInformation ? row.serviceInformation.time : row.time}
@@ -79,6 +84,15 @@ export default function RecentInvoices({ place_booking, place_job }) {
           View This Entry
         </Button>
       </TableCell>
+      <TableCell>
+        <Button
+          variant="light"
+          color="dark"
+          // onClick={() => handle#(row.docId)}
+        >
+          PDF
+        </Button>
+      </TableCell>
     </TableRow>
   );
 
@@ -90,16 +104,19 @@ export default function RecentInvoices({ place_booking, place_job }) {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
+            <TableCell>Category</TableCell>
             <TableCell>ID</TableCell>
             <TableCell>Date</TableCell>
             <TableCell>Time</TableCell>
             <TableCell>Invoice(Incl)</TableCell>
             <TableCell>View</TableCell>
+            <TableCell>PDF</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {place_booking && place_booking.map(renderTableRow)}
-          {place_job && place_job.map(renderTableRow)}
+          {place_booking &&
+            place_booking.map((row) => renderTableRow(row, "Booking"))}
+          {place_job && place_job.map((row) => renderTableRow(row, "Job"))}
         </TableBody>
       </Table>
     </TableContainer>

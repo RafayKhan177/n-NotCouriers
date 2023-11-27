@@ -1,7 +1,7 @@
 "use client";
 import { MenageInvoices, Stats } from "@/components/Index";
 import { useEffect, useState } from "react";
-import { getCollection } from "@/api/firebase/functions/fetch";
+import { getPaidDocumentsFromCollection } from "@/api/firebase/functions/fetch";
 
 export default function Page() {
   const [place_job, setPlace_job] = useState([]);
@@ -9,8 +9,9 @@ export default function Page() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const fetchedPlace_booking = await getCollection("place_bookings");
-        const fetchedPlace_job = await getCollection("place_job");
+        const fetchedPlace_job = await getPaidDocumentsFromCollection(
+          "place_job"
+        );
         setPlace_job(fetchedPlace_job);
       } catch (error) {
         console.error("Error fetching invoices:", error);
@@ -23,7 +24,7 @@ export default function Page() {
   return (
     <>
       <Stats />
-      <MenageInvoices invoice={place_job} title={"Bookings" }/>;
+      <MenageInvoices invoice={place_job} title={"Bookings"} />;
     </>
   );
 }

@@ -24,7 +24,7 @@ const renderDetails = (title, details) => (
           <h4 tt="uppercase" size="lg" fw={700} style={{ color: "grey" }}>
             {label || "Not Found"}:
           </h4>
-          <h4 tt="uppercase" size="lg" fw={500} style={{ color: "gray" }}>
+          <h4 tt="uppercase" size="lg" fw={500}>
             {value || "Not Found"}
           </h4>
         </div>
@@ -222,42 +222,42 @@ const InvoiceDetails = ({ invoice }) => {
               value:
                 (invoice.progressInformation &&
                   invoice.progressInformation.booked) ||
-                "Not Completed",
+                "Pending",
             },
             {
               label: "E.T.D.",
               value:
                 (invoice.progressInformation &&
                   invoice.progressInformation.etd) ||
-                "Not Completed",
+                "Pending",
             },
             {
               label: "Allocated",
               value:
                 (invoice.progressInformation &&
                   invoice.progressInformation.allocated) ||
-                "Not Completed",
+                "Pending",
             },
             {
               label: "Pick Up",
               value:
                 (invoice.progressInformation &&
                   invoice.progressInformation.pickedup) ||
-                "Not Completed",
+                "Pending",
             },
             {
               label: "Delivered",
               value:
                 (invoice.progressInformation &&
                   invoice.progressInformation.delivered) ||
-                "Not Completed",
+                "Pending",
             },
             {
               label: "P.O.D.",
               value:
                 (invoice.progressInformation &&
                   invoice.progressInformation.pod) ||
-                "Not Completed",
+                "Pending",
             },
           ])}
         </div>

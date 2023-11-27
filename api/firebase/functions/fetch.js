@@ -27,7 +27,7 @@ async function fetchDocById(docId, collectionName) {
     }
     return docSnapshot.data();
   } catch (error) {
-    notify("Error fetching Doc:", error);
+    console.log("Error fetching Doc:", error);
   }
 }
 
@@ -67,6 +67,7 @@ async function fetchPlace_booking() {
     return [];
   }
 }
+
 async function fetchPlace_job() {
   const user = JSON.parse(localStorage.getItem("userDoc"));
   if (!user) {
@@ -75,7 +76,11 @@ async function fetchPlace_job() {
   }
   try {
     const collectionRef = collection(db, "place_job");
-    const q = query(collectionRef, where("userEmail", "==", user.email));
+    const q = query(
+      collectionRef,
+      where("userEmail", "==", user.email),
+      where("payment", "==", "paid")
+    );
     const querySnapshot = await getDocs(q);
     const documents = [];
     querySnapshot.forEach((doc) => {
@@ -88,6 +93,7 @@ async function fetchPlace_job() {
     return [];
   }
 }
+
 async function getDocByDateAndId(collectionName, id, date) {
   const user = JSON.parse(localStorage.getItem("userDoc"));
   if (!user) {
@@ -146,22 +152,30 @@ async function fetchOptions() {
     notify("Error fetching Doc:", error);
   }
 }
-
 async function getBookingsBetweenDates(
   fromDateString,
   toDateString,
   reference
 ) {
+  const user = JSON.parse(localStorage.getItem("userDoc"));
+
   try {
     const collectionRef = collection(db, "place_bookings");
-    const q = query(
+
+    // Create a base query with common date and user conditions
+    const baseQuery = query(
       collectionRef,
       where("serviceInformation.date", ">=", fromDateString),
       where("serviceInformation.date", "<=", toDateString),
-      where("dropDetails.dropReference1", "==", reference)
+      where("userEmail", "==", user.email)
     );
 
-    const querySnapshot = await getDocs(q);
+    // If the reference is not an empty string, add the specific reference condition
+    const finalQuery = reference
+      ? query(baseQuery, where("dropDetails.dropReference1", "==", reference))
+      : baseQuery;
+
+    const querySnapshot = await getDocs(finalQuery);
     const docs = [];
 
     querySnapshot.forEach((doc) => {
@@ -180,6 +194,27 @@ async function getBookingsBetweenDates(
   }
 }
 
+async function getPaidDocumentsFromCollection(collectionName) {
+  try {
+    const user = JSON.parse(localStorage.getItem("userDoc"));
+
+    if (!user) {
+      notify("You're not logged in");
+      return [];
+    }
+
+    const collectionRef = collection(db, collectionName);
+    const querySnapshot = await getDocs(query(collectionRef, where("payment", "==", "paid")));
+    
+    const paidDocuments = querySnapshot.docs.map((doc) => doc.data());
+    return paidDocuments;
+  } catch (error) {
+    notify("Something went wrong while fetching documents");
+    return [];
+  }
+}
+
+
 export {
   fetchDocById,
   fetchFrequentAddresses,
@@ -189,4 +224,5 @@ export {
   getCollection,
   fetchOptions,
   getBookingsBetweenDates,
+  getPaidDocumentsFromCollection
 };

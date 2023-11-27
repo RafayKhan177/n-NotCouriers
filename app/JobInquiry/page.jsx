@@ -1,13 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
 import { TextField } from "@mui/material";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Button } from "@mantine/core";
-import { getDocByDateAndId } from "@/api/firebase/functions/fetch";
 import { useRouter } from "next/navigation";
 import { CAP } from "@/components/Index";
 import Link from "next/link";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 
 export default function Page() {
   const router = useRouter();
@@ -18,16 +17,11 @@ export default function Page() {
   const [formData, setFormData] = useState(initialFormData);
 
   const handleDateChange = (date) => {
-    const formattedDate = date ? date.format("DD/MM/YYYY") : null;
-    setFormData({ ...formData, date: formattedDate });
+    setFormData({ ...formData, date: date });
   };
 
   const handleSubmit = async () => {
-
-    const requiredFields = [
-      "date",
-      "orderNo"
-    ];
+    const requiredFields = ["date", "orderNo"];
 
     // Check if any required field is missing
     if (requiredFields.some((field) => !formData[field])) {
@@ -35,7 +29,6 @@ export default function Page() {
       return;
     }
     router.push(`/JobInquiry/${formData.orderNo}`);
-   
   };
 
   const styleField = {

@@ -57,9 +57,9 @@ export default function MenageInvoices({ invoice, title }) {
     return `${dayOfMonth}/${monthName.toUpperCase()}/${yearDigits}`;
   }
 
-  
   const renderTableRow = (row) => (
     <TableRow key={row.docId}>
+      <TableCell>{title}</TableCell>
       <TableCell>{row.docId}</TableCell>
       <TableCell>
         {row.serviceInformation
@@ -105,6 +105,7 @@ export default function MenageInvoices({ invoice, title }) {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
+            <TableCell>Category</TableCell>
             <TableCell>Job Number</TableCell>
             <TableCell>Date</TableCell>
             <TableCell>Time</TableCell>
