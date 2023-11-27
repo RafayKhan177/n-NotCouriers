@@ -11,6 +11,24 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 
+function formatTimeTo12Hour(timeStr) {
+  // Parse the input time string
+  const [hours, minutes, seconds] = timeStr.split(":").map(Number);
+
+  // Create a Date object to utilize the built-in formatting options
+  const formattedTime = new Date();
+  formattedTime.setHours(hours, minutes, seconds);
+
+  // Use Intl.DateTimeFormat to get the time in 12-hour format with 'AM' or 'PM'
+  const formattedTimeString = new Intl.DateTimeFormat("en", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  }).format(formattedTime);
+
+  return formattedTimeString;
+}
+
 export default function MenageInvoices({ invoice, title }) {
   const router = useRouter();
   const handleEdit = (id) => {
@@ -67,7 +85,9 @@ export default function MenageInvoices({ invoice, title }) {
           : getFormattedDate(row.date)}
       </TableCell>
       <TableCell>
-        {row.serviceInformation ? row.serviceInformation.time : row.time}
+        {row.serviceInformation
+          ? row.serviceInformation.time
+          : formatTimeTo12Hour(row.time)}
       </TableCell>
       <TableCell>$ {row.totalPrice}</TableCell>
       {/* <TableCell>address</TableCell>

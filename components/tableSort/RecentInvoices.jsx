@@ -53,6 +53,7 @@ function getFormattedDateJob(dateStr) {
   return `${dayOfMonth}/${monthName.toUpperCase()}/${yearDigits}`;
 }
 
+
 export default function RecentInvoices({ place_booking, place_job }) {
   const router = useRouter();
 
@@ -72,7 +73,9 @@ export default function RecentInvoices({ place_booking, place_job }) {
           : getFormattedDate(row.date)}
       </TableCell>
       <TableCell>
-        {row.serviceInformation ? row.serviceInformation.time : row.time}
+        {row.serviceInformation
+          ? row.serviceInformation.time
+          : getFormattedDateJob(row.time)}
       </TableCell>
       <TableCell>{row.totalPrice}</TableCell>
       <TableCell>

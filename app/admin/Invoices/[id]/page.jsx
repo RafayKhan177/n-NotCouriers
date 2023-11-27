@@ -70,6 +70,31 @@ export default function Page() {
     >
       {invoice && invoice ? (
         <>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              padding: "1rem",
+              flexDirection: "column",
+            }}
+          >
+            <Text tt="uppercase" size="lg" fw={500} c={"gray"}>
+              Change Status:
+            </Text>
+            {statuses.map((status, index) => (
+              <Button
+                w={180}
+                variant="filled"
+                color="red"
+                m={3}
+                key={index}
+                onClick={() => updateStatus(index)}
+              >
+                {status.status}
+              </Button>
+            ))}
+          </div>
           {job === true ? (
             <InvoicesDetials invoice={invoice} job={true} />
           ) : (
@@ -93,21 +118,6 @@ export default function Page() {
             >
               PDF
             </Button>
-            <Text tt="uppercase" size="lg" fw={500} c={"gray"}>
-              Change Status:
-            </Text>
-            {statuses.map((status, index) => (
-              <Button
-                w={180}
-                variant="filled"
-                color="red"
-                m={3}
-                key={index}
-                onClick={() => updateStatus(index)}
-              >
-                {status.status}
-              </Button>
-            ))}
           </div>
         </>
       ) : (
