@@ -274,6 +274,10 @@ export default function Page() {
                   ))}
               </TextField>
 
+              {autoaddress === true ? (
+                <PlacesAutocomplete onLocationSelect={handleDestination} />
+              ) : null}
+
               <TextField
                 style={styleField}
                 name="pickupSuburb"
@@ -301,10 +305,6 @@ export default function Page() {
                 value={formData.goodsDescription}
                 onChange={handleChange}
               />
-
-              {autoaddress === true ? (
-                <PlacesAutocomplete onLocationSelect={handleDestination} />
-              ) : null}
             </div>
           </div>
 
@@ -385,6 +385,10 @@ export default function Page() {
                   ))}
               </TextField>
 
+              {autoaddress === true ? (
+                <PlacesAutocomplete onLocationSelect={handleOrigin} />
+              ) : null}
+
               <TextField
                 style={styleField}
                 name="dropSuburb"
@@ -412,10 +416,6 @@ export default function Page() {
                 value={formData.reference1}
                 onChange={handleChange}
               />
-
-              {autoaddress === true ? (
-                <PlacesAutocomplete onLocationSelect={handleOrigin} />
-              ) : null}
             </div>
           </div>
         </section>
