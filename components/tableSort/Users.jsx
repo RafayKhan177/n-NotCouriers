@@ -15,6 +15,7 @@ import { Button, Modal } from "@mantine/core";
 import { updateDoc } from "@/api/firebase/functions/upload";
 import { useDisclosure } from "@mantine/hooks";
 import { AddUser } from "../Index";
+import { sendPasswordResetEmailLink } from "@/api/firebase/functions/auth";
 
 // Role options for the Select component
 const roleOptions = [
@@ -62,6 +63,10 @@ export default function Users({ users }) {
     console.log("User Info:", changedUser);
   };
 
+  const handlePassReset = (email) => {
+    sendPasswordResetEmailLink(email);
+  };
+
   // Render component
   return (
     <div style={{ width: "80%", margin: "2rem auto" }}>
@@ -105,8 +110,8 @@ export default function Users({ users }) {
               <TableCell>No</TableCell>
               <TableCell>Full Name</TableCell>
               <TableCell>Email</TableCell>
-              <TableCell>All Addresses</TableCell>
-              <TableCell>View</TableCell>
+              {/* <TableCell>All Addresses</TableCell> */}
+              <TableCell>Reset Password Link</TableCell>
               <TableCell>Role</TableCell>
             </TableRow>
           </TableHead>
@@ -120,16 +125,16 @@ export default function Users({ users }) {
                     <TableCell>{index + 1}</TableCell>
                     <TableCell>{`${firstName} ${lastName}`}</TableCell>
                     <TableCell>{email}</TableCell>
-                    <TableCell>
+                    {/* <TableCell>
                       {frequentAddresses && frequentAddresses.length + 1}
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell>
                       <Button
                         variant="filled"
                         color="red"
-                        onClick={() => alert(row.key)}
+                        onClick={() => handlePassReset(row.email)}
                       >
-                        Password
+                        Send
                       </Button>
                     </TableCell>
                     <TableCell>

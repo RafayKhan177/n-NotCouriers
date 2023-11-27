@@ -3,6 +3,7 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import {
   doc,
@@ -98,7 +99,7 @@ async function fetchUserData() {
   }
 }
 
-const userRole = () => {
+async function userRole() {
   try {
     const role =
       (JSON.parse(localStorage.getItem("userDoc")) || {}).role || null;
@@ -108,12 +109,12 @@ const userRole = () => {
     notify(error.message);
     return null;
   }
-};
+}
 
-const logout = async () => {
+async function logout() {
   try {
-    await localStorage.removeItem("user");
-    await localStorage.removeItem("userDoc");
+    localStorage.removeItem("user");
+    localStorage.removeItem("userDoc");
     location.reload();
     notify("Logout Succesfully");
     return true;
@@ -121,7 +122,16 @@ const logout = async () => {
     notify(error.message);
     return null;
   }
-};
+}
+
+async function sendPasswordResetEmailLink(email) {
+  try {
+    await sendPasswordResetEmail(auth, email);
+    notify(`Password reset email sent to ${email}`);
+  } catch (error) {
+    notify(error.message);
+  }
+}
 
 export {
   signUpWithEmail,
@@ -130,4 +140,5 @@ export {
   fetchUserData,
   userRole,
   logout,
+  sendPasswordResetEmailLink,
 };

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Group, Paper, SimpleGrid, Text } from "@mantine/core";
 import {
   IconUserPlus,
@@ -11,6 +11,7 @@ import {
 import classes from "./Stats.module.css";
 import { useEffect, useState } from "react";
 import { getCollection } from "@/api/firebase/functions/fetch";
+import Link from "next/link";
 
 const icons = {
   user: IconUserPlus,
@@ -20,7 +21,11 @@ const icons = {
 };
 
 export default function Stats() {
-  const [statsData, setStatsData] = useState({ bookings: 0, jobs: 0, users: 0 });
+  const [statsData, setStatsData] = useState({
+    bookings: 0,
+    jobs: 0,
+    users: 0,
+  });
 
   useEffect(() => {
     const getData = async () => {
@@ -42,15 +47,34 @@ export default function Stats() {
   }, []);
 
   const stats = [
-    { title: "Bookings", icon: "receipt", value: statsData.bookings, diff: 18 },
-    { title: "Jobs", icon: "coin", value: statsData.jobs, diff: 18 },
     {
-      title: "Invoices",
+      link: "/admin/ManageBookings",
+      title: "Bookings",
+      icon: "receipt",
+      value: statsData.bookings,
+      diff: 18,
+    },
+    {
+      link: "/admin/ManageJobs",
+      title: "Jobs",
+      icon: "coin",
+      value: statsData.jobs,
+      diff: 18,
+    },
+    {
+      link: "/admin/ManageBookings",
+      title: "Total Orders",
       icon: "discount",
       value: statsData.bookings + statsData.jobs,
       diff: 18,
     },
-    { title: "Customers", icon: "user", value: statsData.users, diff: 30 },
+    {
+      link: "/admin/MenageUsers",
+      title: "Customers",
+      icon: "user",
+      value: statsData.users,
+      diff: 30,
+    },
   ] as const;
 
   const renderedStats = stats.map((stat) => {
@@ -58,31 +82,24 @@ export default function Stats() {
     const DiffIcon = stat.diff > 0 ? IconArrowUpRight : IconArrowDownRight;
 
     return (
-      <Paper withBorder p="md" radius="md" key={stat.title}>
-        <Group justify="space-between">
-          <Text size="xs" c="dimmed" className={classes.title}>
-            {stat.title}
+      <Link href={stat.link} style={{ textDecoration: "none", color: "red" }}>
+        <Paper withBorder p="md" radius="md" key={stat.title}>
+          <Group justify="space-between">
+            <Text size="xs" c="dimmed" className={classes.title}>
+              {stat.title}
+            </Text>
+            <Icon className={classes.icon} size="1.4rem" stroke={1.5} />
+          </Group>
+
+          <Group align="flex-end" gap="xs" mt={25}>
+            <Text className={classes.value}>{stat.value}</Text>
+          </Group>
+
+          <Text fz="xs" c="dimmed" mt={7}>
+            Company Status
           </Text>
-          <Icon className={classes.icon} size="1.4rem" stroke={1.5} />
-        </Group>
-
-        <Group align="flex-end" gap="xs" mt={25}>
-          <Text className={classes.value}>{stat.value}</Text>
-          {/* <Text
-            c={stat.diff > 0 ? "teal" : "red"}
-            fz="sm"
-            fw={500}
-            className={classes.diff}
-          >
-            <span>{stat.diff}%</span>
-            <DiffIcon size="1rem" stroke={1.5} />
-          </Text> */}
-        </Group>
-
-        <Text fz="xs" c="dimmed" mt={7}>
-          Company Status
-        </Text>
-      </Paper>
+        </Paper>
+      </Link>
     );
   });
 
