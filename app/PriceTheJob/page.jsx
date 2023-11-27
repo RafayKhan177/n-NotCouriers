@@ -106,18 +106,15 @@ export default function Page() {
     minWidth: "10rem",
   };
 
-  const [role, setRole] = useState(null);
+  const [user, setUser] = useState(null);
   useEffect(() => {
-    const role =
-      (JSON.parse(localStorage.getItem("userDoc")) || {}).role || null;
-    setRole(role);
+    const role = JSON.parse(localStorage.getItem("userDoc")) || {} || null;
+    setUser(role);
     getSuburbs();
   }, []);
 
-  if (role === null) {
+  if (user && user.role === null) {
     return <CAP status={"notLoggedIn"} />;
-  } else if (role !== null && role === "user") {
-    return <p>Restricted</p>;
   }
 
   return (

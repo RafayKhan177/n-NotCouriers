@@ -95,15 +95,24 @@ async function addFrequentAddress(address) {
   try {
     const docRef = doc(db, "users", docId);
     const userDoc = await getDoc(docRef);
+
     if (userDoc.exists()) {
       const userData = userDoc.data();
+
       if (!userData.frequentAddresses) {
         userData.frequentAddresses = [];
       }
-      userData.frequentAddresses.push(address);
-      await updateDoc("users", docId, userData);
-      notify(`Added successfully.`);
-      return true;
+
+      // Check if the address is not already in the array
+      if (!userData.frequentAddresses.includes(address)) {
+        userData.frequentAddresses.push(address);
+        await updateDoc("users", docId, userData);
+        notify(`Added successfully.`);
+        return true;
+      } else {
+        notify(`Address already exists.`);
+        return false;
+      }
     } else {
       notify(`Something Went Wrong.`);
       return false;

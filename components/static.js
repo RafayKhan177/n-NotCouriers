@@ -1,5 +1,3 @@
-import Link from "next/link";
-import PlaceBookingIcon from "@mui/icons-material/Place";
 import TrackBookingIcon from "@mui/icons-material/TrackChanges";
 import JobInquiryIcon from "@mui/icons-material/Help";
 import PriceJobIcon from "@mui/icons-material/MonetizationOn";
@@ -8,36 +6,31 @@ import InvoicesIcon from "@mui/icons-material/Receipt";
 
 const clientServiceslinks = [
   {
-    image: "Place Booking",
-    title: "Place Booking",
+    title: "Price The Job",
     description: "Place a Booking",
-    link: "/PlaceTheBooking",
-    icon: <PlaceBookingIcon />,
+    link: "/PriceTheJob",
+    icon: <PriceJobIcon />,
   },
   {
-    image: "Track Booking",
     title: "Track Booking",
     description: "Track your recent bookings",
     link: "/TrackBooking",
     icon: <TrackBookingIcon />,
   },
   {
-    image: "Job Inquiry",
     title: "Job Inquiry",
     description: "Enquire on a specific booking",
     link: "/JobInquiry",
     icon: <JobInquiryIcon />,
   },
- 
+
   {
-    image: "Addresses",
     title: "Addresses",
     description: "Manage frequent addresses",
     link: "/FrequentAddresses",
     icon: <AddressesIcon />,
   },
   {
-    image: "Invoices",
     title: "Invoices",
     description: "View invoices",
     link: "/RecentInvoices",

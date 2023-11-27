@@ -1,4 +1,5 @@
 "use client";
+import PlaceBookingIcon from "@mui/icons-material/Place";
 import { Text, Container, ThemeIcon, SimpleGrid } from "@mantine/core";
 import classes from "./ClientServices.module.css";
 import Link from "next/link";
@@ -6,12 +7,10 @@ import { clientServiceslinks } from "@/components/static";
 import LogoutIcon from "@mui/icons-material/ExitToApp";
 import { logout } from "@/api/firebase/functions/auth";
 import { useRouter } from "next/navigation";
-import PriceJobIcon from "@mui/icons-material/MonetizationOn";
 import { useEffect, useState } from "react";
 // import PriceJobIcon from "./PriceJobIcon"; // Assuming PriceJobIcon is imported
 
 const logoutInfo = {
-  image: "Logout",
   title: "Logout",
   description: "Log Out",
   link: "#",
@@ -67,11 +66,10 @@ export default function ClientServices() {
     </Link>
   ));
 
-  // Conditionally render the Price Job link if userRole is admin
   if (userRole === "business" || userRole === "admin") {
     items.push(
       <Link
-        href="/PriceTheJob"
+        href="/PlaceTheBooking"
         key="adminLink"
         passHref
         style={{ textDecoration: "none" }}
@@ -84,7 +82,7 @@ export default function ClientServices() {
             size={60}
             radius="md"
           >
-            <PriceJobIcon />
+            <PlaceBookingIcon />
           </ThemeIcon>
           <div>
             <Text
@@ -93,7 +91,7 @@ export default function ClientServices() {
               style={{ color: "black" }}
               className={classes.itemTitle}
             >
-              Price Job
+              Place Booking
             </Text>
             <Text c="dimmed">Price a booking</Text>
           </div>
