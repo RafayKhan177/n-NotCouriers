@@ -11,6 +11,8 @@ export { default as PlacesAutocomplete } from "./PlacesAutocomplete";
 export { default as InvoicesDetials } from "./InvoicesDetials";
 export { default as JobDetail } from "./JobDetail";
 export { default as BookingsQuery } from "./tableSort/BookingsQuery";
+export { default as PdfButton } from "./PdfButton";
+
 // --------------------------------Admin
 
 export { default as CAP } from "./CAP";

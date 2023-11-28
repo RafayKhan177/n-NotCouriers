@@ -12,6 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
+import { PdfButton } from "@/components/Index";
 
 function getFormattedDate(dateStr) {
   const [day, month, year] = dateStr.split("/");
@@ -53,6 +54,23 @@ function getFormattedDateJob(dateStr) {
   return `${dayOfMonth}/${monthName.toUpperCase()}/${yearDigits}`;
 }
 
+function formatTimeTo12Hour(timeStr) {
+  // Parse the input time string
+  const [hours, minutes, seconds] = timeStr.split(":").map(Number);
+
+  // Create a Date object to utilize the built-in formatting options
+  const formattedTime = new Date();
+  formattedTime.setHours(hours, minutes, seconds);
+
+  // Use Intl.DateTimeFormat to get the time in 12-hour format with 'AM' or 'PM'
+  const formattedTimeString = new Intl.DateTimeFormat("en", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  }).format(formattedTime);
+
+  return formattedTimeString;
+}
 
 export default function RecentInvoices({ place_booking, place_job }) {
   const router = useRouter();
@@ -75,7 +93,7 @@ export default function RecentInvoices({ place_booking, place_job }) {
       <TableCell>
         {row.serviceInformation
           ? row.serviceInformation.time
-          : getFormattedDateJob(row.time)}
+          : formatTimeTo12Hour(row.time)}
       </TableCell>
       <TableCell>{row.totalPrice}</TableCell>
       <TableCell>
@@ -88,13 +106,11 @@ export default function RecentInvoices({ place_booking, place_job }) {
         </Button>
       </TableCell>
       <TableCell>
-        <Button
-          variant="light"
-          color="dark"
-          // onClick={() => handle#(row.docId)}
-        >
-          PDF
-        </Button>
+        <PdfButton
+          invoice={row}
+          s={row?.service || "N/A"}
+          d={row?.date || "N/A"}
+        />
       </TableCell>
     </TableRow>
   );
