@@ -1,13 +1,7 @@
-"use client";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import { Loader } from "@/components/Index";
+import React from 'react'
 
-export default function Page() {
-  const navigate = useRouter();
-  useEffect(() => {
-    navigate.push("ClientServices");
-  }, [navigate]);
-
-  return <Loader />;
+export default function page() {
+  return (
+    <div>page</div>
+  )
 }
