@@ -102,7 +102,7 @@ export default function RecentInvoices({ place_booking, place_job }) {
           color="cyan"
           onClick={() => handleNavigate(row.docId)}
         >
-          View This Entry
+          View 
         </Button>
       </TableCell>
       <TableCell>
@@ -127,9 +127,9 @@ export default function RecentInvoices({ place_booking, place_job }) {
             <TableCell>ID</TableCell>
             <TableCell>Date</TableCell>
             <TableCell>Time</TableCell>
-            <TableCell>Invoice(Incl)</TableCell>
+            <TableCell>Invoice</TableCell>
             <TableCell>View</TableCell>
-            <TableCell>PDF</TableCell>
+            <TableCell>Download Invoice</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

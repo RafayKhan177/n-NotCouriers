@@ -24,7 +24,7 @@ export default function Page() {
   return (
     <>
       <Stats />
-      <MenageInvoices invoice={place_job} title={"Bookings"} />;
+      <MenageInvoices invoice={place_job} title={"Job"} />;
     </>
   );
 }

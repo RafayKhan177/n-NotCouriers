@@ -125,17 +125,15 @@ export default function MenageInvoices({ invoice, title }) {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Category</TableCell>
+            <TableCell>Job Type</TableCell>
             <TableCell>Job Number</TableCell>
             <TableCell>Date</TableCell>
             <TableCell>Time</TableCell>
-            <TableCell>Invoice(Incl)</TableCell>
-            {/* <TableCell>From</TableCell> */}
-            {/* <TableCell>To</TableCell> */}
+            <TableCell>Invoice</TableCell>
             <TableCell>Service</TableCell>
             <TableCell>Booked</TableCell>
             <TableCell>Delivered</TableCell>
-            <TableCell>Edit</TableCell>
+            <TableCell>Action</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
