@@ -119,7 +119,7 @@ export default function RecentInvoices({ place_booking, place_job }) {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Category</TableCell>
+            <TableCell>Job Type</TableCell>
             <TableCell>ID</TableCell>
             <TableCell>Date</TableCell>
             <TableCell>Time</TableCell>

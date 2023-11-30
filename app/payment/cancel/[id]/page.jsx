@@ -10,6 +10,9 @@ export default function PaymentErrorPage() {
         const url = new URL(window.location.href);
         const id = url.pathname.split("/").pop();
         await deleteDocument("place_job", id);
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 3000);
       } catch (error) {
         console.error("Error deleting document:", error);
       }
@@ -32,10 +35,12 @@ export default function PaymentErrorPage() {
     fontSize: "18px",
     fontWeight: "bold",
   };
-  
+
   return (
     <div style={containerStyle}>
-      <p style={errorTextStyle}>Your payment was not successful. Or An error occurred!</p>
+      <p style={errorTextStyle}>
+        Your payment was not successful. Or An error occurred!
+      </p>
       <p>Please contact customer support for assistance.</p>
       <p>Thank you for shopping with us!</p>
     </div>

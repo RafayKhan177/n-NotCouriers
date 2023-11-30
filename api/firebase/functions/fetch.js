@@ -5,6 +5,7 @@ import {
   getDoc,
   getDocs,
   getFirestore,
+  orderBy,
   query,
   where,
 } from "firebase/firestore";
@@ -54,7 +55,11 @@ async function fetchPlace_booking() {
   }
   try {
     const collectionRef = collection(db, "place_bookings");
-    const q = query(collectionRef, where("userEmail", "==", user.email));
+    const q = query(
+      collectionRef,
+      where("userEmail", "==", user.email),
+      orderBy("createdAt", "desc") // Order by creation date in descending order
+    );
     const querySnapshot = await getDocs(q);
     const documents = [];
     querySnapshot.forEach((doc) => {
@@ -63,7 +68,7 @@ async function fetchPlace_booking() {
     fetchUserData();
     return documents;
   } catch (error) {
-    notify("Something Went Wrong");
+    notify("Something Went Wrong", error);
     return [];
   }
 }
@@ -79,13 +84,15 @@ async function fetchPlace_job() {
     const q = query(
       collectionRef,
       where("userEmail", "==", user.email),
-      where("payment", "==", "paid")
+      where("payment", "==", "paid"),
+      orderBy("createdAt", "desc") // Order by creation date in descending order
     );
     const querySnapshot = await getDocs(q);
     const documents = [];
     querySnapshot.forEach((doc) => {
       documents.push({ id: doc.id, ...doc.data() });
     });
+    console.log(documents);
     fetchUserData();
     return documents;
   } catch (error) {
@@ -204,8 +211,10 @@ async function getPaidDocumentsFromCollection(collectionName) {
     }
 
     const collectionRef = collection(db, collectionName);
-    const querySnapshot = await getDocs(query(collectionRef, where("payment", "==", "paid")));
-    
+    const querySnapshot = await getDocs(
+      query(collectionRef, where("payment", "==", "paid"))
+    );
+
     const paidDocuments = querySnapshot.docs.map((doc) => doc.data());
     return paidDocuments;
   } catch (error) {
@@ -213,7 +222,6 @@ async function getPaidDocumentsFromCollection(collectionName) {
     return [];
   }
 }
-
 
 export {
   fetchDocById,
@@ -224,5 +232,5 @@ export {
   getCollection,
   fetchOptions,
   getBookingsBetweenDates,
-  getPaidDocumentsFromCollection
+  getPaidDocumentsFromCollection,
 };

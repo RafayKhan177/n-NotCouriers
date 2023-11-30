@@ -18,15 +18,19 @@ export default function Page() {
         await updateDoc("place_job", id, { ...data, payment: "paid" });
         setId(id);
         setLoading(false); // Set loading to false when the data is fetched and updated
-        // window.location.href = "/"; // Commented out for testing purposes
+  
+        // Wait for 3 seconds before navigating to the home page
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 3000);
       } catch (error) {
-        console.error("Dastiyab ya update karne mein koi ghalati:", error);
         setLoading(false); // Set loading to false in case of an error
       }
     };
-
+  
     successStatus();
   }, []);
+  
 
   const containerStyle = {
     maxWidth: "400px",

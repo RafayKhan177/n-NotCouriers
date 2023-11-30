@@ -11,6 +11,8 @@ export default function Page() {
   const [place_booking, setPlace_booking] = useState([]);
   const [place_job, setPlace_job] = useState([]);
 
+  console.log(place_booking, place_job);
+
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("userDoc")) || {};
 
@@ -26,13 +28,14 @@ export default function Page() {
   }, []);
 
   useEffect(() => {
-    const role = (JSON.parse(localStorage.getItem("userDoc")) || {}).role || null;
-    setRole(role)
+    const role =
+      (JSON.parse(localStorage.getItem("userDoc")) || {}).role || null;
+    setRole(role);
   }, []);
 
   if (role === null) {
     return <CAP status={"notLoggedIn"} />;
-  } 
+  }
 
   return <RecentInvoices place_booking={place_booking} place_job={place_job} />;
 }

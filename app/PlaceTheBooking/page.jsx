@@ -3,17 +3,12 @@
 import React, { useEffect, useState } from "react";
 import { MenuItem, TextField } from "@mui/material";
 import {
-  postInvoice,
-  addFrequentAddress,
-} from "@/api/firebase/functions/upload";
-import {
   fetchDocById,
   fetchFrequentAddresses,
 } from "@/api/firebase/functions/fetch";
 import {
   CAP,
   PlacesAutocomplete,
-  Loader,
   BookCheckout,
 } from "@/components/Index";
 import { Button } from "@mantine/core";
@@ -62,9 +57,10 @@ export default function Page() {
   const [frequentAddresses, setFrequentAddresses] = useState([]);
   const [selectedDestination, setSelectedDestination] = useState(null);
   const [selectedOrigin, setselectedOrigin] = useState(null);
-  const [autoaddress, setAutoaddress] = useState(true);
+  const [autoaddressAAP, setAutoaddressAAP] = useState(true);
+  const [autoaddressAAD, setAutoaddressAAD] = useState(true);
   const [showCheckout, setShowCheckout] = useState(false);
-console.log(frequentAddresses)
+  console.log(frequentAddresses);
   // -----------------------------State Handlers
   const handleCheckOut = () => {
     const { pickupSuburb, dropSuburb, service, pieces, weight } = formData;
@@ -96,12 +92,16 @@ console.log(frequentAddresses)
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-  const handleChangeDd = (e) => {
+  const handleChangeAAP = (e) => {
     const { name, value } = e.target;
-    setAutoaddress(false);
     setFormData({ ...formData, [name]: value });
+    setAutoaddressAAP(false);
   };
-
+  const handleChangeAAD = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    setAutoaddressAAD(false);
+  };
   const handleDateChange = (date) => {
     const formattedDate = date.format("MM/DD/YYYY");
     setFormData({ ...formData, date: formattedDate });
@@ -187,7 +187,7 @@ console.log(frequentAddresses)
                     helperText="Select address or address enter below"
                     variant="outlined"
                     value={formData.pickupFrequentAddress}
-                    onChange={handleChangeDd}
+                    onChange={handleChangeAAP}
                   >
                     {frequentAddresses &&
                       frequentAddresses.map((option, index) => (
@@ -197,8 +197,8 @@ console.log(frequentAddresses)
                       ))}
                   </TextField>
 
-                  {autoaddress === true ? (
-                    <PlacesAutocomplete onLocationSelect={handleDestination} />
+                  {autoaddressAAP === true ? (
+                    <PlacesAutocomplete onLocationSelect={handleOrigin} />
                   ) : null}
 
                   <TextField
@@ -298,7 +298,7 @@ console.log(frequentAddresses)
                     helperText="Select address or address enter below"
                     variant="outlined"
                     value={formData.dropFrequentAddress}
-                    onChange={handleChangeDd}
+                    onChange={handleChangeAAD}
                   >
                     {frequentAddresses &&
                       frequentAddresses.map((option, index) => (
@@ -308,8 +308,8 @@ console.log(frequentAddresses)
                       ))}
                   </TextField>
 
-                  {autoaddress === true ? (
-                    <PlacesAutocomplete onLocationSelect={handleOrigin} />
+                  {autoaddressAAD === true ? (
+                    <PlacesAutocomplete onLocationSelect={handleDestination} />
                   ) : null}
 
                   <TextField
