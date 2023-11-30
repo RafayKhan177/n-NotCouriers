@@ -29,6 +29,24 @@ const renderDetails = (title, details) => (
   </div>
 );
 
+function getFormattedDateJob(dateStr) {
+  const [month, day, year] = dateStr.split("/");
+  const formattedDate = new Date(`${month}/${day}/${year}`);
+
+  if (isNaN(formattedDate)) {
+    console.error(`Invalid date: ${dateStr}`);
+    return null;
+  }
+
+  const dayOfMonth = formattedDate.getDate();
+  const monthName = new Intl.DateTimeFormat("en", {
+    month: "short",
+  }).format(formattedDate);
+  const yearDigits = formattedDate.getFullYear();
+
+  return `${dayOfMonth}-${monthName.toUpperCase()}-${yearDigits}`;
+}
+
 const InvoiceDetails = (invoice, job) => {
   return (
     <section
@@ -66,7 +84,10 @@ const InvoiceDetails = (invoice, job) => {
               { label: "Piece", value: invoice.pieces },
               { label: "Weight", value: invoice.weight },
               { label: "Cost", value: `$ ${invoice.totalPrice}` },
-              { label: "Date Created", value: invoice.date },
+              {
+                label: "Date Created",
+                value: getFormattedDateJob(invoice.date),
+              },
               // { label: "Time Created", value: invoice.time },
             ])}
 
