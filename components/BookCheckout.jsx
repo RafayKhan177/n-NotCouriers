@@ -5,13 +5,7 @@ import {
   addFrequentAddress,
   postInvoice,
 } from "@/api/firebase/functions/upload";
-import {
-  Card,
-  CardContent,
-  Typography,
-  Button,
-  IconButton,
-} from "@mui/material";
+import { Card, CardContent, Typography, IconButton } from "@mui/material";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
@@ -22,6 +16,7 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Loading from "./Loading";
+import { Button } from "@mantine/core";
 
 export default function BookCheckout({
   formData,
@@ -182,7 +177,7 @@ export default function BookCheckout({
                 <LocationOnIcon />
               </IconButton>
               <strong>Pickup Address:</strong>
-            </div>{" "}
+            </div>
             {invoice?.pickupDetails?.pickupFrequentAddress?.address ||
               invoice?.pickupDetails?.selectedOriginDetails?.address ||
               "Loading"}
@@ -202,7 +197,7 @@ export default function BookCheckout({
                 <WhereToVoteIcon />
               </IconButton>
               <strong>Drop Address:</strong>
-            </div>{" "}
+            </div>
             {invoice?.dropDetails?.dropFrequentAddress?.address ||
               invoice?.dropDetails?.selectedDestinationDetails?.address ||
               "Loading"}
@@ -222,7 +217,7 @@ export default function BookCheckout({
                 <LocalShippingIcon />
               </IconButton>
               <strong>Service:</strong>
-            </div>{" "}
+            </div>
             {invoice?.serviceInformation?.service || "Loading"}
           </Typography>
 
@@ -240,7 +235,7 @@ export default function BookCheckout({
                 <InventoryIcon />
               </IconButton>
               <strong>Pieces:</strong>
-            </div>{" "}
+            </div>
             {invoice?.serviceInformation?.pieces || "Loading"}
           </Typography>
 
@@ -258,7 +253,7 @@ export default function BookCheckout({
                 <FitnessCenterIcon />
               </IconButton>
               <strong>Weight:</strong>
-            </div>{" "}
+            </div>
             {invoice?.serviceInformation?.weight || "Loading"}
           </Typography>
 
@@ -276,8 +271,8 @@ export default function BookCheckout({
                 <AttachMoneyIcon />
               </IconButton>
               <strong>Total Price:</strong>
-            </div>{" "}
-            {invoice?.totalPrice || "Loading"}{" "}
+            </div>
+            ${invoice?.totalPrice || "Loading"}
             {/* Add the correct property for total price */}
           </Typography>
 

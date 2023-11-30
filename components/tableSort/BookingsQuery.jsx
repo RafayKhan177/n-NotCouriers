@@ -57,7 +57,7 @@ const BookingTable = ({ bookings }) => {
                 {booking.serviceInformation &&
                   booking.serviceInformation.service}
               </TableCell>
-              <TableCell>{booking.totalPrice}</TableCell>
+              <TableCell>$ {booking.totalPrice}</TableCell>
               <TableCell>
                 {booking.progressInformation &&
                   booking.progressInformation.booked}
