@@ -15,6 +15,8 @@ const notify = (msg) => toast(msg);
 
 const db = getFirestore(app);
 
+const createdAt = new Date(); // Use the current date and time
+
 async function postDoc(data, collectionName) {
   const user = JSON.parse(localStorage.getItem("userDoc"));
   if (!user) {
@@ -28,6 +30,8 @@ async function postDoc(data, collectionName) {
     const updatedData = {
       docId: docRef.id,
       userEmail: user.email,
+      userName: user.firstName,
+      createdAt: createdAt,
     };
     await updateDoc(collectionName, docRef.id, updatedData);
     notify(`Posted Successfully`);
@@ -52,6 +56,8 @@ async function postInvoice(data, collectionName) {
       ...data,
       docId: docId,
       userEmail: user.email,
+      userName: user.firstName,
+      createdAt: createdAt,
     };
     const docRef = doc(db, collectionName, docId); // Use the custom ID
 
@@ -109,12 +115,14 @@ async function addFrequentAddress(address) {
       }
 
       // Check if the address is not already in the array based on coordinates
-      const isAddressExists = userData.frequentAddresses.some(existingAddress => {
-        return (
-          existingAddress.coordinates.lat === address.coordinates.lat &&
-          existingAddress.coordinates.lng === address.coordinates.lng
-        );
-      });
+      const isAddressExists = userData.frequentAddresses.some(
+        (existingAddress) => {
+          return (
+            existingAddress.coordinates.lat === address.coordinates.lat &&
+            existingAddress.coordinates.lng === address.coordinates.lng
+          );
+        }
+      );
 
       if (!isAddressExists) {
         userData.frequentAddresses.push(address);
@@ -134,7 +142,6 @@ async function addFrequentAddress(address) {
     return false;
   }
 }
-
 
 async function updateFrequentAddress(modifiedAddresses) {
   const user = JSON.parse(localStorage.getItem("user"));

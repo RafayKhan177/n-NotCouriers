@@ -57,7 +57,7 @@ const InvoiceDetails = (invoice, job) => {
           <>
             {renderDetails("Account", [
               { label: "Email", value: invoice.userEmail },
-              { label: "Account", value: "PSS DISTRIBUTORS" },
+              { label: "Account", value: invoice.userName },
               { label: "Job Number", value: invoice.docId },
             ])}
 

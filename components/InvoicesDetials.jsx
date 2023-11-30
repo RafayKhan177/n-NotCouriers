@@ -88,7 +88,6 @@ const InvoiceDetails = ({ invoice }) => {
     }
   }, [invoice]);
 
-
   const a = {
     dropDetails: {
       selectedDestinationDetails: {
@@ -143,6 +142,7 @@ const InvoiceDetails = ({ invoice }) => {
         </Text>
         <div style={{ width: "80%" }}>
           {renderDetails("Account", [
+            { label: "Account", value: invoice.userName },
             { label: "Email", value: invoice.userEmail },
             { label: "Job Number", value: invoice.docId },
           ])}
