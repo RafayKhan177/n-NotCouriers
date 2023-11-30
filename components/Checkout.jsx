@@ -10,8 +10,6 @@ import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import WhereToVoteIcon from "@mui/icons-material/WhereToVote";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import InventoryIcon from "@mui/icons-material/Inventory";
-import TimelineIcon from "@mui/icons-material/Timeline";
-import ScheduleIcon from "@mui/icons-material/Schedule";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import { Button } from "@mantine/core";
 import { IconButton } from "@mui/material";

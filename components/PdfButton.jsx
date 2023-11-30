@@ -4,11 +4,36 @@ import { Button } from "@mantine/core";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import { useState, useEffect } from "react";
+import header from "../public/pdf_header.jpg";
+import footer from "../public/pdf_footer.jpg";
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 export default function PdfButton({ invoice, s, d }) {
-  const [imageDataUrl, setImageDataUrl] = useState(null);
+  const [headerImg, setHeaderImg] = useState("");
+  const [footerImg, setFooterImg] = useState("");
+
+  useEffect(() => {
+    const get = async (imageSource, setImage) => {
+      const imgDataUrl = await fetch(imageSource)
+        .then((response) => response.blob())
+        .then(
+          (blob) =>
+            new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onloadend = () => resolve(reader.result);
+              reader.onerror = reject;
+              reader.readAsDataURL(blob);
+            })
+        );
+
+      const imgData = imgDataUrl;
+      setImage(imgData);
+    };
+
+    get(header.src, setHeaderImg);
+    get(footer.src, setFooterImg);
+  }, []);
 
   function transformDataToTableFormat(invoice) {
     const {
@@ -22,59 +47,32 @@ export default function PdfButton({ invoice, s, d }) {
 
     const tableData = [
       [
-        serviceInformation?.date || d || "N/A", // Date
-        docId || "N/A", // Invoice ID
-        dropDetails?.dropReference1 || "N/A", // Reference
+        serviceInformation?.date || d || "N/A",
+        docId || "N/A",
+        dropDetails?.dropReference1 || "N/A",
         pickupDetails?.selectedOriginDetails?.address ||
           pickupDetails?.pickupFrequentAddress?.address ||
           pickupDetails?.label ||
-          "N/A", // From Location
+          "N/A",
         dropDetails?.selectedDestinationDetails?.address ||
           dropDetails?.dropFrequentAddress?.address ||
           dropDetails?.label ||
-          "N/A", // To Location
-        serviceInformation?.service || s || "N/A", // Service
-        `$${totalPrice || 0}`, // Total Price
-        "$10", // Additional cost placeholder (adjust as needed)
-        `$${totalPrice !== undefined ? totalPrice + 10 : 10}`, // Total with additional cost
+          "N/A",
+        serviceInformation?.service || s || "N/A",
+        `$${totalPrice || 0}`,
+        "$10",
+        `$${totalPrice !== undefined ? totalPrice + 10 : 10}`,
       ],
     ];
 
     return tableData;
   }
 
-  // Call the function with the provided invoice data
   const tableData = transformDataToTableFormat(invoice);
-
-  // Log the result
-  console.log(tableData);
-
-  useEffect(() => {
-    // Fetch the image from the URL and convert it to a data URL
-    const fetchAndConvertImage = async () => {
-      console.log(invoice, "hi");
-      try {
-        const response = await fetch(
-          "https://images.unsplash.com/photo-1682685797208-c741d58c2eff?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        );
-        const blob = await response.blob();
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setImageDataUrl(reader.result);
-        };
-        reader.readAsDataURL(blob);
-      } catch (error) {
-        console.error("Error fetching or converting image:", error);
-      }
-    };
-
-    fetchAndConvertImage();
-  }, []); // Run only once when the component mounts
 
   var dd = {
     content: [
-      { image: imageDataUrl, width: 150 }, // Use the data URL here
-      " ", // Add some space between the image and the table
+      { image: headerImg, width: 500 }, // Adjust the width as needed
       {
         table: {
           headerRows: 1,
@@ -101,10 +99,11 @@ export default function PdfButton({ invoice, s, d }) {
               "GST",
               "TOTAL",
             ],
-            ...tableData, // Add the fake data rows
+            ...tableData,
           ],
         },
       },
+      { image: footerImg, width: 500 }, // Adjust the width as needed
     ],
   };
 

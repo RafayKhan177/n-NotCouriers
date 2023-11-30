@@ -85,6 +85,11 @@ async function updateDoc(collectionName, docId, data) {
 }
 
 async function addFrequentAddress(address) {
+  if (address?.address === "none") {
+    // Do nothing if the address is set to "none"
+    return false;
+  }
+
   const user = JSON.parse(localStorage.getItem("user"));
   if (!user) {
     notify("You're not logged in");
@@ -103,8 +108,15 @@ async function addFrequentAddress(address) {
         userData.frequentAddresses = [];
       }
 
-      // Check if the address is not already in the array
-      if (!userData.frequentAddresses.includes(address)) {
+      // Check if the address is not already in the array based on coordinates
+      const isAddressExists = userData.frequentAddresses.some(existingAddress => {
+        return (
+          existingAddress.coordinates.lat === address.coordinates.lat &&
+          existingAddress.coordinates.lng === address.coordinates.lng
+        );
+      });
+
+      if (!isAddressExists) {
         userData.frequentAddresses.push(address);
         await updateDoc("users", docId, userData);
         notify(`Added successfully.`);
@@ -114,14 +126,15 @@ async function addFrequentAddress(address) {
         return false;
       }
     } else {
-      notify(`Something Went Wrong.`);
+      notify(`Something went wrong.`);
       return false;
     }
   } catch (error) {
-    notify(`Something Went Wrong.`);
+    notify(`Something went wrong.`);
     return false;
   }
 }
+
 
 async function updateFrequentAddress(modifiedAddresses) {
   const user = JSON.parse(localStorage.getItem("user"));

@@ -61,17 +61,6 @@ const InvoiceDetails = (invoice, job) => {
               { label: "Job Number", value: invoice.docId },
             ])}
 
-            {/* {renderDetails("Distance Information", [
-                {
-                  label: "Duration",
-                  value: invoice.distanceData.duration.text,
-                },
-                {
-                  label: "Distance",
-                  value: invoice.distanceData.distance.text,
-                },
-              ])} */}
-
             {renderDetails("Service Information", [
               { label: "Service", value: invoice.service },
               { label: "Piece", value: invoice.pieces },

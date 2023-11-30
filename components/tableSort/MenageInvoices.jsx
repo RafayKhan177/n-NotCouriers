@@ -34,7 +34,6 @@ export default function MenageInvoices({ invoice, title }) {
   const handleEdit = (id) => {
     router.push(`/admin/Invoices/${id}`);
   };
-
   function getFormattedDate(dateStr) {
     const [day, month, year] = dateStr.split("/");
     const formattedDate = new Date(`${month}/${day}/${year}`);
@@ -50,20 +49,16 @@ export default function MenageInvoices({ invoice, title }) {
     }).format(formattedDate);
     const yearDigits = formattedDate.getFullYear();
 
-    return `${dayOfMonth}/${monthName.toUpperCase()}/${yearDigits}`;
+    return `${dayOfMonth}-${monthName.toUpperCase()}-${yearDigits}`;
   }
 
   function getFormattedDateJob(dateStr) {
-    // Extract month, day, and year components
     const [month, day, year] = dateStr.split("/");
-
-    // Create a new date using the rearranged components
     const formattedDate = new Date(`${month}/${day}/${year}`);
 
-    // Check if the date is valid before formatting
     if (isNaN(formattedDate)) {
       console.error(`Invalid date: ${dateStr}`);
-      return null; // or throw an error, depending on your use case
+      return null;
     }
 
     const dayOfMonth = formattedDate.getDate();
@@ -72,7 +67,7 @@ export default function MenageInvoices({ invoice, title }) {
     }).format(formattedDate);
     const yearDigits = formattedDate.getFullYear();
 
-    return `${dayOfMonth}/${monthName.toUpperCase()}/${yearDigits}`;
+    return `${dayOfMonth}-${monthName.toUpperCase()}-${yearDigits}`;
   }
 
   const renderTableRow = (row) => (
@@ -125,17 +120,15 @@ export default function MenageInvoices({ invoice, title }) {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Category</TableCell>
+            <TableCell>Job Type</TableCell>
             <TableCell>Job Number</TableCell>
             <TableCell>Date</TableCell>
             <TableCell>Time</TableCell>
-            <TableCell>Invoice(Incl)</TableCell>
-            {/* <TableCell>From</TableCell> */}
-            {/* <TableCell>To</TableCell> */}
+            <TableCell>Invoice</TableCell>
             <TableCell>Service</TableCell>
             <TableCell>Booked</TableCell>
             <TableCell>Delivered</TableCell>
-            <TableCell>Edit</TableCell>
+            <TableCell>Action</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

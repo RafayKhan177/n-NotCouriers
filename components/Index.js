@@ -12,6 +12,7 @@ export { default as InvoicesDetials } from "./InvoicesDetials";
 export { default as JobDetail } from "./JobDetail";
 export { default as BookingsQuery } from "./tableSort/BookingsQuery";
 export { default as PdfButton } from "./PdfButton";
+export { default as BookCheckout } from "./BookCheckout";
 
 // --------------------------------Admin
 

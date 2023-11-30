@@ -13,7 +13,6 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { PdfButton } from "@/components/Index";
-
 function getFormattedDate(dateStr) {
   const [day, month, year] = dateStr.split("/");
   const formattedDate = new Date(`${month}/${day}/${year}`);
@@ -29,20 +28,16 @@ function getFormattedDate(dateStr) {
   }).format(formattedDate);
   const yearDigits = formattedDate.getFullYear();
 
-  return `${dayOfMonth}/${monthName.toUpperCase()}/${yearDigits}`;
+  return `${dayOfMonth}-${monthName.toUpperCase()}-${yearDigits}`;
 }
 
 function getFormattedDateJob(dateStr) {
-  // Extract month, day, and year components
   const [month, day, year] = dateStr.split("/");
-
-  // Create a new date using the rearranged components
   const formattedDate = new Date(`${month}/${day}/${year}`);
 
-  // Check if the date is valid before formatting
   if (isNaN(formattedDate)) {
     console.error(`Invalid date: ${dateStr}`);
-    return null; // or throw an error, depending on your use case
+    return null;
   }
 
   const dayOfMonth = formattedDate.getDate();
@@ -51,8 +46,9 @@ function getFormattedDateJob(dateStr) {
   }).format(formattedDate);
   const yearDigits = formattedDate.getFullYear();
 
-  return `${dayOfMonth}/${monthName.toUpperCase()}/${yearDigits}`;
+  return `${dayOfMonth}-${monthName.toUpperCase()}-${yearDigits}`;
 }
+
 
 function formatTimeTo12Hour(timeStr) {
   // Parse the input time string
@@ -102,7 +98,7 @@ export default function RecentInvoices({ place_booking, place_job }) {
           color="cyan"
           onClick={() => handleNavigate(row.docId)}
         >
-          View This Entry
+          View 
         </Button>
       </TableCell>
       <TableCell>
@@ -127,9 +123,9 @@ export default function RecentInvoices({ place_booking, place_job }) {
             <TableCell>ID</TableCell>
             <TableCell>Date</TableCell>
             <TableCell>Time</TableCell>
-            <TableCell>Invoice(Incl)</TableCell>
+            <TableCell>Invoice</TableCell>
             <TableCell>View</TableCell>
-            <TableCell>PDF</TableCell>
+            <TableCell>Download Invoice</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

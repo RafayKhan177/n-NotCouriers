@@ -40,10 +40,6 @@ const InvoiceDetails = ({ invoice }) => {
   const getAddress = (addressObj) =>
     addressObj && addressObj.address !== "none" ? addressObj.address : null;
 
-  const formatCoordinates = (coordinates) =>
-    coordinates ? `${coordinates.lat} ${coordinates.lng}` : null;
-
-  console.log(invoice);
   useEffect(() => {
     const pAddress = () => {
       if (invoice && invoice.pickupDetails) {
@@ -53,7 +49,7 @@ const InvoiceDetails = ({ invoice }) => {
         return (
           (selectedOriginDetails && getAddress(selectedOriginDetails)) ||
           (pickupDetails.pickupFrequentAddress &&
-            formatCoordinates(pickupDetails.pickupFrequentAddress)) ||
+            pickupDetails.pickupFrequentAddress.address) ||
           pickupDetails.label ||
           "Empty"
         );
@@ -71,7 +67,7 @@ const InvoiceDetails = ({ invoice }) => {
           (selectedDestinationDetails &&
             getAddress(selectedDestinationDetails)) ||
           (dropDetails.dropFrequentAddress &&
-            formatCoordinates(dropDetails.dropFrequentAddress)) ||
+            dropDetails.dropFrequentAddress.address) ||
           dropDetails.label ||
           "Empty"
         );
@@ -92,7 +88,6 @@ const InvoiceDetails = ({ invoice }) => {
     }
   }, [invoice]);
 
-  console.log(invoice);
 
   const a = {
     dropDetails: {
@@ -152,11 +147,6 @@ const InvoiceDetails = ({ invoice }) => {
             { label: "Job Number", value: invoice.docId },
           ])}
 
-          {renderDetails("Distance Information", [
-            { label: "Duration", value: invoice.distanceData.duration.text },
-            { label: "Distance", value: invoice.distanceData.distance.text },
-          ])}
-
           {renderDetails("Service Information", [
             {
               label: "Service",
@@ -170,7 +160,6 @@ const InvoiceDetails = ({ invoice }) => {
               label: "Date Created",
               value: (serviceInfo && serviceInfo.date) || "null",
             },
-            { label: "Distance", value: invoice.distanceData.distance.text },
             { label: "Time Created", value: serviceInfo.time },
             { label: "Cost", value: invoice.totalPrice },
           ])}
