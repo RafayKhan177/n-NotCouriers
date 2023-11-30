@@ -138,7 +138,7 @@ const InvoiceDetails = ({ invoice }) => {
         }}
       >
         <Text tt="uppercase" size="xl" fw={900} c={"rgba(59, 58, 58, 1)"}>
-          Invoice Details
+          Job Details
         </Text>
         <div style={{ width: "80%" }}>
           {renderDetails("Account", [

@@ -21,7 +21,7 @@ export default function Page() {
   
         // Wait for 3 seconds before navigating to the home page
         setTimeout(() => {
-          window.location.href = "/";
+          window.location.href = "/RecentInvoices";
         }, 3000);
       } catch (error) {
         setLoading(false); // Set loading to false in case of an error

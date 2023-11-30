@@ -1,6 +1,6 @@
 "use client";
 import { fetchDocById } from "@/api/firebase/functions/fetch";
-import { JobDetail } from "@/components/Index";
+import { InvoicesDetials } from "@/components/Index";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { CAP } from "@/components/Index";
@@ -18,7 +18,13 @@ export default function Page() {
         const id = match && match[1];
 
         if (id) {
-          const data = await fetchDocById(id, "place_job");
+          let data = await fetchDocById(id, "place_bookings");
+
+          if (!data) {
+            data = await fetchDocById(id, "place_job");
+            setInvoice(data);
+          }
+
           setInvoice(data);
         }
       } catch (error) {
@@ -40,5 +46,7 @@ export default function Page() {
   if (role === null) {
     return <CAP status={"notLoggedIn"} />;
   }
-  return <div>{invoice ? <JobDetail {...invoice} /> : <p>Loading...</p>}</div>;
+  return (
+    <div>{invoice ? <InvoicesDetials invoice={invoice} /> : <p>Loading...</p>}</div>
+  );
 }

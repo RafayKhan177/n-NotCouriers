@@ -122,9 +122,8 @@ export default function BookCheckout({
           invoice?.pickupDetails?.selectedOriginDetails,
           invoice?.dropDetails?.selectedDestinationDetails
         ),
-        // addFrequentAddress(),
       ]);
-      nav.push("/ClientServices");
+      nav.push("/RecentInvoices");
     }
   };
 
@@ -176,11 +175,9 @@ export default function BookCheckout({
               <IconButton>
                 <LocationOnIcon />
               </IconButton>
-              <strong>Pickup Address:</strong>
+              <strong>Pickup Suburb:</strong>
             </div>
-            {invoice?.pickupDetails?.pickupFrequentAddress?.address ||
-              invoice?.pickupDetails?.selectedOriginDetails?.address ||
-              "Loading"}
+            {invoice?.pickupDetails?.pickupSuburb || "Loading"}
           </Typography>
 
           {/* Drop Suburb */}
@@ -196,11 +193,9 @@ export default function BookCheckout({
               <IconButton>
                 <WhereToVoteIcon />
               </IconButton>
-              <strong>Drop Address:</strong>
+              <strong>Drop Suburb:</strong>
             </div>
-            {invoice?.dropDetails?.dropFrequentAddress?.address ||
-              invoice?.dropDetails?.selectedDestinationDetails?.address ||
-              "Loading"}
+            {invoice?.dropDetails?.dropSuburb || "Loading"}
           </Typography>
 
           {/* Service */}
@@ -283,7 +278,7 @@ export default function BookCheckout({
             onClick={handleSubmit}
             style={{ margin: "20px 0", width: "100%" }}
           >
-            Proceed to Checkout
+            Place Booking
           </Button>
         </CardContent>
       ) : (

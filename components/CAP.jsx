@@ -1,9 +1,21 @@
-"use client"
+"use client";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@mantine/core";
+import { useEffect, useState } from "react";
+import Loading from "./Loading";
 
 const CAP = ({ status }) => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   const containerStyle = {
     display: "flex",
     flexDirection: "column",
@@ -60,36 +72,40 @@ const CAP = ({ status }) => {
 
   return (
     <div style={containerStyle}>
-      <div style={paperStyle}>
-        <Image
-          src="/business-man-depressed-stressed-watching-decrease-graph-stock-financial-trade-market-diagram_1150-39760.jpg"
-          alt="Logo"
-          width={600}
-          height={600}
-          style={logoStyle}
-        />
-        <h1 style={{ color: "#333333" }}>Welcome to Jet Couriers!</h1>
-        <p style={{ color: "#555555" }}>{message}</p>
-        {status !== "notAdmin" && (
-          <>
-            {homeButton}
-            <Link href="/Signin">
-              <Button
-                variant={loginButtonVariant}
-                style={{ margin: "0 1rem" }}
-                color="red"
-              >
-                Log In
-              </Button>
-            </Link>
-            <Link href="/Signup">
-              <Button variant={signupButtonVariant} color="red">
-                Sign Up
-              </Button>
-            </Link>
-          </>
-        )}
-      </div>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <div style={paperStyle}>
+          <Image
+            src="/business-man-depressed-stressed-watching-decrease-graph-stock-financial-trade-market-diagram_1150-39760.jpg"
+            alt="Logo"
+            width={600}
+            height={600}
+            style={logoStyle}
+          />
+          <h1 style={{ color: "#333333" }}>Welcome to Jet Couriers!</h1>
+          <p style={{ color: "#555555" }}>{message}</p>
+          {status !== "notAdmin" && (
+            <>
+              {homeButton}
+              <Link href="/Signin">
+                <Button
+                  variant={loginButtonVariant}
+                  style={{ margin: "0 1rem" }}
+                  color="red"
+                >
+                  Log In
+                </Button>
+              </Link>
+              <Link href="/Signup">
+                <Button variant={signupButtonVariant} color="red">
+                  Sign Up
+                </Button>
+              </Link>
+            </>
+          )}
+        </div>
+      )}
     </div>
   );
 };

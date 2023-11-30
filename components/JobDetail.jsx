@@ -29,6 +29,24 @@ const renderDetails = (title, details) => (
   </div>
 );
 
+function getFormattedDateJob(dateStr) {
+  const [month, day, year] = dateStr.split("/");
+  const formattedDate = new Date(`${month}/${day}/${year}`);
+
+  if (isNaN(formattedDate)) {
+    console.error(`Invalid date: ${dateStr}`);
+    return null;
+  }
+
+  const dayOfMonth = formattedDate.getDate();
+  const monthName = new Intl.DateTimeFormat("en", {
+    month: "short",
+  }).format(formattedDate);
+  const yearDigits = formattedDate.getFullYear();
+
+  return `${dayOfMonth}-${monthName.toUpperCase()}-${yearDigits}`;
+}
+
 const InvoiceDetails = (invoice, job) => {
   return (
     <section
@@ -66,7 +84,10 @@ const InvoiceDetails = (invoice, job) => {
               { label: "Piece", value: invoice.pieces },
               { label: "Weight", value: invoice.weight },
               { label: "Cost", value: `$ ${invoice.totalPrice}` },
-              { label: "Date Created", value: invoice.date },
+              {
+                label: "Date Created",
+                value: getFormattedDateJob(invoice.date),
+              },
               // { label: "Time Created", value: invoice.time },
             ])}
 
@@ -75,27 +96,27 @@ const InvoiceDetails = (invoice, job) => {
               invoice.progressInformation && [
                 {
                   label: "Booked",
-                  value: invoice.progressInformation.booked || "Not Yet",
+                  value: invoice.progressInformation.booked || "Pending",
                 },
                 {
                   label: "E.T.D.",
-                  value: invoice.progressInformation.etd || "Not Yet",
+                  value: invoice.progressInformation.etd || "Pending",
                 },
                 {
                   label: "Allocated",
-                  value: invoice.progressInformation.allocated || "Not Yet",
+                  value: invoice.progressInformation.allocated || "Pending",
                 },
                 {
                   label: "Pick Up",
-                  value: invoice.progressInformation.pickedup || "Not Yet",
+                  value: invoice.progressInformation.pickedup || "Pending",
                 },
                 {
                   label: "Delivered",
-                  value: invoice.progressInformation.delivered || "Not Yet",
+                  value: invoice.progressInformation.delivered || "Pending",
                 },
                 {
                   label: "P.O.D.",
-                  value: invoice.progressInformation.pod || "Not Yet",
+                  value: invoice.progressInformation.pod || "Pending",
                 },
               ]
             )}
@@ -107,7 +128,7 @@ const InvoiceDetails = (invoice, job) => {
               },
               {
                 label: "Delivered",
-                value: invoice.progressInformation.delivered || "Not Yet",
+                value: invoice.progressInformation.delivered || "Pending",
               },
             ])}
 
@@ -119,7 +140,7 @@ const InvoiceDetails = (invoice, job) => {
               },
               {
                 label: "Delivered",
-                value: invoice.progressInformation.delivered || "Not Yet",
+                value: invoice.progressInformation.delivered || "Pending",
               },
             ])}
           </>
