@@ -10,11 +10,14 @@ import {
   fetchDocById,
   fetchFrequentAddresses,
 } from "@/api/firebase/functions/fetch";
-import { CAP, PlacesAutocomplete, Loader } from "@/components/Index";
+import {
+  CAP,
+  PlacesAutocomplete,
+  Loader,
+  BookCheckout,
+} from "@/components/Index";
 import { Button } from "@mantine/core";
 import { serviceOptions } from "@/components/static";
-import { calculateDistance } from "@/api/distanceCalculator";
-import { calculatePrice } from "@/api/priceCalculator";
 import {
   DatePicker,
   LocalizationProvider,
@@ -59,10 +62,23 @@ export default function Page() {
   const [frequentAddresses, setFrequentAddresses] = useState([]);
   const [selectedDestination, setSelectedDestination] = useState(null);
   const [selectedOrigin, setselectedOrigin] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [autoaddress, setAutoaddress] = useState(true);
-
+  const [showCheckout, setShowCheckout] = useState(false);
+console.log(frequentAddresses)
   // -----------------------------State Handlers
+  const handleCheckOut = () => {
+    const { pickupSuburb, dropSuburb, service, pieces, weight } = formData;
+
+    // Check if any required field is missing
+    if (!pickupSuburb || !dropSuburb || !service || !pieces || !weight) {
+      alert("Please fill in all required fields");
+      return;
+    }
+
+    // If all required fields are filled, proceed with checkout
+    setShowCheckout(true);
+  };
+
   const emptyAllFields = () => {
     setFormData(initialFormData);
     setFrequentAddresses([]);
@@ -93,94 +109,6 @@ export default function Page() {
   const handleTimeChange = (time) => {
     const formattedTime = time.format("LT", { locale: "en-US" });
     setFormData({ ...formData, time: formattedTime });
-  };
-
-  // -----------------------------Submit
-  const submit = async () => {
-    try {
-      setLoading(true);
-
-      const {
-        contact,
-        pickupFrequentAddress,
-        pickupGoodsDescription,
-        service,
-        date,
-        time,
-        pieces,
-        weight,
-        dropFrequentAddress,
-        dropReference1,
-        dropSuburb,
-        pickupSuburb,
-      } = formData;
-
-      const selectedOriginDetails = {
-        address: (selectedOrigin && selectedOrigin.label) || "none",
-        coordinates: (selectedOrigin && selectedOrigin.coordinates) || "none",
-      };
-
-      const selectedDestinationDetails = {
-        address: (selectedDestination && selectedDestination.label) || "none",
-        coordinates:
-          (selectedDestination && selectedDestination.coordinates) || "none",
-      };
-
-      const pickupDetails = {
-        pickupFrequentAddress,
-        selectedOriginDetails,
-        pickupGoodsDescription,
-        pickupSuburb,
-      };
-
-      const serviceInformation = {
-        service,
-        date,
-        time,
-        pieces,
-        weight,
-      };
-
-      const dropDetails = {
-        dropFrequentAddress,
-        selectedDestinationDetails,
-        dropSuburb,
-        dropReference1,
-      };
-
-      let distanceData;
-      try {
-        distanceData = await calculateDistance(
-          pickupFrequentAddress.coordinates || selectedOrigin.coordinates,
-          dropFrequentAddress.coordinates || selectedDestination.coordinates
-        ).then((data) => data.rows[0].elements[0]);
-      } catch (distanceError) {
-        console.error("Error calculating distance:", distanceError);
-        setLoading(false);
-        return;
-      }
-
-      const data = {
-        contact,
-        pickupDetails,
-        dropDetails,
-        serviceInformation,
-        distanceData,
-      };
-
-      const invoice = await calculatePrice(data);
-
-      await Promise.all([
-        postInvoice(invoice, "place_bookings"),
-        addFrequentAddress({ contact, ...selectedOriginDetails }),
-        addFrequentAddress({ contact, ...selectedDestinationDetails }),
-      ]);
-
-      setLoading(false);
-    } catch (error) {
-      console.error("Error in submit:", error);
-      setLoading(false);
-    }
   };
 
   const styleField = {
@@ -220,233 +148,230 @@ export default function Page() {
 
   return (
     <>
-      {loading === true ? (
-        <div
-          style={{
-            position: "relative",
-            zIndex: "999",
-            width: "100vw",
-            height: "100vh",
-            backgroundColor: "#fff",
-          }}
-        >
-          <Loader />
-        </div>
-      ) : null}
-      <>
-        <section style={grid}>
-          <div style={gridChild}>
-            <div style={{ height: "30rem" }}>
-              <h3>Job Information</h3>
-              <p>
-                Account{" "}
-                <span>
-                  {user && user.firstName + " " + user && user.lastName}
-                </span>
-              </p>
-              <TextField
-                style={styleField}
-                name="contact"
-                label="Contact"
-                variant="outlined"
-                value={formData.contact}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div>
-              <h3>Pickup Details</h3>
-              <TextField
-                style={styleField}
-                name="pickupFrequentAddress"
-                select
-                label="Frequent Address"
-                helperText="Select address or address enter below"
-                variant="outlined"
-                value={formData.pickupFrequentAddress}
-                onChange={handleChangeDd}
-              >
-                {frequentAddresses &&
-                  frequentAddresses.map((option, index) => (
-                    <MenuItem key={index} value={option}>
-                      {option.address}
-                    </MenuItem>
-                  ))}
-              </TextField>
-
-              {autoaddress === true ? (
-                <PlacesAutocomplete onLocationSelect={handleDestination} />
-              ) : null}
-
-              <TextField
-                style={styleField}
-                name="pickupSuburb"
-                select
-                label="Drop Suburb"
-                helperText="Please select your suburb"
-                variant="outlined"
-                value={formData.pickupSuburb}
-                onChange={handleChange}
-              >
-                {suburbOptions &&
-                  suburbOptions.map((option, index) => (
-                    <MenuItem key={index} value={option}>
-                      {option}
-                    </MenuItem>
-                  ))}
-              </TextField>
-
-              <TextField
-                style={styleField}
-                name="pickupGoodsDescription"
-                label="Goods Description"
-                multiline
-                maxRows={4}
-                value={formData.goodsDescription}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
-
-          <div style={gridChild}>
-            <div>
-              <h3>Service Information</h3>
-              <TextField
-                style={styleField}
-                name="service"
-                select
-                label="Service"
-                helperText="Please select any service"
-                variant="outlined"
-                value={formData.service}
-                onChange={handleChange}
-              >
-                {serviceOptions &&
-                  serviceOptions.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.value}
-                    </MenuItem>
-                  ))}
-              </TextField>
-
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <div>
-                  <DatePicker
-                    label="Date"
-                    value={formData.date}
-                    onChange={handleDateChange}
-                  />
-                  <br />
-                  <TimePicker
-                    style={{ margin: "1rem 0" }}
-                    label="Time"
-                    value={formData.time}
-                    onChange={handleTimeChange}
+      {showCheckout ? (
+        <BookCheckout
+          formData={formData}
+          selectedDestination={selectedDestination}
+          selectedOrigin={selectedOrigin}
+        />
+      ) : (
+        <>
+          <>
+            <section style={grid}>
+              <div style={gridChild}>
+                <div style={{ height: "30rem" }}>
+                  <h3>Job Information</h3>
+                  <p>
+                    Account{" "}
+                    <span>
+                      {user && user.firstName + " " + user && user.lastName}
+                    </span>
+                  </p>
+                  <TextField
+                    style={styleField}
+                    name="contact"
+                    label="Contact"
+                    variant="outlined"
+                    value={formData.contact}
+                    onChange={handleChange}
                   />
                 </div>
-              </LocalizationProvider>
-              <TextField
-                style={styleField}
-                name="pieces"
-                label="Pieces"
-                multiline
-                maxRows={4}
-                value={formData.pieces}
-                onChange={handleChange}
-              />
-              <TextField
-                style={styleField}
-                name="weight"
-                label="Weight (kg)"
-                multiline
-                maxRows={4}
-                value={formData.weight}
-                onChange={handleChange}
-              />
-            </div>
 
-            <div>
-              <h3>Drop Details</h3>
-              <TextField
-                style={styleField}
-                name="dropFrequentAddress"
-                select
-                label="Frequent Address"
-                helperText="Select address or address enter below"
-                variant="outlined"
-                value={formData.dropFrequentAddress}
-                onChange={handleChangeDd}
+                <div>
+                  <h3>Pickup Details</h3>
+                  <TextField
+                    style={styleField}
+                    name="pickupFrequentAddress"
+                    select
+                    label="Frequent Address"
+                    helperText="Select address or address enter below"
+                    variant="outlined"
+                    value={formData.pickupFrequentAddress}
+                    onChange={handleChangeDd}
+                  >
+                    {frequentAddresses &&
+                      frequentAddresses.map((option, index) => (
+                        <MenuItem key={index} value={option}>
+                          {option.address}
+                        </MenuItem>
+                      ))}
+                  </TextField>
+
+                  {autoaddress === true ? (
+                    <PlacesAutocomplete onLocationSelect={handleDestination} />
+                  ) : null}
+
+                  <TextField
+                    style={styleField}
+                    name="pickupSuburb"
+                    select
+                    label="Drop Suburb"
+                    helperText="Please select your suburb"
+                    variant="outlined"
+                    value={formData.pickupSuburb}
+                    onChange={handleChange}
+                  >
+                    {suburbOptions &&
+                      suburbOptions.map((option, index) => (
+                        <MenuItem key={index} value={option}>
+                          {option}
+                        </MenuItem>
+                      ))}
+                  </TextField>
+
+                  <TextField
+                    style={styleField}
+                    name="pickupGoodsDescription"
+                    label="Goods Description"
+                    multiline
+                    maxRows={4}
+                    value={formData.goodsDescription}
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+
+              <div style={gridChild}>
+                <div>
+                  <h3>Service Information</h3>
+                  <TextField
+                    style={styleField}
+                    name="service"
+                    select
+                    label="Service"
+                    helperText="Please select any service"
+                    variant="outlined"
+                    value={formData.service}
+                    onChange={handleChange}
+                  >
+                    {serviceOptions &&
+                      serviceOptions.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.value}
+                        </MenuItem>
+                      ))}
+                  </TextField>
+
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <div>
+                      <DatePicker
+                        label="Date"
+                        value={formData.date}
+                        onChange={handleDateChange}
+                      />
+                      <br />
+                      <TimePicker
+                        style={{ margin: "1rem 0" }}
+                        label="Time"
+                        value={formData.time}
+                        onChange={handleTimeChange}
+                      />
+                    </div>
+                  </LocalizationProvider>
+                  <TextField
+                    style={styleField}
+                    name="pieces"
+                    label="Pieces"
+                    multiline
+                    maxRows={4}
+                    value={formData.pieces}
+                    onChange={handleChange}
+                  />
+                  <TextField
+                    style={styleField}
+                    name="weight"
+                    label="Weight (kg)"
+                    multiline
+                    maxRows={4}
+                    value={formData.weight}
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <div>
+                  <h3>Drop Details</h3>
+                  <TextField
+                    style={styleField}
+                    name="dropFrequentAddress"
+                    select
+                    label="Frequent Address"
+                    helperText="Select address or address enter below"
+                    variant="outlined"
+                    value={formData.dropFrequentAddress}
+                    onChange={handleChangeDd}
+                  >
+                    {frequentAddresses &&
+                      frequentAddresses.map((option, index) => (
+                        <MenuItem key={index} value={option}>
+                          {option.address}
+                        </MenuItem>
+                      ))}
+                  </TextField>
+
+                  {autoaddress === true ? (
+                    <PlacesAutocomplete onLocationSelect={handleOrigin} />
+                  ) : null}
+
+                  <TextField
+                    style={styleField}
+                    name="dropSuburb"
+                    select
+                    label="Drop Suburb"
+                    helperText="Please select your suburb"
+                    variant="outlined"
+                    value={formData.dropSuburb}
+                    onChange={handleChange}
+                  >
+                    {suburbOptions &&
+                      suburbOptions.map((option, index) => (
+                        <MenuItem key={index} value={option}>
+                          {option}
+                        </MenuItem>
+                      ))}
+                  </TextField>
+
+                  <TextField
+                    style={styleField}
+                    name="dropReference1"
+                    label="Reference 1"
+                    multiline
+                    maxRows={4}
+                    value={formData.reference1}
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+            </section>
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                margin: "2rem",
+                flexDirection: "column",
+              }}
+            >
+              <Button
+                variant="filled"
+                mt={10}
+                color="red"
+                size="md"
+                w={250}
+                onClick={handleCheckOut}
               >
-                {frequentAddresses &&
-                  frequentAddresses.map((option, index) => (
-                    <MenuItem key={index} value={option}>
-                      {option.address}
-                    </MenuItem>
-                  ))}
-              </TextField>
+                Book Job
+              </Button>
 
-              {autoaddress === true ? (
-                <PlacesAutocomplete onLocationSelect={handleOrigin} />
-              ) : null}
-
-              <TextField
-                style={styleField}
-                name="dropSuburb"
-                select
-                label="Drop Suburb"
-                helperText="Please select your suburb"
-                variant="outlined"
-                value={formData.dropSuburb}
-                onChange={handleChange}
-              >
-                {suburbOptions &&
-                  suburbOptions.map((option, index) => (
-                    <MenuItem key={index} value={option}>
-                      {option}
-                    </MenuItem>
-                  ))}
-              </TextField>
-
-              <TextField
-                style={styleField}
-                name="dropReference1"
-                label="Reference 1"
-                multiline
-                maxRows={4}
-                value={formData.reference1}
-                onChange={handleChange}
-              />
+              <Link href="/ClientServices" style={{ textDecoration: "none" }}>
+                <Button w={250} variant="filled" mt={10} color="red" size="md">
+                  Client Services
+                </Button>
+              </Link>
             </div>
-          </div>
-        </section>
-        <div
-          style={{
-            width: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            margin: "2rem",
-            flexDirection: "column",
-          }}
-        >
-          <Button
-            variant="filled"
-            mt={10}
-            color="red"
-            size="md"
-            w={250}
-            onClick={submit}
-          >
-            Book Job
-          </Button>
-
-          <Link href="/ClientServices" style={{ textDecoration: "none" }}>
-            <Button w={250} variant="filled" mt={10} color="red" size="md">
-              Client Services
-            </Button>
-          </Link>
-        </div>
-      </>
+          </>
+        </>
+      )}
     </>
   );
 }

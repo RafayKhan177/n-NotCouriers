@@ -40,7 +40,6 @@ export default function FrequentAddresses({ addresses }) {
       if (editedIndex >= 0 && editedIndex < updatedAddresses.length) {
         updatedAddresses[editedIndex] = {
           ...editedAddress,
-          contact: editedName,
           address: editedAddressValue.label,
           coordinates: editedAddressValue.coordinates,
         };
@@ -120,12 +119,6 @@ export default function FrequentAddresses({ addresses }) {
             onLocationSelect={(selectedLocation) =>
               setEditedAddressValue(selectedLocation)
             }
-          />
-          <TextField
-            label="Name"
-            fullWidth
-            value={editedName}
-            onChange={(e) => setEditedName(e.target.value)}
           />
 
           <Button variant="contained" color="primary" onClick={handleSave}>

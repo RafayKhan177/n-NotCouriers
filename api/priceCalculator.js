@@ -39,8 +39,8 @@ async function calculatePrice(data) {
 
   const requestQuote = weight > 4000;
 
-  // Round the totalPrice to the nearest whole number
-  totalPrice = Math.round(totalPrice);
+  // Round the totalPrice to two decimal places
+  totalPrice = totalPrice.toFixed(2);
 
   return { ...data, totalPrice, requestQuote };
 }

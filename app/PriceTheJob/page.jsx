@@ -213,16 +213,6 @@ export default function Page() {
             value={formData.weight}
             onChange={handleChange}
           />
-
-          <Button
-            w={180}
-            color="red"
-            mt={3}
-            variant="filled"
-            onClick={() => setFormData({})}
-          >
-            Clear Form
-          </Button>
           <Button
             w={180}
             color="red"
