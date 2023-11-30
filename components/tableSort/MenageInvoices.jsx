@@ -93,11 +93,11 @@ export default function MenageInvoices({ invoice, title }) {
       </TableCell>
       <TableCell>
         {(row.progressInformation && row.progressInformation.booked) ||
-          "Not Yet"}
+          "Pending"}
       </TableCell>
       <TableCell>
         {(row.progressInformation && row.progressInformation.delivered) ||
-          "Not Yet"}
+          "Pending"}
       </TableCell>
       <TableCell>
         <Button

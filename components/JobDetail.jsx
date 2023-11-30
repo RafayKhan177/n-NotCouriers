@@ -75,27 +75,27 @@ const InvoiceDetails = (invoice, job) => {
               invoice.progressInformation && [
                 {
                   label: "Booked",
-                  value: invoice.progressInformation.booked || "Not Yet",
+                  value: invoice.progressInformation.booked || "Pending",
                 },
                 {
                   label: "E.T.D.",
-                  value: invoice.progressInformation.etd || "Not Yet",
+                  value: invoice.progressInformation.etd || "Pending",
                 },
                 {
                   label: "Allocated",
-                  value: invoice.progressInformation.allocated || "Not Yet",
+                  value: invoice.progressInformation.allocated || "Pending",
                 },
                 {
                   label: "Pick Up",
-                  value: invoice.progressInformation.pickedup || "Not Yet",
+                  value: invoice.progressInformation.pickedup || "Pending",
                 },
                 {
                   label: "Delivered",
-                  value: invoice.progressInformation.delivered || "Not Yet",
+                  value: invoice.progressInformation.delivered || "Pending",
                 },
                 {
                   label: "P.O.D.",
-                  value: invoice.progressInformation.pod || "Not Yet",
+                  value: invoice.progressInformation.pod || "Pending",
                 },
               ]
             )}
@@ -107,7 +107,7 @@ const InvoiceDetails = (invoice, job) => {
               },
               {
                 label: "Delivered",
-                value: invoice.progressInformation.delivered || "Not Yet",
+                value: invoice.progressInformation.delivered || "Pending",
               },
             ])}
 
@@ -119,7 +119,7 @@ const InvoiceDetails = (invoice, job) => {
               },
               {
                 label: "Delivered",
-                value: invoice.progressInformation.delivered || "Not Yet",
+                value: invoice.progressInformation.delivered || "Pending",
               },
             ])}
           </>

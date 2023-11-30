@@ -12,6 +12,7 @@ import { Button } from "@mantine/core";
 import Link from "next/link";
 
 const BookingTable = ({ bookings }) => {
+  console.log(bookings);
   return (
     <TableContainer component={Paper} className="table-container">
       <Table className="booking-table">
@@ -44,27 +45,31 @@ const BookingTable = ({ bookings }) => {
                 {booking.dropDetails && booking.dropDetails.dropReference1}
               </TableCell>
               <TableCell>
-                {booking.pickupDetails &&
-                  booking.pickupDetails.selectedOriginDetails &&
-                  booking.pickupDetails.selectedOriginDetails.address}
+                {booking?.pickupDetails?.selectedOriginDetails?.address ===
+                "none"
+                  ? booking?.pickupDetails?.pickupFrequentAddress?.address
+                  : booking?.pickupDetails?.selectedOriginDetails?.address}
               </TableCell>
               <TableCell>
-                {booking.dropDetails &&
-                  booking.dropDetails.selectedDestinationDetails &&
-                  booking.dropDetails.selectedDestinationDetails.address}
+                {booking?.dropDetails?.selectedDestinationDetails?.address ===
+                "none"
+                  ? booking?.dropDetails?.dropFrequentAddress?.address
+                  : booking?.dropDetails?.selectedDestinationDetails?.address}
               </TableCell>
               <TableCell>
                 {booking.serviceInformation &&
                   booking.serviceInformation.service}
               </TableCell>
-              <TableCell>$ {booking.totalPrice}</TableCell>
+              <TableCell>${booking.totalPrice}</TableCell>
               <TableCell>
-                {booking.progressInformation &&
-                  booking.progressInformation.booked}
+                {(booking.progressInformation &&
+                  booking.progressInformation.booked) ||
+                  "Pending"}
               </TableCell>
               <TableCell>
-                {booking.progressInformation &&
-                  booking.progressInformation.delivered}
+                {(booking.progressInformation &&
+                  booking.progressInformation.delivered) ||
+                  "Pending"}
               </TableCell>
             </TableRow>
           ))}
