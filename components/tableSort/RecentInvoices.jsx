@@ -49,7 +49,6 @@ function getFormattedDateJob(dateStr) {
   return `${dayOfMonth}-${monthName.toUpperCase()}-${yearDigits}`;
 }
 
-
 function formatTimeTo12Hour(timeStr) {
   // Parse the input time string
   const [hours, minutes, seconds] = timeStr.split(":").map(Number);
@@ -91,14 +90,14 @@ export default function RecentInvoices({ place_booking, place_job }) {
           ? row.serviceInformation.time
           : formatTimeTo12Hour(row.time)}
       </TableCell>
-      <TableCell>{row.totalPrice}</TableCell>
+      <TableCell>$ {row.totalPrice}</TableCell>
       <TableCell>
         <Button
           variant="light"
           color="cyan"
           onClick={() => handleNavigate(row.docId)}
         >
-          View 
+          View
         </Button>
       </TableCell>
       <TableCell>

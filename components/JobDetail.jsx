@@ -65,7 +65,7 @@ const InvoiceDetails = (invoice, job) => {
               { label: "Service", value: invoice.service },
               { label: "Piece", value: invoice.pieces },
               { label: "Weight", value: invoice.weight },
-              { label: "Cost", value: invoice.totalPrice },
+              { label: "Cost", value: `$ ${invoice.totalPrice}` },
               { label: "Date Created", value: invoice.date },
               // { label: "Time Created", value: invoice.time },
             ])}

@@ -161,7 +161,7 @@ const InvoiceDetails = ({ invoice }) => {
               value: (serviceInfo && serviceInfo.date) || "null",
             },
             { label: "Time Created", value: serviceInfo.time },
-            { label: "Cost", value: invoice.totalPrice },
+            { label: "Cost", value: `$ ${invoice.totalPrice}` },
           ])}
 
           {renderDetails("Pickup Details", [
