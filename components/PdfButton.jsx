@@ -69,10 +69,9 @@ export default function PdfButton({ invoice, s, d }) {
   }
 
   const tableData = transformDataToTableFormat(invoice);
-
   var dd = {
     content: [
-      { image: headerImg, width: 500 }, // Adjust the width as needed
+      { image: headerImg, width: 500, margin: [0, 0, 0, 20] },
       {
         table: {
           headerRows: 1,
@@ -89,23 +88,72 @@ export default function PdfButton({ invoice, s, d }) {
           ],
           body: [
             [
-              "DATE",
-              "JOB NO",
-              "REF 1",
-              "FROM",
-              "TO",
-              "SERV",
-              "COST",
-              "GST",
-              "TOTAL",
+              { text: "DATE", style: "tableHeader" },
+              { text: "JOB NO", style: "tableHeader" },
+              { text: "REF 1", style: "tableHeader" },
+              { text: "FROM", style: "tableHeader" },
+              { text: "TO", style: "tableHeader" },
+              { text: "SERV", style: "tableHeader" },
+              { text: "COST", style: "tableHeader" },
+              { text: "GST", style: "tableHeader" },
+              { text: "TOTAL", style: "tableHeader" },
             ],
-            ...tableData,
+            ...tableData.map((row) =>
+              row.map((cell) => ({ text: cell, style: "tableCell" }))
+            ),
           ],
         },
+        layout: "headerLineOnly",
       },
-      { image: footerImg, width: 500 }, // Adjust the width as needed
+     
+      {
+        text: "REMITTANCE ADVICE",
+        style: "sectionHeader",
+        margin: [0, 200, 0, 5],
+      },
+      {
+        text: "Please make your payment to >>>",
+        margin: [0, 0, 0, 10],
+      },
+      {
+        text: [
+          { text: "Account No: ", style: "infoS" },
+          { text: invoice.userName, style: "infoText" },
+          { text: " | Total this invoice: ", style: "infoS" },
+          { text: `$${invoice.totalPrice}`, style: "infoText" },
+          { text: " | Job Number: ", style: "infoS" },
+          { text: invoice.docId, style: "infoText" },
+        ],
+      },
+      {
+        image: footerImg,
+        width: 500,
+        absolutePosition: { x: 50, y: 700 },
+        margin: [0, 20, 0, 0],
+      },
     ],
+    styles: {
+      tableHeader: {
+        bold: true,
+        fontSize: 12,
+      },
+      tableCell: {
+        fontSize: 10,
+      },
+      sectionHeader: {
+        bold: true,
+        fontSize: 14,
+      },
+      infoS: {
+        fontSize: 8, // Adjusted to 8 points
+        bold: true,
+      },
+      infoText: {
+        fontSize: 8, // Adjusted to 8 points
+      },
+    },
   };
+  
 
   const createPdf = () => {
     const pdfGenerator = pdfMake.createPdf(dd);
