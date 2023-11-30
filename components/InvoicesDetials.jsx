@@ -160,7 +160,6 @@ const InvoiceDetails = ({ invoice }) => {
               label: "Date Created",
               value: (serviceInfo && serviceInfo.date) || "null",
             },
-            { label: "Distance", value: invoice.distanceData.distance.text },
             { label: "Time Created", value: serviceInfo.time },
             { label: "Cost", value: invoice.totalPrice },
           ])}

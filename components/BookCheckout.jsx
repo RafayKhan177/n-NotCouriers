@@ -123,8 +123,11 @@ export default function BookCheckout({
     if (invoice) {
       await Promise.all([
         postInvoice(invoice, "place_bookings"),
-        addFrequentAddress(invoice?.pickupDetails?.selectedOriginDetails),
-        addFrequentAddress(invoice?.dropDetails?.selectedDestinationDetails),
+        addFrequentAddress(
+          invoice?.pickupDetails?.selectedOriginDetails,
+          invoice?.dropDetails?.selectedDestinationDetails
+        ),
+        // addFrequentAddress(),
       ]);
       nav.push("/ClientServices");
     }
