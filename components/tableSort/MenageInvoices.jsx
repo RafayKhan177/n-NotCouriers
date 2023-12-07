@@ -10,6 +10,7 @@ import {
   Paper,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
+import PdfButton from "../PdfButton";
 
 function formatTimeTo12Hour(timeStr) {
   // Parse the input time string
@@ -101,12 +102,18 @@ export default function MenageInvoices({ invoice, title }) {
       </TableCell>
       <TableCell>
         <Button
+        mr={5}
           variant="light"
           color="cyan"
           onClick={() => handleEdit(row.docId)}
         >
           Edit
         </Button>
+        <PdfButton
+          invoice={row}
+          s={row?.service || "N/A"}
+          d={row?.date || "N/A"}
+        />
       </TableCell>
     </TableRow>
   );
