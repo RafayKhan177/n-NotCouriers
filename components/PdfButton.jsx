@@ -1,41 +1,41 @@
 "use client";
-
+import { useEffect, useState } from "react";
 import { Button } from "@mantine/core";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
-import { useState, useEffect } from "react";
-import header from "../public/pdf_header.jpg";
-import footer from "../public/pdf_footer.jpg";
+import headerImg from "../public/pdf_header.jpg";
+import footerImg from "../public/pdf_footer.jpg";
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
-export default function PdfButton({ invoice, s, d }) {
-  const [headerImg, setHeaderImg] = useState("");
-  const [footerImg, setFooterImg] = useState("");
+const PdfButton = ({ invoice, s, d }) => {
+  const [headerImage, setHeaderImage] = useState("");
+  const [footerImage, setFooterImage] = useState("");
 
   useEffect(() => {
-    const get = async (imageSource, setImage) => {
-      const imgDataUrl = await fetch(imageSource)
-        .then((response) => response.blob())
-        .then(
-          (blob) =>
-            new Promise((resolve, reject) => {
-              const reader = new FileReader();
-              reader.onloadend = () => resolve(reader.result);
-              reader.onerror = reject;
-              reader.readAsDataURL(blob);
-            })
-        );
+    const getImageDataUrl = async (imageSource, setImage) => {
+      try {
+        const response = await fetch(imageSource);
+        const blob = await response.blob();
 
-      const imgData = imgDataUrl;
-      setImage(imgData);
+        const imageDataUrl = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result);
+          reader.onerror = reject;
+          reader.readAsDataURL(blob);
+        });
+
+        setImage(imageDataUrl);
+      } catch (error) {
+        console.error("Error fetching image:", error);
+      }
     };
 
-    get(header.src, setHeaderImg);
-    get(footer.src, setFooterImg);
+    getImageDataUrl(headerImg.src, setHeaderImage);
+    getImageDataUrl(footerImg.src, setFooterImage);
   }, []);
 
-  function transformDataToTableFormat(invoice) {
+  const transformDataToTableFormat = (invoice) => {
     const {
       progressInformation,
       docId,
@@ -45,7 +45,7 @@ export default function PdfButton({ invoice, s, d }) {
       totalPrice,
     } = invoice;
 
-    const tableData = [
+    return [
       [
         serviceInformation?.date || d || "N/A",
         docId || "N/A",
@@ -64,39 +64,28 @@ export default function PdfButton({ invoice, s, d }) {
         `$${totalPrice !== undefined ? totalPrice + 10 : 10}`,
       ],
     ];
-
-    return tableData;
-  }
+  };
 
   const tableData = transformDataToTableFormat(invoice);
-  var dd = {
+
+  const pdfContent = {
     content: [
-      { image: headerImg, width: 500, margin: [0, 0, 0, 20] },
+      { image: headerImage, width: 500, margin: [0, 0, 0, 20] },
       {
         table: {
           headerRows: 1,
-          widths: [
-            "auto",
-            "auto",
-            "auto",
-            "auto",
-            "auto",
-            "auto",
-            "auto",
-            "auto",
-            "auto",
-          ],
+          widths: Array(9).fill("auto"),
           body: [
             [
-              { text: "DATE", style: "tableHeader" },
-              { text: "JOB NO", style: "tableHeader" },
-              { text: "REF 1", style: "tableHeader" },
-              { text: "FROM", style: "tableHeader" },
-              { text: "TO", style: "tableHeader" },
-              { text: "SERV", style: "tableHeader" },
-              { text: "COST", style: "tableHeader" },
-              { text: "GST", style: "tableHeader" },
-              { text: "TOTAL", style: "tableHeader" },
+              "DATE",
+              "JOB NO",
+              "REF 1",
+              "FROM",
+              "TO",
+              "SERV",
+              "COST",
+              "GST",
+              "TOTAL",
             ],
             ...tableData.map((row) =>
               row.map((cell) => ({ text: cell, style: "tableCell" }))
@@ -105,16 +94,25 @@ export default function PdfButton({ invoice, s, d }) {
         },
         layout: "headerLineOnly",
       },
-     
+      {
+        image: footerImage,
+        width: 500,
+        absolutePosition: { x: 50, y: 560 },
+        margin: [0, 10, 0, 0],
+      },
       {
         text: "REMITTANCE ADVICE",
         style: "sectionHeader",
-        margin: [0, 200, 0, 5],
+        margin: [0, 10, 0, 0],
+        absolutePosition: { x: 60, y: 670 },
       },
       {
         text: "Please make your payment to >>>",
-        margin: [0, 0, 0, 10],
+        margin: [0, 10, 0, 0],
+        absolutePosition: { x: 60, y: 690 },
+        style: "smallText",
       },
+
       {
         text: [
           { text: "Account No: ", style: "infoS" },
@@ -124,21 +122,16 @@ export default function PdfButton({ invoice, s, d }) {
           { text: " | Job Number: ", style: "infoS" },
           { text: invoice.docId, style: "infoText" },
         ],
-      },
-      {
-        image: footerImg,
-        width: 500,
-        absolutePosition: { x: 50, y: 700 },
-        margin: [0, 20, 0, 0],
+        margin: [0, 10, 0, 0],
+        absolutePosition: { x: 60, y: 700 },
       },
     ],
     styles: {
-      tableHeader: {
-        bold: true,
-        fontSize: 12,
-      },
       tableCell: {
         fontSize: 10,
+      },
+      smallText: {
+        fontSize: 8,
       },
       sectionHeader: {
         bold: true,
@@ -153,10 +146,9 @@ export default function PdfButton({ invoice, s, d }) {
       },
     },
   };
-  
 
   const createPdf = () => {
-    const pdfGenerator = pdfMake.createPdf(dd);
+    const pdfGenerator = pdfMake.createPdf(pdfContent);
     pdfGenerator.download();
   };
 
@@ -165,4 +157,6 @@ export default function PdfButton({ invoice, s, d }) {
       PDF
     </Button>
   );
-}
+};
+
+export default PdfButton;
