@@ -71,7 +71,7 @@ export default function PerKmRates() {
           </ListItem>
         ))}
       </List>
-      <Button variant="light" color="red" size="lg" onClick={handleSave}>
+      <Button variant="light" color="#F14902" size="lg" onClick={handleSave}>
         Save
       </Button>
     </div>

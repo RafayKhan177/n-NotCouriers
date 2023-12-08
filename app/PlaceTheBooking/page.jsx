@@ -355,7 +355,7 @@ export default function Page() {
               <Button
                 variant="filled"
                 mt={10}
-                color="red"
+                color="#F14902"
                 size="md"
                 w={250}
                 onClick={handleCheckOut}
@@ -364,7 +364,7 @@ export default function Page() {
               </Button>
 
               <Link href="/ClientServices" style={{ textDecoration: "none" }}>
-                <Button w={250} variant="filled" mt={10} color="red" size="md">
+                <Button w={250} variant="filled" mt={10} color="#F14902" size="md">
                   Client Services
                 </Button>
               </Link>

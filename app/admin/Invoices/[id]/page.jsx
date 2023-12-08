@@ -86,7 +86,7 @@ export default function Page() {
               <Button
                 w={180}
                 variant="filled"
-                color="red"
+                color="#F14902"
                 m={3}
                 key={index}
                 onClick={() => updateStatus(index)}

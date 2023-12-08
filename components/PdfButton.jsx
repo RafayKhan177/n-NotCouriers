@@ -153,7 +153,7 @@ const PdfButton = ({ invoice, s, d }) => {
   };
 
   return (
-    <Button variant="filled" color="indigo" onClick={createPdf}>
+    <Button variant="filled" color="#F14902" onClick={createPdf}>
       PDF
     </Button>
   );

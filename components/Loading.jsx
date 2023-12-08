@@ -14,7 +14,7 @@ export default function Loading() {
     >
       <Loader
         style={{ display: "flex", justifyItems: "center" }}
-        color="red"
+        color="#F14902"
         size="xl"
         type="bars"
       />

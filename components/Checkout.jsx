@@ -203,7 +203,7 @@ export default function Checkout({ invoice, handleHide }) {
         {/* Close Button */}
         <Button
           variant="filled"
-          color="red"
+          color="#F14902"
           onClick={handleHide}
           style={{ width: "100%" }}
         >

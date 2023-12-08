@@ -89,8 +89,8 @@ export default function FrequentAddresses({ addresses }) {
                   </TableCell>
                   <TableCell>
                     <Button
-                      variant="light"
-                      color="pink"
+                      variant="filled"
+                      color="#F14902"
                       onClick={() => handleDelete(index)}
                     >
                       Delete

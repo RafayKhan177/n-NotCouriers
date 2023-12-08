@@ -49,7 +49,7 @@ const ButtonsSection = ({ userPagesToRender }) => (
   <div>
     {userPagesToRender.map((val, ind) => (
       <Link key={ind} href={val.link}>
-        <Button variant="light" color="red" style={{ margin: "2px" }}>
+        <Button variant="light" color="#F14902" style={{ margin: "2px" }}>
           {val.label}
         </Button>
       </Link>
@@ -70,7 +70,7 @@ const MenuSection = ({ userPagesToRender }) => {
 
   return (
     <>
-      <Button variant="light" color="red" onClick={handleMenuOpen}>
+      <Button variant="light" color="#F14902" onClick={handleMenuOpen}>
         <MenuIcon />
       </Button>
       <Menu

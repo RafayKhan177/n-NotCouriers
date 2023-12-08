@@ -68,7 +68,7 @@ export default function Suburbs() {
               <Typography>{suburb}</Typography>
               <Button
                 variant="filled"
-                color="red"
+                color="#F14902"
                 onClick={() => handleRemoveSuburb(index)}
               >
                 Remove
@@ -86,7 +86,7 @@ export default function Suburbs() {
           />
           <Button
             variant="light"
-            color="red"
+            color="#F14902"
             size="lg"
             onClick={handleAddSuburb}
           >

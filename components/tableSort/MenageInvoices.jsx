@@ -104,7 +104,7 @@ export default function MenageInvoices({ invoice, title }) {
         <Button
         mr={5}
           variant="light"
-          color="cyan"
+          color="#F14902"
           onClick={() => handleEdit(row.docId)}
         >
           Edit

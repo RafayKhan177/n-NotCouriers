@@ -85,7 +85,7 @@ export default function Stats() {
       <Link
         href={stat.link}
         key={stat.title}
-        style={{ textDecoration: "none", color: "red" }}
+        style={{ textDecoration: "none", color: "#F14902" }}
       >
         <Paper withBorder p="md" radius="md">
           <Group justify="space-between">

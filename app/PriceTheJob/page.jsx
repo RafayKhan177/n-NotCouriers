@@ -215,7 +215,7 @@ export default function Page() {
           />
           <Button
             w={180}
-            color="red"
+            color="#F14902"
             mt={3}
             variant="filled"
             onClick={handleSubmit}
@@ -227,7 +227,7 @@ export default function Page() {
             onClick={() => {
               nav.push("/ClientServices");
             }}
-            color="red"
+            color="#F14902"
             mt={3}
             variant="filled"
           >

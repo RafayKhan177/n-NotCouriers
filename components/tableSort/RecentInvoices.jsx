@@ -94,7 +94,7 @@ export default function RecentInvoices({ place_booking, place_job }) {
       <TableCell>
         <Button
           variant="light"
-          color="cyan"
+          color="#F14902"
           onClick={() => handleNavigate(row.docId)}
         >
           View

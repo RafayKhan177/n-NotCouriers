@@ -92,13 +92,13 @@ const CAP = ({ status }) => {
                 <Button
                   variant={loginButtonVariant}
                   style={{ margin: "0 1rem" }}
-                  color="red"
+                  color="#F14902"
                 >
                   Log In
                 </Button>
               </Link>
               <Link href="/Signup">
-                <Button variant={signupButtonVariant} color="red">
+                <Button variant={signupButtonVariant} color="#F14902">
                   Sign Up
                 </Button>
               </Link>

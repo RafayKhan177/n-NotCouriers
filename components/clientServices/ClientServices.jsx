@@ -43,7 +43,7 @@ export default function ClientServices() {
       <div className={`${classes.item} ${classes.link}`}>
         <ThemeIcon
           variant="light"
-          color="red"
+          color="#F14902"
           className={classes.itemIcon}
           size={60}
           radius="md"
@@ -77,7 +77,7 @@ export default function ClientServices() {
         <div className={`${classes.item} ${classes.link}`}>
           <ThemeIcon
             variant="light"
-            color="red"
+            color="#F14902"
             className={classes.itemIcon}
             size={60}
             radius="md"
@@ -110,7 +110,7 @@ export default function ClientServices() {
     >
       <ThemeIcon
         variant="light"
-        color="red"
+        color="#F14902"
         className={classes.itemIcon}
         size={60}
         radius="md"

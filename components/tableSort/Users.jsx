@@ -131,7 +131,7 @@ export default function Users({ users }) {
                     <TableCell>
                       <Button
                         variant="filled"
-                        color="red"
+                        color="#F14902"
                         onClick={() => handlePassReset(row.email)}
                       >
                         Send

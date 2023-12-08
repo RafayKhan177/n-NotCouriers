@@ -77,7 +77,7 @@ export default function Page() {
       <Button
         style={styleField}
         variant="filled"
-        color="red"
+        color="#F14902"
         onClick={handleSubmit}
       >
         RUN QUERY
@@ -87,7 +87,7 @@ export default function Page() {
           style={styleField}
           variant="filled"
           mt={10}
-          color="red"
+          color="#F14902"
           size="md"
         >
           Client Services
