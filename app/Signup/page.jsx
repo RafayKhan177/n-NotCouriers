@@ -9,10 +9,10 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import Link from "next/link";
 import { signUpWithEmail } from "../../api/firebase/functions/auth";
 import { useRouter } from "next/navigation";
 import { CAP } from "@/components/Index";
+import { Link } from "@mui/material";
 
 
 function Copyright(props) {
@@ -24,8 +24,8 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://rafay/">
-        Your Website
+      <Link color="inherit" href={"#"} style={{ textDecoration: 'none' }}>
+        Direct Transport Solutions
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}

@@ -83,7 +83,7 @@ const CAP = ({ status }) => {
             height={600}
             style={logoStyle}
           />
-          <h1 style={{ color: "#333333" }}>Welcome to Jet Couriers!</h1>
+          <h1 style={{ color: "#333333" }}>Welcome to Direct Transport Solutions!</h1>
           <p style={{ color: "#555555" }}>{message}</p>
           {status !== "notAdmin" && (
             <>
