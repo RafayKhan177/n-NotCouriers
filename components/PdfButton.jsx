@@ -60,8 +60,8 @@ const PdfButton = ({ invoice, s, d }) => {
           "N/A",
         serviceInformation?.service || s || "N/A",
         `$${totalPrice || 0}`,
-        "$10",
-        `$${totalPrice !== undefined ? totalPrice + 10 : 10}`,
+        "$0",
+        `$${totalPrice !== undefined ? totalPrice + 0 : 0}`,
       ],
     ];
   };
