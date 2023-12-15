@@ -2,7 +2,7 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { fetchDocById } from "@/api/firebase/functions/fetch";
-import { InvoicesDetials } from "@/components/Index";
+import { InvoicesDetials, CAP } from "@/components/Index";
 import { format } from "date-fns";
 import { updateDoc } from "@/api/firebase/functions/upload";
 import { Button, Text } from "@mantine/core";
@@ -58,6 +58,16 @@ export default function Page() {
     );
     console.log(updatedInvoice);
   };
+
+  const [role, setRole] = useState(null);
+  useEffect(() => {
+    const role = (JSON.parse(localStorage.getItem("userDoc")) || {}).role || null;
+    setRole(role)
+  }, []);
+
+  if (role === null) {
+    return <CAP status={"notLoggedIn"} />;
+  }
 
   return (
     <div

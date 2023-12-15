@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { getCollection } from "@/api/firebase/functions/fetch";
-import { Users, Stats } from "@/components/Index";
+import { Users, Stats, CAP } from "@/components/Index";
 
 export default function Page() {
   const [users, setUsers] = useState([]);
@@ -18,6 +18,16 @@ export default function Page() {
 
     getUsers();
   }, []);
+
+  const [role, setRole] = useState(null);
+  useEffect(() => {
+    const role = (JSON.parse(localStorage.getItem("userDoc")) || {}).role || null;
+    setRole(role)
+  }, []);
+
+  if (role === null) {
+    return <CAP status={"notLoggedIn"} />;
+  }
 
   return (
     <>

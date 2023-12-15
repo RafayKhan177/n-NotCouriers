@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { fetchDocById } from "@/api/firebase/functions/fetch";
 import { updateDoc } from "@/api/firebase/functions/upload";
-import { Loader } from "@/components/Index";
+import { Loader, CAP } from "@/components/Index";
 
 export default function Page() {
   const [id, setId] = useState("");
@@ -47,6 +47,16 @@ export default function Page() {
     fontWeight: "bold",
   };
 
+  const [role, setRole] = useState(null);
+  useEffect(() => {
+    const role = (JSON.parse(localStorage.getItem("userDoc")) || {}).role || null;
+    setRole(role)
+  }, []);
+
+  if (role === null) {
+    return <CAP status={"notLoggedIn"} />;
+  } 
+  
   if (loading) {
     // Display a loading state while fetching and updating data
     return <Loader />;

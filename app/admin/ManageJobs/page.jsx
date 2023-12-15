@@ -1,5 +1,5 @@
 "use client";
-import { MenageInvoices, Stats } from "@/components/Index";
+import { MenageInvoices, Stats, CAP } from "@/components/Index";
 import { useEffect, useState } from "react";
 import { getPaidDocumentsFromCollection } from "@/api/firebase/functions/fetch";
 
@@ -20,6 +20,16 @@ export default function Page() {
 
     fetchData();
   }, []);
+
+  const [role, setRole] = useState(null);
+  useEffect(() => {
+    const role = (JSON.parse(localStorage.getItem("userDoc")) || {}).role || null;
+    setRole(role)
+  }, []);
+
+  if (role === null) {
+    return <CAP status={"notLoggedIn"} />;
+  }
 
   return (
     <>

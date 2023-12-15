@@ -1,9 +1,9 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TextField, Grid } from "@mui/material";
 import { Button } from "@mantine/core";
 import { getBookingsBetweenDates } from "@/api/firebase/functions/fetch";
-import { BookingsQuery } from "@/components/Index";
+import { BookingsQuery, CAP } from "@/components/Index";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import Link from "next/link";
@@ -59,6 +59,16 @@ export default function Page() {
       console.error(error);
     }
   };
+
+  const [role, setRole] = useState(null);
+  useEffect(() => {
+    const role = (JSON.parse(localStorage.getItem("userDoc")) || {}).role || null;
+    setRole(role)
+  }, []);
+
+  if (role === null) {
+    return <CAP status={"notLoggedIn"} />;
+  }
 
   return (
     <div style={{ width: "90%", margin: "auto" }}>

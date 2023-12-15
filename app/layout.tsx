@@ -11,7 +11,7 @@ import NextTopLoader from "nextjs-toploader";
 
 export const metadata: Metadata = {
   title: "Direct Transport Solution",
-  description: "Rafay Khan",
+  description: "Direct Transport Solution",
 };
 
 export default function RootLayout({
@@ -23,7 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <ColorSchemeScript />
-        <link rel="shortcut icon" href="/favicon.svg" />
+        <link rel="shortcut icon" href="/logo.png" />
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"

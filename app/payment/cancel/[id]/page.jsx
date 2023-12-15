@@ -1,7 +1,8 @@
 "use client";
 
 import { deleteDocument } from "@/api/firebase/functions/upload";
-import React, { useEffect } from "react";
+import { Loader, CAP } from "@/components/Index";
+import React, { useEffect, useState } from "react";
 
 export default function PaymentErrorPage() {
   useEffect(() => {
@@ -35,6 +36,16 @@ export default function PaymentErrorPage() {
     fontSize: "18px",
     fontWeight: "bold",
   };
+
+  const [role, setRole] = useState(null);
+  useEffect(() => {
+    const role = (JSON.parse(localStorage.getItem("userDoc")) || {}).role || null;
+    setRole(role)
+  }, []);
+
+  if (role === null) {
+    return <CAP status={"notLoggedIn"} />;
+  }
 
   return (
     <div style={containerStyle}>
