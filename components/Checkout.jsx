@@ -27,6 +27,7 @@ export default function Checkout({ invoice, handleHide }) {
     selectedOrigin,
     selectedDestination,
     totalPrice,
+    LxWxH
   } = invoice;
 
   const handleCheckout = async () => {
@@ -95,9 +96,9 @@ export default function Checkout({ invoice, handleHide }) {
             <IconButton>
               <LocationOnIcon />
             </IconButton>
-            <strong>Pickup Suburb:</strong>
+            <strong>Pickup Address:</strong>
           </div>{" "}
-          {pickupSuburb}
+          {invoice?.pickupDetails?.label}
         </Typography>
 
         {/* Drop Suburb */}
@@ -113,9 +114,9 @@ export default function Checkout({ invoice, handleHide }) {
             <IconButton>
               <WhereToVoteIcon />
             </IconButton>
-            <strong>Drop Suburb:</strong>
+            <strong>Drop Address:</strong>
           </div>{" "}
-          {dropSuburb}
+          {invoice?.dropDetails?.label}
         </Typography>
 
         {/* Service */}

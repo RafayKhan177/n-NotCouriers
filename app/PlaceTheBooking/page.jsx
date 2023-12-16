@@ -12,7 +12,7 @@ import {
   BookCheckout,
 } from "@/components/Index";
 import { Button } from "@mantine/core";
-import { serviceOptions } from "@/components/static";
+import { serviceOptions, goodsDescriptionOption } from "@/components/static";
 import {
   DatePicker,
   LocalizationProvider,
@@ -45,6 +45,7 @@ export default function Page() {
     time: null,
     pieces: "",
     weight: "",
+    LxWxH: "",
     pickupGoodsDescription: "",
     pickupFrequentAddress: [],
     dropFrequentAddress: [],
@@ -66,7 +67,7 @@ export default function Page() {
     const { pickupSuburb, dropSuburb, service, pieces, weight } = formData;
 
     // Check if any required field is missing
-    if (!pickupSuburb || !dropSuburb || !service || !pieces || !weight) {
+    if (!service || !pieces || !weight) {
       alert("Please fill in all required fields");
       return;
     }
@@ -201,7 +202,7 @@ export default function Page() {
                     <PlacesAutocomplete onLocationSelect={handleOrigin} />
                   ) : null}
 
-                  <TextField
+                  {/* <TextField
                     style={styleField}
                     name="pickupSuburb"
                     select
@@ -217,17 +218,24 @@ export default function Page() {
                           {option}
                         </MenuItem>
                       ))}
-                  </TextField>
+                  </TextField> */}
 
                   <TextField
                     style={styleField}
-                    name="pickupGoodsDescription"
+                    name="goodsDescription"
+                    select
                     label="Goods Description"
-                    multiline
-                    maxRows={4}
+                    helperText="Goods Description"
+                    variant="outlined"
                     value={formData.goodsDescription}
-                    onChange={handleChange}
-                  />
+                  >
+                    {goodsDescriptionOption &&
+                      goodsDescriptionOption.map((option, index) => (
+                        <MenuItem key={index} value={option.value}>
+                          {option.value}
+                        </MenuItem>
+                      ))}
+                  </TextField>
                 </div>
               </div>
 
@@ -286,6 +294,14 @@ export default function Page() {
                     value={formData.weight}
                     onChange={handleChange}
                   />
+                  <TextField
+                    style={styleField}
+                    name="LxWxH"
+                    label="LxWxH"
+                    multiline
+                    value={formData.LxWxH}
+                    onChange={handleChange}
+                  />
                 </div>
 
                 <div>
@@ -312,7 +328,7 @@ export default function Page() {
                     <PlacesAutocomplete onLocationSelect={handleDestination} />
                   ) : null}
 
-                  <TextField
+                  {/* <TextField
                     style={styleField}
                     name="dropSuburb"
                     select
@@ -328,7 +344,7 @@ export default function Page() {
                           {option}
                         </MenuItem>
                       ))}
-                  </TextField>
+                  </TextField> */}
 
                   <TextField
                     style={styleField}

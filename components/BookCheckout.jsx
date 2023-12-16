@@ -30,6 +30,9 @@ export default function BookCheckout({
 
   console.log(invoice);
 
+  const truncateString = (inputString) => (inputString.length > 10 ? inputString.slice(0, 20) + '...' : inputString);
+
+
   useEffect(() => {
     const fetchData = async () => {
       await handleData();
@@ -51,6 +54,7 @@ export default function BookCheckout({
     dropReference1,
     dropSuburb,
     pickupSuburb,
+    LxWxH
   } = formData;
 
   const handleData = async () => {
@@ -104,6 +108,7 @@ export default function BookCheckout({
         dropDetails,
         serviceInformation,
         distanceData,
+        LxWxH
       };
 
       const invoiceData = await calculatePrice(data);
@@ -175,9 +180,10 @@ export default function BookCheckout({
               <IconButton>
                 <LocationOnIcon />
               </IconButton>
-              <strong>Pickup Suburb:</strong>
+              <strong>Pickup Address:</strong>
             </div>
-            {invoice?.pickupDetails?.pickupSuburb || "Loading"}
+            {truncateString(selectedOrigin?.address ||
+              pickupFrequentAddress?.address || "Loading")}
           </Typography>
 
           {/* Drop Suburb */}
@@ -195,7 +201,8 @@ export default function BookCheckout({
               </IconButton>
               <strong>Drop Suburb:</strong>
             </div>
-            {invoice?.dropDetails?.dropSuburb || "Loading"}
+            {truncateString(selectedDestination?.address ||
+              dropFrequentAddress?.address || "Loading")}
           </Typography>
 
           {/* Service */}

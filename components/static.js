@@ -87,6 +87,14 @@ const statuses = [
   { val: "pod", status: "P.O.D." },
 ];
 
+const goodsDescriptionOption = [
+  { value: "Skid" },
+  { value: "Pallet" },
+  { value: "Box" },
+  { value: "Envelope" },
+  { value: "Pipes" }
+]
+
 export {
   adminPages,
   userPages,
@@ -96,4 +104,5 @@ export {
   suburbOption,
   statuses,
   businessPages,
+  goodsDescriptionOption
 };

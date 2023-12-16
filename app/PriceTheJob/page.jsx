@@ -33,6 +33,7 @@ export default function Page() {
     service: "",
     pieces: "",
     weight: "",
+    LxWxH: ""
   });
 
   const handleChange = (e) => {
@@ -51,54 +52,62 @@ export default function Page() {
   const handleHide = () => {
     setShow(false);
   };
+
   const handleSubmit = async () => {
     try {
-      const { pickupSuburb, dropSuburb, service, pieces, weight } = formData;
+      const { service, pieces, weight, LxWxH } = formData;
 
-      if (!pickupSuburb || !dropSuburb || !service || !pieces || !weight) {
+      if (!service || !pieces || !weight || !LxWxH) {
         alert("Please fill in all required fields");
         return;
-      } else {
-        try {
-          const distance = await calculateDistance(
-            selectedOriginDetails.coordinates,
-            selectedDestinationDetails.coordinates
-          );
-          const distanceData = distance.rows[0].elements[0];
+      }
 
-          // Add current date and time
-          const currentDate = new Date();
-          const formattedDate = `${currentDate.getDate()}/${
-            currentDate.getMonth() + 1
-          }/${currentDate.getFullYear()}`;
-          const formattedTime = `${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
+      const { coordinates: originCoordinates } = selectedOriginDetails;
+      const { coordinates: destinationCoordinates } = selectedDestinationDetails;
 
-          const data = {
-            distanceData,
-            pickupSuburb,
-            dropSuburb,
-            service,
-            pieces,
-            weight,
-            pickupDetails: selectedOriginDetails,
-            dropDetails: selectedDestinationDetails,
-            date: formattedDate,
-            time: formattedTime,
-            progressInformation: [],
-          };
+      if (!originCoordinates || !destinationCoordinates) {
+        alert("Invalid coordinates for pickup or drop location");
+        return;
+      }
 
-          const invoice = await calculatePrice(data);
+      try {
+        const distance = await calculateDistance(originCoordinates, destinationCoordinates);
 
-          setInvoiceData(invoice);
-          setShow(true);
-        } catch (error) {
-          console.error("Error:", error);
+        if (!distance?.rows?.[0]?.elements?.[0]) {
+          console.error("Invalid distance data");
+          return;
         }
+
+        // Add current date and time
+        const currentDate = new Date();
+        const formattedDate = `${currentDate.getDate()}/${currentDate.getMonth() + 1}/${currentDate.getFullYear()}`;
+        const formattedTime = `${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
+
+        const data = {
+          distanceData: distance.rows[0].elements[0],
+          service,
+          pieces,
+          weight,
+          LxWxH,
+          pickupDetails: selectedOriginDetails,
+          dropDetails: selectedDestinationDetails,
+          date: formattedDate,
+          time: formattedTime,
+          progressInformation: [],
+        };
+
+        const invoice = await calculatePrice(data);
+
+        setInvoiceData(invoice);
+        setShow(true);
+      } catch (error) {
+        console.error("Error calculating price:", error);
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error in form data:", error);
     }
   };
+
 
   const styleField = {
     width: "100%",
@@ -142,7 +151,7 @@ export default function Page() {
             />
           </div>
 
-          <TextField
+          {/* <TextField
             style={styleField}
             name="pickupSuburb"
             select
@@ -176,7 +185,7 @@ export default function Page() {
                   {option}
                 </MenuItem>
               ))}
-          </TextField>
+          </TextField> */}
           <TextField
             style={styleField}
             name="service"
@@ -211,6 +220,13 @@ export default function Page() {
             multiline
             maxRows={4}
             value={formData.weight}
+            onChange={handleChange}
+          />
+          <TextField
+            style={styleField}
+            name="LxWxH"
+            label="LxWxH"
+            value={formData.LxWxH}
             onChange={handleChange}
           />
           <Button

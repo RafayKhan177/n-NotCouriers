@@ -157,6 +157,10 @@ const InvoiceDetails = ({ invoice }) => {
               value: (serviceInfo && serviceInfo.weight) || "null",
             },
             {
+              label: "LxWxH",
+              value: (invoice.LxWxH) || "null",
+            },
+            {
               label: "Date Created",
               value: (serviceInfo && serviceInfo.date) || "null",
             },
@@ -165,13 +169,13 @@ const InvoiceDetails = ({ invoice }) => {
           ])}
 
           {renderDetails("Pickup Details", [
-            {
-              label: "Suburb",
-              value:
-                (invoice.pickupDetails && invoice.pickupDetails.pickupSuburb) ||
-                invoice.pickupSuburb ||
-                "null",
-            },
+            // {
+            //   label: "Suburb",
+            //   value:
+            //     (invoice.pickupDetails && invoice.pickupDetails.pickupSuburb) ||
+            //     invoice.pickupSuburb ||
+            //     "null",
+            // },
             {
               label: "Address",
               value: pickupAddress,
@@ -186,13 +190,13 @@ const InvoiceDetails = ({ invoice }) => {
           ])}
 
           {renderDetails("Drop Details", [
-            {
-              label: "Suburb",
-              value:
-                (invoice.dropDetails && invoice.dropDetails.dropSuburb) ||
-                invoice.dropSuburb ||
-                "null",
-            },
+            // {
+            //   label: "Suburb",
+            //   value:
+            //     (invoice.dropDetails && invoice.dropDetails.dropSuburb) ||
+            //     invoice.dropSuburb ||
+            //     "null",
+            // },
             {
               label: "Address",
               value: dropAddress,
