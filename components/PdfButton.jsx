@@ -45,23 +45,27 @@ const PdfButton = ({ invoice, s, d }) => {
       totalPrice,
     } = invoice;
 
+    const truncateString = (inputString) => (inputString.length > 10 ? inputString.slice(0, 10) + '...' : inputString);
+
+    const truncateAddress = (address) => truncateString(address);
+
     return [
       [
-        serviceInformation?.date || d || "N/A",
+        serviceInformation?.date || "N/A",
         docId || "N/A",
         dropDetails?.dropReference1 || "N/A",
-        pickupDetails?.selectedOriginDetails?.address ||
+        truncateAddress(pickupDetails?.selectedOriginDetails?.address ||
           pickupDetails?.pickupFrequentAddress?.address ||
           pickupDetails?.label ||
-          "N/A",
-        dropDetails?.selectedDestinationDetails?.address ||
+          "N/A"),
+        truncateAddress(dropDetails?.selectedDestinationDetails?.address ||
           dropDetails?.dropFrequentAddress?.address ||
           dropDetails?.label ||
-          "N/A",
-        serviceInformation?.service || s || "N/A",
+          "N/A"),
+        serviceInformation?.service || "N/A",
         `$${totalPrice || 0}`,
         "$0",
-        `$${totalPrice !== undefined ? totalPrice + 0 : 0}`,
+        `$${totalPrice !== undefined ? totalPrice : 0}`,
       ],
     ];
   };
@@ -70,23 +74,16 @@ const PdfButton = ({ invoice, s, d }) => {
 
   const pdfContent = {
     content: [
+      // Header
       { image: headerImage, width: 500, margin: [0, 0, 0, 20] },
+
+      // Content
       {
         table: {
           headerRows: 1,
           widths: Array(9).fill("auto"),
           body: [
-            [
-              "DATE",
-              "JOB NO",
-              "REF 1",
-              "FROM",
-              "TO",
-              "SERV",
-              "COST",
-              "GST",
-              "TOTAL",
-            ],
+            ["DATE", "JOB NO", "REF 1", "FROM", "TO", "SERV", "COST", "GST", "TOTAL"],
             ...tableData.map((row) =>
               row.map((cell) => ({ text: cell, style: "tableCell" }))
             ),
@@ -94,25 +91,58 @@ const PdfButton = ({ invoice, s, d }) => {
         },
         layout: "headerLineOnly",
       },
+
+      // Footer
+
       {
-        image: footerImage,
-        width: 500,
-        absolutePosition: { x: 50, y: 560 },
+        text: "Terms strictly apply.",
+        style: "sectionHeader",
         margin: [0, 10, 0, 0],
+        absolutePosition: { x: 60, y: 600 },
       },
+      {
+        text:
+          "All banandions by Jet Counters (Sydney) Phy List ander their and hasagents subject to our standard terms & conditionsof correct insurance pability notbeen arranged or included unless specially requested beforehand and the appropriate premium",
+        margin: [0, 10, 0, 0],
+        absolutePosition: { x: 60, y: 620 },
+        style: "infoText",
+
+      },
+
+
+      // Direct Transport Solutions
+      {
+        text: "Direct Transport Solutions Pty Ltd ",
+        style: "sectionHeader",
+        margin: [0, 10, 0, 0],
+        width: "40vw",
+        absolutePosition: { x: 60, y: 650 },
+      },
+      {
+        text: [
+          "ABN 87 658 348 808",
+          "| 1353 The Horsley Dr Wetherill Park NSW 2164 ",
+          "| Phone: (02) 9188 0894",
+          "| Email: bookings@directtransport.com.au",
+        ],
+        style: "infoText",
+        margin: [60, 10, 0, 0],
+        absolutePosition: { x: 60, y: 670 },
+      },
+
+      // Remittance Advice
       {
         text: "REMITTANCE ADVICE",
         style: "sectionHeader",
-        margin: [0, 10, 0, 0],
-        absolutePosition: { x: 60, y: 670 },
+        margin: [50, 10, 0, 0],
+        absolutePosition: { x: 60, y: 700 },
       },
       {
         text: "Please make your payment to >>>",
         margin: [0, 10, 0, 0],
-        absolutePosition: { x: 60, y: 690 },
+        absolutePosition: { x: 60, y: 720 },
         style: "smallText",
       },
-
       {
         text: [
           { text: "Account No: ", style: "infoS" },
@@ -123,7 +153,7 @@ const PdfButton = ({ invoice, s, d }) => {
           { text: invoice.docId, style: "infoText" },
         ],
         margin: [0, 10, 0, 0],
-        absolutePosition: { x: 60, y: 700 },
+        absolutePosition: { x: 60, y: 740 },
       },
     ],
     styles: {
@@ -138,14 +168,18 @@ const PdfButton = ({ invoice, s, d }) => {
         fontSize: 14,
       },
       infoS: {
-        fontSize: 8, // Adjusted to 8 points
+        fontSize: 8,
         bold: true,
       },
       infoText: {
-        fontSize: 8, // Adjusted to 8 points
+        fontSize: 8,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'start',
       },
     },
   };
+
 
   const createPdf = () => {
     const pdfGenerator = pdfMake.createPdf(pdfContent);
