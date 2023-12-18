@@ -14,7 +14,7 @@ import { toast } from "react-toastify";
 import { fetchUserData } from "./auth";
 
 const auth = getAuth(app);
-const db = getFirestore(app);
+export const db = getFirestore(app);
 
 const notify = (msg) => console.log(msg);
 

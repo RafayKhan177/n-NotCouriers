@@ -15,6 +15,7 @@ import {
 import { app } from "../config";
 import { toast } from "react-toastify";
 import { fetchDocById } from "./fetch";
+import { deleteDocument } from "./upload";
 // useRouter
 
 const auth = getAuth(app);
@@ -132,6 +133,68 @@ async function sendPasswordResetEmailLink(email) {
     notify(error.message);
   }
 }
+const deleteUserAcc = async (email, pass) => {
+  try {
+    // Authenticate user
+    const userCredential = await signInWithEmailAndPassword(auth, email, pass);
+
+    if (!userCredential || !userCredential.user) {
+      console.log("Invalid user credentials or error during authentication.");
+      return false;
+    }
+
+    const user = await fetchDocById(email, "users");
+
+    if (!user) {
+      notify("No matching user document found.");
+      return false;
+    }
+
+    // Delete user account
+    await userCredential.user.delete();
+    console.log("User account deleted successfully.");
+
+    await deleteDocument("users", email);
+
+    notify(`Successfully deleted ${user.email}.`);
+
+    return true;
+
+  } catch (error) {
+    console.log("Error deleting user", error);
+    notify(error.message); // Notify the user about the error
+    return false;
+  }
+};
+
+async function verifyAuth() {
+  const storedUserData = localStorage.getItem("user");
+
+  if (!storedUserData) {
+    window.location.href = "/Signin";
+    console.log('go Signin')
+    return null;
+  }
+
+  try {
+    const user = JSON.parse(storedUserData);
+
+    const userData = await fetchDocById(user.email, "users");
+
+    localStorage.setItem("userDoc", JSON.stringify(userData));
+
+    return userData;
+  } catch (error) {
+    notify(error.message);
+    localStorage.removeItem("user");
+    localStorage.removeItem("userDoc");
+    window.location.href = "/Signin";
+    console.log('go Signin')
+
+    return null;
+  }
+}
+
 
 export {
   signUpWithEmail,
@@ -141,4 +204,6 @@ export {
   userRole,
   logout,
   sendPasswordResetEmailLink,
+  deleteUserAcc,
+  verifyAuth
 };

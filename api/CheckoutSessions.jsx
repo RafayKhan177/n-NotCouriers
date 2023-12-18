@@ -12,7 +12,7 @@ export default async function CheckoutSessions({ totalPrice, docId }) {
       line_items: [
         {
           price_data: {
-            currency: "usd",
+            currency: "aud",
             product: "prod_P0yhyiTzbZLWrC",
             unit_amount: totalPrice * 100,
           },
