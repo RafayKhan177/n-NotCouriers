@@ -173,7 +173,7 @@ async function deleteDocument(collectionName, docId) {
   try {
     const collectionRef = doc(db, collectionName, docId);
     await deleteDoc(collectionRef);
-    notify(`Remooved`);
+    notify(`Removed`);
   } catch (error) {
     console.error("Error deleting document:", error);
     notify(`Something Went Wrong`);

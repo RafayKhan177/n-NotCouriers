@@ -33,7 +33,7 @@ async function signUpWithEmail(email, password, userData) {
     const user = userCredential.user;
     await saveUserDataToUserDoc(email, userData);
     notify("Sign up successful!");
-    window.location.href = "/";
+    window.location.href = "/Signin";
     // location.reload();
     return true;
   } catch (error) {
@@ -55,7 +55,8 @@ async function signInWithEmail(email, password) {
     await saveUserDataToUserDoc(email, userData);
     localStorage.setItem("user", JSON.stringify(user));
     await fetchUserData();
-    location.reload();
+    // location.reload();
+    window.location.href = "/";
     notify("Sign in successful!");
     return true;
   } catch (error) {
