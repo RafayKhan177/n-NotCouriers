@@ -43,7 +43,6 @@ export default function SignIn() {
     const { email, password } = Object.fromEntries(data);
 
     signInWithEmail(email, password);
-    router.push(`/`);
   };
 
   const [role, setRole] = React.useState(null);

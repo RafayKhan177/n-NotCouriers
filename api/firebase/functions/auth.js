@@ -32,8 +32,9 @@ async function signUpWithEmail(email, password, userData) {
     );
     const user = userCredential.user;
     await saveUserDataToUserDoc(email, userData);
-    location.reload();
     notify("Sign up successful!");
+    // window.location.href = "/";
+    location.reload();
     return true;
   } catch (error) {
     const errorMessage = error.message || "An error occurred during sign up.";
