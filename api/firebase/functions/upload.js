@@ -50,7 +50,7 @@ async function postInvoice(data, collectionName) {
       notify("You're not logged in");
       return null;
     }
-    const docId = `JETC${Math.floor(Math.random() * 99999) + 10000}`;
+    const docId = `DTS${Math.floor(Math.random() * 99999) + 10000}`;
 
     const docData = {
       ...data,
