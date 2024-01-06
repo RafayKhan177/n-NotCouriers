@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { MenuItem, TextField } from "@mui/material";
+import { IconButton, MenuItem, TextField, Tooltip } from "@mui/material";
 import {
   fetchDocById,
   fetchFrequentAddresses,
@@ -19,7 +19,7 @@ import {
   TimePicker,
 } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-
+import InfoIcon from '@mui/icons-material/Info';
 import Link from "next/link";
 
 export default function Page() {
@@ -147,12 +147,12 @@ export default function Page() {
     return <p>Restricted</p>;
   }
 
-  
+
   const styleDescription = {
     color: '#757575', // Adjust the color as needed
     fontSize: '0.77rem', // Adjust the font size as needed
     marginTop: '0.5rem', // Adjust the margin as needed
-    marginLeft:'0.8rem'
+    marginLeft: '0.8rem'
   };
 
   return (
@@ -255,6 +255,28 @@ export default function Page() {
                         </MenuItem>
                       ))}
                   </TextField>
+                  <Tooltip style={{ marginTop: "1rem" }} title="
+                  Standard - 4-6hrs completion time,
+                  Express - 2-3hrs time frame,
+                  Direct - Pickup and deliver ASAP.">
+                    <IconButton
+                      size="small"
+                      edge="end"
+                    >
+                      <InfoIcon />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip style={{ marginTop: "1rem" }} title="
+                  Standard - 4-6hrs completion time,
+                  Express - 2-3hrs time frame,
+                  Direct - Pickup and deliver ASAP.">
+                    <IconButton
+                      size="small"
+                      edge="end"
+                    >
+                      <InfoIcon />
+                    </IconButton>
+                  </Tooltip>
 
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
 
@@ -283,8 +305,8 @@ export default function Page() {
                     style={styleField}
                     name="pieces"
                     label="No. of Items"
-                    size="small"
                     helperText="Enter the number of items"
+                    size="small"
                     multiline
                     maxRows={4}
                     value={formData.pieces}
@@ -306,7 +328,7 @@ export default function Page() {
                     name="LxWxH"
                     label="LxWxH"
                     size="small"
-                    helperText="Enter the dimensions of the item"
+                    helperText="Enter the Length Width Height in (CM)"
                     multiline
                     value={formData.LxWxH}
                     onChange={handleChange}

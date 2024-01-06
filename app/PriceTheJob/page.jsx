@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { MenuItem, TextField } from "@mui/material";
+import InfoIcon from '@mui/icons-material/Info';
 import { Button } from "@mantine/core";
 import { serviceOptions } from "@/components/static";
 import { calculatePrice } from "@/api/priceCalculator";
@@ -151,49 +152,16 @@ export default function Page() {
             />
           </div>
 
-          {/* <TextField
-            style={styleField}
-            name="pickupSuburb"
-            select
-            label="Pickup Suburb"
-            value={formData.pickupSuburb}
-            onChange={handleChange}
-            helperText="Please select your Suburb"
-            variant="outlined"
-          >
-            {suburbOptions &&
-              suburbOptions.map((option, index) => (
-                <MenuItem key={index} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-          </TextField>
+          <TextField
+            size="small"
+            label="Level of Service"
+            helperText="Please select any level of service"
 
-          <TextField
-            style={styleField}
-            name="dropSuburb"
-            select
-            label="Drop Suburb"
-            value={formData.dropSuburb}
-            onChange={handleChange}
-            helperText="Please select your Suburb"
-            variant="outlined"
-          >
-            {suburbOptions &&
-              suburbOptions.map((option, index) => (
-                <MenuItem key={index} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-          </TextField> */}
-          <TextField
             style={styleField}
             name="service"
             select
-            label="Service"
             value={formData.service}
             onChange={handleChange}
-            helperText="Please select your service"
             variant="outlined"
           >
             {serviceOptions.map((option) => (
@@ -203,29 +171,40 @@ export default function Page() {
             ))}
           </TextField>
           <TextField
+            size="small"
+
             style={styleField}
             name="pieces"
             id="outlined-multiline-flexible"
-            label="Pieces"
+            label="No. of Items"
+            helperText="Enter the number of items"
+
             multiline
             maxRows={4}
             value={formData.pieces}
             onChange={handleChange}
           />
           <TextField
+            size="small"
+
             style={styleField}
             name="weight"
             id="outlined-multiline-flexible"
             label="Weight (kg)"
+            helperText="Enter the weight in (KG)"
             multiline
             maxRows={4}
             value={formData.weight}
             onChange={handleChange}
           />
           <TextField
+
             style={styleField}
-            name="LxWxH"
+name="LxWxH"
             label="LxWxH"
+            size="small"
+            helperText="Enter the Length Width Height in (CM)"
+
             value={formData.LxWxH}
             onChange={handleChange}
           />

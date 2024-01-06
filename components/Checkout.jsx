@@ -208,7 +208,7 @@ export default function Checkout({ invoice, handleHide }) {
           onClick={handleHide}
           style={{ width: "100%" }}
         >
-          Close
+          Back
         </Button>
       </CardContent>
     </Card>
