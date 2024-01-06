@@ -147,6 +147,14 @@ export default function Page() {
     return <p>Restricted</p>;
   }
 
+  
+  const styleDescription = {
+    color: '#757575', // Adjust the color as needed
+    fontSize: '0.77rem', // Adjust the font size as needed
+    marginTop: '0.5rem', // Adjust the margin as needed
+    marginLeft:'0.8rem'
+  };
+
   return (
     <>
       {showCheckout ? (
@@ -173,6 +181,8 @@ export default function Page() {
                     name="contact"
                     label="Contact"
                     variant="outlined"
+                    helperText="Enter contact information"
+                    size="small"
                     value={formData.contact}
                     onChange={handleChange}
                   />
@@ -184,8 +194,9 @@ export default function Page() {
                     style={styleField}
                     name="pickupFrequentAddress"
                     select
+                    size="small"
                     label="Frequent Address"
-                    helperText="Select address or address enter below"
+                    helperText="Select address or enter address below"
                     variant="outlined"
                     value={formData.pickupFrequentAddress}
                     onChange={handleChangeAAP}
@@ -202,32 +213,16 @@ export default function Page() {
                     <PlacesAutocomplete onLocationSelect={handleOrigin} />
                   ) : null}
 
-                  {/* <TextField
-                    style={styleField}
-                    name="pickupSuburb"
-                    select
-                    label="Drop Suburb"
-                    helperText="Please select your suburb"
-                    variant="outlined"
-                    value={formData.pickupSuburb}
-                    onChange={handleChange}
-                  >
-                    {suburbOptions &&
-                      suburbOptions.map((option, index) => (
-                        <MenuItem key={index} value={option}>
-                          {option}
-                        </MenuItem>
-                      ))}
-                  </TextField> */}
-
                   <TextField
                     style={styleField}
                     name="goodsDescription"
                     select
+                    size="small"
                     label="Goods Description"
-                    helperText="Goods Description"
+                    helperText="Select goods description"
                     variant="outlined"
                     value={formData.goodsDescription}
+                    onChange={handleChange}
                   >
                     {goodsDescriptionOption &&
                       goodsDescriptionOption.map((option, index) => (
@@ -246,8 +241,9 @@ export default function Page() {
                     style={styleField}
                     name="service"
                     select
-                    label="Service"
-                    helperText="Please select any service"
+                    size="small"
+                    label="Level of Service"
+                    helperText="Please select any level of service"
                     variant="outlined"
                     value={formData.service}
                     onChange={handleChange}
@@ -261,25 +257,34 @@ export default function Page() {
                   </TextField>
 
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
+
                     <div>
                       <DatePicker
                         label="Date"
                         value={formData.date}
+                        helperText="Enter the Date"
                         onChange={handleDateChange}
                       />
-                      <br />
+                      <p style={styleDescription}>Enter the Date</p>
+
                       <TimePicker
                         style={{ margin: "1rem 0" }}
                         label="Time"
+                        helperText="Enter the Time"
                         value={formData.time}
                         onChange={handleTimeChange}
                       />
+                      <p style={styleDescription}>Enter the Time</p>
                     </div>
+
                   </LocalizationProvider>
+
                   <TextField
                     style={styleField}
                     name="pieces"
-                    label="Pieces"
+                    label="No. of Items"
+                    size="small"
+                    helperText="Enter the number of items"
                     multiline
                     maxRows={4}
                     value={formData.pieces}
@@ -289,6 +294,8 @@ export default function Page() {
                     style={styleField}
                     name="weight"
                     label="Weight (kg)"
+                    helperText="Enter the weight in (KG)"
+                    size="small"
                     multiline
                     maxRows={4}
                     value={formData.weight}
@@ -298,6 +305,8 @@ export default function Page() {
                     style={styleField}
                     name="LxWxH"
                     label="LxWxH"
+                    size="small"
+                    helperText="Enter the dimensions of the item"
                     multiline
                     value={formData.LxWxH}
                     onChange={handleChange}
@@ -310,8 +319,9 @@ export default function Page() {
                     style={styleField}
                     name="dropFrequentAddress"
                     select
+                    size="small"
                     label="Frequent Address"
-                    helperText="Select address or address enter below"
+                    helperText="Select address or enter address below"
                     variant="outlined"
                     value={formData.dropFrequentAddress}
                     onChange={handleChangeAAD}
@@ -328,30 +338,14 @@ export default function Page() {
                     <PlacesAutocomplete onLocationSelect={handleDestination} />
                   ) : null}
 
-                  {/* <TextField
-                    style={styleField}
-                    name="dropSuburb"
-                    select
-                    label="Drop Suburb"
-                    helperText="Please select your suburb"
-                    variant="outlined"
-                    value={formData.dropSuburb}
-                    onChange={handleChange}
-                  >
-                    {suburbOptions &&
-                      suburbOptions.map((option, index) => (
-                        <MenuItem key={index} value={option}>
-                          {option}
-                        </MenuItem>
-                      ))}
-                  </TextField> */}
-
                   <TextField
                     style={styleField}
                     name="dropReference1"
-                    label="Reference 1"
+                    label="Reference"
+                    size="small"
                     multiline
                     maxRows={4}
+                    helperText="Enter the reference code"
                     value={formData.reference1}
                     onChange={handleChange}
                   />
@@ -386,6 +380,7 @@ export default function Page() {
               </Link>
             </div>
           </>
+
         </>
       )}
     </>
