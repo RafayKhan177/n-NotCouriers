@@ -266,18 +266,7 @@ export default function Page() {
                       <InfoIcon />
                     </IconButton>
                   </Tooltip>
-                  <Tooltip style={{ marginTop: "1rem" }} title="
-                  Standard - 4-6hrs completion time,
-                  Express - 2-3hrs time frame,
-                  Direct - Pickup and deliver ASAP.">
-                    <IconButton
-                      size="small"
-                      edge="end"
-                    >
-                      <InfoIcon />
-                    </IconButton>
-                  </Tooltip>
-
+                
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
 
                     <div>

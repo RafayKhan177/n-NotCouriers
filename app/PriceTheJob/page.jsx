@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { MenuItem, TextField } from "@mui/material";
+import { IconButton, MenuItem, TextField, Tooltip } from "@mui/material";
 import InfoIcon from '@mui/icons-material/Info';
 import { Button } from "@mantine/core";
 import { serviceOptions } from "@/components/static";
@@ -152,24 +152,39 @@ export default function Page() {
             />
           </div>
 
-          <TextField
-            size="small"
-            label="Level of Service"
-            helperText="Please select any level of service"
+          <div style={{ display: 'flex', justifyContent: 'center', width: '100%', position: 'relative' }}>
 
-            style={styleField}
-            name="service"
-            select
-            value={formData.service}
-            onChange={handleChange}
-            variant="outlined"
-          >
-            {serviceOptions.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.value}
-              </MenuItem>
-            ))}
-          </TextField>
+            <TextField
+              size="small"
+              label="Level of Service"
+              helperText="Please select any level of service"
+
+              style={styleField}
+              name="service"
+              select
+              value={formData.service}
+              onChange={handleChange}
+              variant="outlined"
+            >
+              {serviceOptions.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.value}
+                </MenuItem>
+              ))}
+            </TextField>
+            <Tooltip style={{ marginTop: "-1rem", }} title="
+                  Standard - 4-6hrs completion time,
+                  Express - 2-3hrs time frame,
+                  Direct - Pickup and deliver ASAP.">
+              <IconButton
+                size="small"
+                edge="end"
+              >
+                <InfoIcon />
+              </IconButton>
+            </Tooltip>
+          </div>
+
           <TextField
             size="small"
 
@@ -200,7 +215,7 @@ export default function Page() {
           <TextField
 
             style={styleField}
-name="LxWxH"
+            name="LxWxH"
             label="LxWxH"
             size="small"
             helperText="Enter the Length Width Height in (CM)"
